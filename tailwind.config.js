@@ -6,7 +6,15 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#5865F2",   // Discord blurple
+        secondary: "#23272A", // Dark slate
+        accent: "#99AAB5",    // Cool grey
+        light: "#F5F5F7",     // Apple-style light background
+        dark: "#1E1E1E",      // Almost black
+      },
+    },
   },
   plugins: [],
 };
