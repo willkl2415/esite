@@ -2,7 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles */
+/* Global styles using the new palette */
 body {
   @apply bg-light text-secondary font-sans;
+}
+
+a {
+  @apply text-primary hover:underline;
+}
+
+button {
+  @apply transition;
 }
