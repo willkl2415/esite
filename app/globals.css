@@ -2,15 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles using the new palette */
+/* === Global styles using the new palette === */
 body {
-  @apply bg-light text-secondary font-sans;
+  @apply bg-light text-secondary font-sans antialiased;
 }
 
+/* Links */
 a {
-  @apply text-primary hover:underline;
+  @apply text-primary hover:underline transition-colors duration-200;
 }
 
+/* Buttons */
 button {
-  @apply transition;
+  @apply transition duration-200 ease-in-out;
+}
+
+button.primary {
+  @apply bg-primary text-white font-semibold px-6 py-3 rounded-full hover:bg-secondary hover:scale-105;
+}
+
+button.secondary {
+  @apply border border-secondary text-secondary font-semibold px-6 py-3 rounded-full hover:bg-gray-100;
+}
+
+/* Header + Nav */
+header {
+  @apply bg-white shadow-sm border-b;
+}
+
+nav {
+  @apply bg-light;
+}
+
+nav a {
+  @apply text-secondary hover:text-primary;
+}
+
+/* Hero Section */
+section.hero {
+  @apply bg-gradient-to-b from-light to-white text-secondary;
+}
+
+/* Product Cards */
+.product-card {
+  @apply border rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition bg-white;
+}
+
+.product-card h3 {
+  @apply text-lg font-semibold mb-2 text-secondary;
+}
+
+.product-card p {
+  @apply text-accent mb-4;
+}
+
+/* Footer */
+footer {
+  @apply bg-secondary text-light text-center p-6 text-sm;
 }
