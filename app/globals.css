@@ -54,5 +54,10 @@ section.hero {
 
 /* Footer */
 footer {
-  @apply bg-[#ff9800] text-[#000100] font-bold text-center p-6 text-sm;
+  background-color: #ff9800 !important;
+  color: #000100 !important;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 1.5rem;
 }
