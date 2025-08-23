@@ -16,5 +16,12 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    "bg-light",
+    "bg-dark",
+    "text-secondary",
+    "text-accent",
+    "border-secondary",
+  ],
   plugins: [],
 };

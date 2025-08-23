@@ -2,7 +2,7 @@ export default function Home() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="text-center py-24 border-b bg-gradient-to-b from-light to-white">
+      <section className="hero text-center py-24 border-b bg-gradient-to-b from-light to-white">
         <h1 className="text-6xl md:text-7xl font-extrabold mb-6 tracking-tight text-secondary">
           Shop in Style
         </h1>
@@ -10,10 +10,10 @@ export default function Home() {
           Exclusive, modern, and built for the next generation of shoppers.
         </p>
         <div className="flex justify-center gap-4">
-          <button className="px-8 py-3 rounded-full bg-primary text-white font-semibold hover:bg-secondary hover:scale-105 transition">
+          <button className="primary">
             Shop Now
           </button>
-          <button className="px-8 py-3 rounded-full border border-secondary text-secondary font-semibold hover:bg-gray-100 transition">
+          <button className="secondary">
             Learn More
           </button>
         </div>
@@ -24,14 +24,14 @@ export default function Home() {
         {[1, 2, 3].map((item) => (
           <div
             key={item}
-            className="border rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition bg-white"
+            className="product-card"
           >
             <div className="w-40 h-40 bg-accent mb-6 rounded-lg"></div>
             <h3 className="mb-2 font-semibold text-lg text-secondary">
               Product {item}
             </h3>
             <p className="mb-4 text-accent">£XX.XX</p>
-            <button className="px-6 py-2 rounded-full border border-secondary text-secondary font-semibold hover:bg-gray-100 transition">
+            <button className="secondary">
               Add to Cart
             </button>
           </div>
