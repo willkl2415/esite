@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === Global styles using the new palette === */
+/* === Global styles using Orange (#ff9800) and Black (#000100) === */
 body {
-  @apply bg-light text-secondary font-sans antialiased;
+  @apply bg-[#ff9800] text-[#000100] font-sans antialiased;
 }
 
 /* Links */
 a {
-  @apply text-primary hover:underline transition-colors duration-200;
+  @apply text-[#000100] hover:text-white transition-colors duration-200;
 }
 
 /* Buttons */
@@ -18,45 +18,41 @@ button {
 }
 
 button.primary {
-  @apply bg-primary text-white font-semibold px-6 py-3 rounded-full hover:bg-secondary hover:scale-105;
+  @apply bg-[#000100] text-[#ff9800] font-semibold px-6 py-3 rounded-full hover:bg-white hover:text-[#000100] hover:scale-105;
 }
 
 button.secondary {
-  @apply border border-secondary text-secondary font-semibold px-6 py-3 rounded-full hover:bg-gray-100;
+  @apply border border-[#000100] text-[#000100] font-semibold px-6 py-3 rounded-full hover:bg-white hover:text-[#ff9800];
 }
 
 /* Header + Nav */
 header {
-  @apply bg-white shadow-sm border-b;
-}
-
-nav {
-  @apply bg-light;
+  @apply bg-[#ff9800] border-b shadow-sm;
 }
 
 nav a {
-  @apply text-secondary hover:text-primary;
+  @apply text-[#000100] hover:text-white;
 }
 
 /* Hero Section */
 section.hero {
-  @apply bg-gradient-to-b from-light to-white text-secondary;
+  @apply bg-[#ff9800] text-[#000100];
 }
 
-/* Product Cards */
+/* Product Cards - keep white for images */
 .product-card {
-  @apply border rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition bg-white;
+  @apply border border-[#000100] rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition bg-white;
 }
 
 .product-card h3 {
-  @apply text-lg font-semibold mb-2 text-secondary;
+  @apply text-lg font-semibold mb-2 text-[#000100];
 }
 
 .product-card p {
-  @apply text-accent mb-4;
+  @apply text-[#000100] mb-4;
 }
 
 /* Footer */
 footer {
-  @apply bg-secondary text-light text-center p-6 text-sm;
+  @apply bg-[#ff9800] text-[#000100] font-bold text-center p-6 text-sm;
 }
