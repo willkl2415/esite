@@ -8,7 +8,7 @@ export default function Home() {
   // nav items with info about whether they have a dropdown
   const navItems = [
     { label: "HOME", dropdown: false },
-    { label: "HISTORY", dropdown: false }, // 👈 NEW ITEM
+    { label: "HISTORY", dropdown: false },
     { label: "AWARDED CIGARS", dropdown: true },
     { label: "NEW WORLD CIGARS", dropdown: true },
     { label: "MACHINE-MADE CIGARS", dropdown: true },
@@ -66,7 +66,7 @@ export default function Home() {
           {navItems.map((item, idx) => (
             <a
               key={idx}
-              href="#"
+              href={`/${item.label.toLowerCase().replace(/ /g, "-")}`}
               className="flex items-center gap-1 hover:text-black hover:underline transition"
             >
               {item.label}
