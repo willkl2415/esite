@@ -1,8 +1,12 @@
-export default function Page() {
+import CategoryPage from "../components/CategoryPage";
+import { newWorldCigars } from "../data/products";
+
+export default function NewWorldCigarsPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-4">New World Cigars</h1>
-      <p className="text-gray-500">This is the New World Cigars page content.</p>
-    </main>
+    <CategoryPage
+      title="New World Cigars"
+      description="Premium cigars crafted across the globe — bold flavours from Nicaragua, Honduras, and beyond."
+      products={newWorldCigars}
+    />
   );
 }

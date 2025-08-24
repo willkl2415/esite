@@ -1,8 +1,12 @@
-export default function Page() {
+import CategoryPage from "../components/CategoryPage";
+import { flavouredCigars } from "../data/products";
+
+export default function FlavouredCigarsPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-4">Flavoured Cigars</h1>
-      <p className="text-gray-500">This is the Flavoured Cigars page content.</p>
-    </main>
+    <CategoryPage
+      title="Flavoured Cigars"
+      description="Sweet, aromatic, and infused cigars offering unique tasting experiences."
+      products={flavouredCigars}
+    />
   );
 }

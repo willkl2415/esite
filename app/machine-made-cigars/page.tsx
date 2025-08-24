@@ -1,8 +1,12 @@
-export default function Page() {
+import CategoryPage from "../components/CategoryPage";
+import { machineMadeCigars } from "../data/products";
+
+export default function MachineMadeCigarsPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-4">Machine-Made Cigars</h1>
-      <p className="text-gray-500">This is the Machine-Made Cigars page content.</p>
-    </main>
+    <CategoryPage
+      title="Machine-Made Cigars"
+      description="Consistent, affordable, and reliable cigars produced by machine for everyday smoking."
+      products={machineMadeCigars}
+    />
   );
 }
