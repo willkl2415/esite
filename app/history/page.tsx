@@ -1,69 +1,74 @@
 "use client";
 
-import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
+import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 import { useState } from "react";
 
-const geoUrl = "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
-
-const cigarCountries = [
-  { name: "Cuba", coords: [-79.3832, 21.5218], text: "Birthplace of the world’s most iconic cigars. Cohiba, Montecristo, Partagás." },
-  { name: "Dominican Republic", coords: [-70.1627, 18.7357], text: "Largest cigar exporter today. Arturo Fuente, Davidoff." },
-  { name: "Nicaragua", coords: [-85.2072, 12.8654], text: "Bold, volcanic cigars. AJ Fernandez, Padron." },
-  { name: "Honduras", coords: [-86.2419, 14.0821], text: "Earthy and authentic. Camacho, Alec Bradley." },
-  { name: "Mexico", coords: [-102.5528, 23.6345], text: "San Andrés wrapper king. Sweet, chocolatey tones." },
-  { name: "Brazil", coords: [-51.9253, -14.2350], text: "Mata Fina & Arapiraca. Sweet, rich notes." },
-  { name: "Ecuador", coords: [-78.1834, -1.8312], text: "Perfect wrapper climate. Used in Dominican/Nicaraguan blends." },
-  { name: "Cameroon", coords: [12.3547, 7.3697], text: "Famous Cameroon wrapper. Rare, spicy-sweet profile." },
-  { name: "USA", coords: [-77.0369, 38.9072], text: "Connecticut Shade wrappers. Largest cigar consumer market." },
+const locations = [
+  {
+    name: "Cuba — Heart of Premium Cigars",
+    position: { lat: 21.5218, lng: -77.7812 },
+    text: "Cuba is the birthplace of the most famous cigars, known for its unique soil and tradition.",
+  },
+  {
+    name: "Dominican Republic — Leading Producer",
+    position: { lat: 18.7357, lng: -70.1627 },
+    text: "Today, the Dominican Republic is the largest producer of premium cigars worldwide.",
+  },
+  {
+    name: "Nicaragua — Bold Flavors",
+    position: { lat: 12.8654, lng: -85.2072 },
+    text: "Nicaragua has become famous for its rich, bold cigars from regions like Estelí.",
+  },
+  {
+    name: "Honduras — Rising Star",
+    position: { lat: 13.735, lng: -86.2419 },
+    text: "Honduras is renowned for its earthy, strong cigars, especially from Danlí.",
+  },
+  {
+    name: "Florida, USA — Gateway to the New World",
+    position: { lat: 27.9944, lng: -81.7603 },
+    text: "Tampa, Florida, was once called the 'Cigar Capital of the World' due to Cuban immigrants.",
+  },
 ];
 
+const containerStyle = {
+  width: "100%",
+  height: "80vh",
+};
+
+const center = { lat: 20, lng: -75 }; // roughly central to cigar history countries
+
 export default function HistoryPage() {
-  const [tooltip, setTooltip] = useState<{ name: string; text: string } | null>(null);
+  const [selected, setSelected] = useState<any>(null);
 
   return (
-    <div className="min-h-screen bg-[#ff9800] p-6">
-      <h1 className="text-3xl font-bold text-center mb-6 text-[#000100]">🌍 The World of Cigars</h1>
-      
-      <div className="relative max-w-5xl mx-auto">
-        <ComposableMap projection="geoMercator">
-          <Geographies geography={geoUrl}>
-            {({ geographies }) =>
-              geographies.map((geo) => (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill="#fff"
-                  stroke="#999"
-                  style={{
-                    default: { outline: "none" },
-                    hover: { fill: "#CFAE70", outline: "none" },
-                    pressed: { outline: "none" },
-                  }}
-                />
-              ))
-            }
-          </Geographies>
-          {cigarCountries.map((c, i) => (
-            <Marker key={i} coordinates={c.coords}>
-              <text
-                textAnchor="middle"
-                fontSize={20}
-                onMouseEnter={() => setTooltip(c)}
-                onMouseLeave={() => setTooltip(null)}
-              >
-                🚩
-              </text>
-            </Marker>
+    <div style={{ padding: "20px" }}>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+        🌍 The History of Cigars
+      </h1>
+      <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
+        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={5}>
+          {locations.map((loc, index) => (
+            <Marker
+              key={index}
+              position={loc.position}
+              onClick={() => setSelected(loc)}
+            />
           ))}
-        </ComposableMap>
-
-        {tooltip && (
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-white shadow-lg rounded-lg p-4 w-80 text-sm text-gray-800">
-            <h2 className="font-bold text-lg mb-2">{tooltip.name}</h2>
-            <p>{tooltip.text}</p>
-          </div>
-        )}
-      </div>
+          {selected && (
+            <InfoWindow
+              position={selected.position}
+              onCloseClick={() => setSelected(null)}
+            >
+              <div>
+                <strong>{selected.name}</strong>
+                <br />
+                {selected.text}
+              </div>
+            </InfoWindow>
+          )}
+        </GoogleMap>
+      </LoadScript>
     </div>
   );
 }
