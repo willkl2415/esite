@@ -2,8 +2,9 @@
 
 export default function HomePage() {
   return (
-    <div className="relative bg-cover bg-center min-h-screen flex flex-col justify-center items-center text-center"
-         style={{ backgroundImage: "url('/landing-bg.jpg')" }} // optional background image
+    <div
+      className="relative bg-cover bg-center min-h-screen flex flex-col justify-center items-center text-center"
+      style={{ backgroundImage: "url('/landing-bg.jpg')" }} // optional background image
     >
       {/* Overlay for contrast */}
       <div className="absolute inset-0 bg-black/50"></div>
@@ -11,10 +12,10 @@ export default function HomePage() {
       {/* Content */}
       <div className="relative z-10 px-6">
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-          The Cigar Vault
+          Cigar Manor
         </h1>
         <p className="text-xl md:text-2xl text-gray-200 mb-10">
-          Unlock Hidden Pleasure
+          Where Heritage Meets Indulgence
         </p>
 
         <div className="flex justify-center gap-6">

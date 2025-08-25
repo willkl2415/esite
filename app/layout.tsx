@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Cigar Vault",
-  description: "Unlock Hidden Pleasure",
+  title: "Cigar Manor",
+  description: "Where Heritage Meets Indulgence",
 };
 
 export default function RootLayout({
@@ -64,8 +64,8 @@ export default function RootLayout({
           {/* Center: Logo */}
           <div className="flex items-center justify-center">
             <Image
-              src="/cigar-manor.png" // keep logo file path unless you upload a new vault logo
-              alt="The Cigar Vault Logo"
+              src="/cigar-manor.png"
+              alt="Cigar Manor Logo"
               width={120}
               height={60}
               className="object-contain"
@@ -108,7 +108,7 @@ export default function RootLayout({
 
         {/* === Footer === */}
         <footer className="p-8 border-t text-center text-sm bg-black text-white">
-          <p>&copy; 2025 The Cigar Vault — Unlock Hidden Pleasure</p>
+          <p>&copy; 2025 Cigar Manor — Where Heritage Meets Indulgence</p>
         </footer>
       </body>
     </html>
