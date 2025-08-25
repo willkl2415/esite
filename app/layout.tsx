@@ -107,9 +107,15 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
 
         {/* === Footer === */}
-        <footer className="p-8 border-t text-center text-sm bg-black text-white">
-          <p className="mb-3">&copy; 2025 Cigar Manor</p>
-          <a href="/help" className="hover:underline">
+        <footer className="p-6 border-t bg-black text-white flex justify-between items-center">
+          {/* Left: Copyright */}
+          <p className="text-sm">&copy; 2025 Cigar Manor</p>
+
+          {/* Right: Help link */}
+          <a
+            href="/help"
+            className="text-lg font-semibold hover:underline ml-auto"
+          >
             Help & Information
           </a>
         </footer>
