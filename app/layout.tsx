@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cigar Manor",
-  description: "Luxury Cigars & Lifestyle",
+  title: "The Cigar Vault",
+  description: "Unlock Hidden Pleasure",
 };
 
 export default function RootLayout({
@@ -31,6 +31,7 @@ export default function RootLayout({
 }>) {
   const navItems = [
     { label: "HOME", dropdown: false },
+    { label: "ABOUT US", dropdown: false },
     { label: "HISTORY", dropdown: false },
     { label: "AWARDED CIGARS", dropdown: true },
     { label: "NEW WORLD CIGARS", dropdown: true },
@@ -63,8 +64,8 @@ export default function RootLayout({
           {/* Center: Logo */}
           <div className="flex items-center justify-center">
             <Image
-              src="/cigar-manor.png"
-              alt="Cigar Manor Logo"
+              src="/cigar-manor.png" // keep logo file path unless you upload a new vault logo
+              alt="The Cigar Vault Logo"
               width={120}
               height={60}
               className="object-contain"
@@ -107,7 +108,7 @@ export default function RootLayout({
 
         {/* === Footer === */}
         <footer className="p-8 border-t text-center text-sm bg-black text-white">
-          <p>&copy; 2025 Cigar Manor</p>
+          <p>&copy; 2025 The Cigar Vault — Unlock Hidden Pleasure</p>
         </footer>
       </body>
     </html>
