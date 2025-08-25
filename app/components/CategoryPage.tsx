@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 type Product = {
   id: number;
@@ -96,10 +97,12 @@ export default function CategoryPage({ title, description, products }: CategoryP
 
                 {/* Image */}
                 <div className="bg-white p-4 rounded-lg shadow-inner">
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
-                    className="mx-auto h-40 object-contain"
+                    width={160}
+                    height={160}
+                    className="mx-auto h-40 w-auto object-contain"
                   />
                 </div>
 

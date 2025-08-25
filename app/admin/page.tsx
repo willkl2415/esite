@@ -1,58 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { auth } from "../lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import AdminProductForm from "../components/AdminProductForm";
 
 export default function AdminPage() {
-  const [user, setUser] = useState<any>(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [data, setData] = useState<unknown>(null);
 
-  const login = async () => {
+  async function fetchData() {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-    } catch (err) {
-      alert("Login failed. Please check credentials.");
+      const res = await fetch("/api/admin");
+      if (!res.ok) {
+        throw new Error("Failed to fetch admin data");
+      }
+      const result: unknown = await res.json();
+      setData(result);
+    } catch (error) {
+      console.error("Admin fetch error:", error);
     }
-  };
-
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#ff9800]">
-        <div className="bg-white p-8 rounded-xl shadow-md w-96 space-y-4">
-          <h1 className="text-2xl font-bold text-center">Admin Login</h1>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-          />
-          <button
-            onClick={login}
-            className="w-full bg-[#000100] text-[#ff9800] px-4 py-2 rounded hover:bg-white hover:text-black"
-          >
-            Login
-          </button>
-        </div>
-      </div>
-    );
   }
 
   return (
-    <div className="min-h-screen bg-[#ff9800] p-6">
+    <div className="max-w-4xl mx-auto px-6 py-12">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-      <AdminProductForm />
+      <button
+        onClick={fetchData}
+        className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800"
+      >
+        Load Admin Data
+      </button>
+      <pre className="mt-6 bg-gray-100 p-4 rounded">
+        {JSON.stringify(data, null, 2)}
+      </pre>
     </div>
   );
 }
