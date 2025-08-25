@@ -80,6 +80,7 @@ export default function HistoryPage() {
       <h1 style={{ textAlign: "center", marginBottom: "1rem" }}>
         🌍 The History of Cigars
       </h1>
+      {console.log("Google Maps API Key being used:", process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)}
       <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
         <GoogleMap
           mapContainerStyle={containerStyle}
