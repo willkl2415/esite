@@ -1,8 +1,19 @@
-export default function Page() {
+"use client";
+
+import CategoryPage from "../components/CategoryPage";
+
+export default function GiftsPage() {
+  const products = [
+    { id: 1, name: "Luxury Cigar Gift Box", image: "/cigar-1.png", badge: "Popular" },
+    { id: 2, name: "Cigar Sampler Gift Pack", image: "/cigar-2.png" },
+    { id: 3, name: "Premium Lighter Gift Set", image: "/cigar-3.png" },
+  ];
+
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-4">Gifts</h1>
-      <p className="text-gray-500">This is the Gifts page content.</p>
-    </main>
+    <CategoryPage
+      title="Gifts"
+      description="Discover our carefully curated range of cigar gifts — from luxury samplers to accessories, perfect for every aficionado."
+      products={products}
+    />
   );
 }
