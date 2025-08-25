@@ -10,9 +10,17 @@ export default function WebsiteTermsPage() {
       <p>Email: info@thecigarmanor.co.uk</p>
       <p>Tel: 08431 222453</p>
       <p>Registered Address: 182A Cardiff Road, Newport Gwent, NP20 3AE</p>
-      <p className="mt-4">
-        The minimum permitted age to order goods from this website is 18 years old and over.
-      </p>
+
+      {/* ⚠️ Age Restriction Warning */}
+      <div className="mt-6 mb-8 p-6 bg-red-100 border-2 border-red-600 rounded-lg text-center">
+        <p className="text-xl font-extrabold text-red-700 uppercase tracking-wide">
+          ⚠️ Age Restriction Notice
+        </p>
+        <p className="mt-2 text-lg font-semibold text-gray-900">
+          The minimum permitted age to order goods from this website is{" "}
+          <span className="text-red-700 underline">18 years old and over</span>.
+        </p>
+      </div>
 
       <h2 className="text-2xl font-semibold mt-8 mb-2">Satisfaction Guarantee</h2>
       <p>
