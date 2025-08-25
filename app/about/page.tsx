@@ -47,8 +47,7 @@ export default function AboutPage() {
               community, and craft.
             </p>
             <p className="text-sm italic text-gray-500 mt-4">
-              (This section will be updated with the second profile once the
-              client provides details.)
+              (To be updated with Barbara's profile.)
             </p>
           </div>
           <div className="relative w-full h-80 rounded-lg overflow-hidden shadow-lg order-1 md:order-2">

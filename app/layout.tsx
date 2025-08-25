@@ -29,20 +29,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Nav items with explicit links for Home & About Us
   const navItems = [
-    { label: "HOME", href: "/" },
-    { label: "ABOUT US", href: "/about" },
-    { label: "HISTORY", href: "/history" },
-    { label: "AWARDED CIGARS", href: "/awarded-cigars", dropdown: true },
-    { label: "NEW WORLD CIGARS", href: "/new-world-cigars", dropdown: true },
-    { label: "MACHINE-MADE CIGARS", href: "/machine-made-cigars", dropdown: true },
-    { label: "FLAVOURED CIGARS", href: "/flavoured-cigars", dropdown: true },
-    { label: "SAMPLERS", href: "/samplers", dropdown: true },
-    { label: "ACCESSORIES", href: "/accessories", dropdown: true },
-    { label: "GIFTS", href: "/gifts" },
-    { label: "PROMOTIONS", href: "/promotions" },
-    { label: "BLOG", href: "/blog" },
+    { label: "HOME", dropdown: false },
+    { label: "ABOUT US", dropdown: false },
+    { label: "HISTORY", dropdown: false },
+    { label: "AWARDED CIGARS", dropdown: true },
+    { label: "NEW WORLD CIGARS", dropdown: true },
+    { label: "MACHINE-MADE CIGARS", dropdown: true },
+    { label: "FLAVOURED CIGARS", dropdown: true },
+    { label: "SAMPLERS", dropdown: true },
+    { label: "ACCESSORIES", dropdown: true },
+    { label: "GIFTS", dropdown: false },
+    { label: "PROMOTIONS", dropdown: false },
+    { label: "BLOG", dropdown: false },
   ];
 
   return (
@@ -50,69 +49,69 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white text-black`}
       >
-        {/* === Sticky Header Wrapper === */}
-        <div className="sticky top-0 z-50 bg-white shadow-sm">
-          {/* === Top Header Row === */}
-          <div className="flex justify-between items-center px-8 py-4 border-b">
-            {/* Left: Search with Icon */}
-            <div className="flex items-center border border-black rounded-full px-3 py-2 focus-within:ring-2 focus-within:ring-purple w-64">
-              <input
-                type="text"
-                placeholder="Search for products..."
-                className="flex-1 outline-none text-sm text-black"
-              />
-              <MagnifyingGlassIcon className="h-5 w-5 text-purple cursor-pointer hover:text-black" />
-            </div>
-
-            {/* Center: Logo */}
-            <div className="flex items-center justify-center">
-              <Image
-                src="/cigar-manor.png"
-                alt="Cigar Manor Logo"
-                width={120}
-                height={60}
-                className="object-contain"
-              />
-            </div>
-
-            {/* Right: Icons */}
-            <div className="flex items-center gap-6 text-sm">
-              <div className="flex items-center gap-1 hover:text-purple cursor-pointer transition">
-                <HeartIcon className="h-5 w-5" />
-                <span className="hidden md:inline">Wishlist</span>
-              </div>
-              <div className="flex items-center gap-1 hover:text-purple cursor-pointer transition">
-                <UserIcon className="h-5 w-5" />
-                <span className="hidden md:inline">My Account</span>
-              </div>
-              <div className="flex items-center gap-1 hover:text-purple cursor-pointer transition">
-                <ShoppingCartIcon className="h-5 w-5" />
-                <span className="hidden md:inline">£0.00</span>
-              </div>
-            </div>
+        {/* === Top Header Row === */}
+        <div className="flex justify-between items-center px-8 py-4 border-b bg-white sticky top-0 z-50">
+          {/* Left: Search with Icon */}
+          <div className="flex items-center border border-black rounded-full px-3 py-2 focus-within:ring-2 focus-within:ring-purple w-64">
+            <input
+              type="text"
+              placeholder="Search for products..."
+              className="flex-1 outline-none text-sm text-black"
+            />
+            <MagnifyingGlassIcon className="h-5 w-5 text-purple cursor-pointer hover:text-black" />
           </div>
 
-          {/* === Navigation Row === */}
-          <nav className="flex flex-wrap justify-center gap-8 px-6 py-3 border-b text-sm font-medium">
-            {navItems.map((item, idx) => (
-              <a
-                key={idx}
-                href={item.href}
-                className="flex items-center gap-1 text-black hover:text-purple transition"
-              >
-                {item.label}
-                {item.dropdown && <span className="text-xs">▼</span>}
-              </a>
-            ))}
-          </nav>
+          {/* Center: Logo */}
+          <div className="flex items-center justify-center">
+            <Image
+              src="/cigar-manor.png"
+              alt="Cigar Manor Logo"
+              width={120}
+              height={60}
+              className="object-contain"
+            />
+          </div>
+
+          {/* Right: Icons */}
+          <div className="flex items-center gap-6 text-sm">
+            <div className="flex items-center gap-1 hover:text-purple cursor-pointer transition">
+              <HeartIcon className="h-5 w-5" />
+              <span className="hidden md:inline">Wishlist</span>
+            </div>
+            <div className="flex items-center gap-1 hover:text-purple cursor-pointer transition">
+              <UserIcon className="h-5 w-5" />
+              <span className="hidden md:inline">My Account</span>
+            </div>
+            <div className="flex items-center gap-1 hover:text-purple cursor-pointer transition">
+              <ShoppingCartIcon className="h-5 w-5" />
+              <span className="hidden md:inline">£0.00</span>
+            </div>
+          </div>
         </div>
+
+        {/* === Navigation Row === */}
+        <nav className="flex flex-wrap justify-center gap-8 px-6 py-3 border-b text-sm font-medium bg-white">
+          {navItems.map((item, idx) => (
+            <a
+              key={idx}
+              href={`/${item.label.toLowerCase().replace(/ /g, "-")}`}
+              className="flex items-center gap-1 text-black hover:text-purple transition"
+            >
+              {item.label}
+              {item.dropdown && <span className="text-xs">▼</span>}
+            </a>
+          ))}
+        </nav>
 
         {/* === Page Content === */}
         <main className="flex-1">{children}</main>
 
         {/* === Footer === */}
         <footer className="p-8 border-t text-center text-sm bg-black text-white">
-          <p>&copy; 2025 Cigar Manor</p>
+          <p className="mb-3">&copy; 2025 Cigar Manor</p>
+          <a href="/help" className="hover:underline">
+            Help & Information
+          </a>
         </footer>
       </body>
     </html>
