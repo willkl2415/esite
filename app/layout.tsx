@@ -7,6 +7,7 @@ import {
   ShoppingCartIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,18 +30,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const navItems = [
-    { label: "HOME", dropdown: false },
-    { label: "ABOUT US", dropdown: false },
-    { label: "HISTORY", dropdown: false },
-    { label: "AWARDED CIGARS", dropdown: true },
-    { label: "NEW WORLD CIGARS", dropdown: true },
-    { label: "MACHINE-MADE CIGARS", dropdown: true },
-    { label: "FLAVOURED CIGARS", dropdown: true },
-    { label: "SAMPLERS", dropdown: true },
-    { label: "ACCESSORIES", dropdown: true },
-    { label: "GIFTS", dropdown: true },
-    { label: "PROMOTIONS", dropdown: true },
-    { label: "BLOG", dropdown: false },
+    { label: "HOME", href: "/" }, // ✅ fixed root landing page
+    { label: "ABOUT US", href: "/about" },
+    { label: "HISTORY", href: "/history" },
+    { label: "AWARDED CIGARS", href: "/awarded-cigars", dropdown: true },
+    { label: "NEW WORLD CIGARS", href: "/new-world-cigars", dropdown: true },
+    { label: "MACHINE-MADE CIGARS", href: "/machine-made-cigars", dropdown: true },
+    { label: "FLAVOURED CIGARS", href: "/flavoured-cigars", dropdown: true },
+    { label: "SAMPLERS", href: "/samplers", dropdown: true },
+    { label: "ACCESSORIES", href: "/accessories", dropdown: true },
+    { label: "GIFTS", href: "/gifts", dropdown: true },
+    { label: "PROMOTIONS", href: "/promotions", dropdown: true },
+    { label: "BLOG", href: "/blog" },
   ];
 
   return (
@@ -50,7 +51,7 @@ export default function RootLayout({
       >
         {/* === Top Header Row === */}
         <div className="flex justify-between items-center px-8 py-4 border-b bg-white sticky top-0 z-50">
-          {/* Left: Search with Icon */}
+          {/* Left: Search */}
           <div className="flex items-center border border-black rounded-full px-3 py-2 focus-within:ring-2 focus-within:ring-purple w-64">
             <input
               type="text"
@@ -89,15 +90,15 @@ export default function RootLayout({
 
         {/* === Navigation Row === */}
         <nav className="flex flex-wrap justify-center gap-8 px-6 py-3 border-b text-sm font-medium bg-white">
-          {navItems.map((item, idx) => (
-            <a
-              key={idx}
-              href={`/${item.label.toLowerCase().replace(/ /g, "-")}`}
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
               className="flex items-center gap-1 text-black hover:text-purple transition"
             >
               {item.label}
               {item.dropdown && <span className="text-xs">▼</span>}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -105,8 +106,14 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
 
         {/* === Footer === */}
-        <footer className="p-8 border-t text-center text-sm bg-black text-white">
-          <p>&copy; 2025 Cigar Manor</p>
+        <footer className="p-6 border-t text-sm bg-[#ff9800] text-black relative">
+          <p className="text-center">&copy; 2025 Cigar Manor — Where Heritage Meets Indulgence</p>
+          <Link
+            href="/help"
+            className="absolute right-6 bottom-6 text-sm font-medium hover:underline"
+          >
+            Help & Information
+          </Link>
         </footer>
       </body>
     </html>
