@@ -14,6 +14,7 @@ export default function HomePage() {
           Where Heritage Meets Indulgence
         </p>
 
+        {/* CTA Buttons */}
         <div className="flex justify-center gap-6">
           <a
             href="/awarded-cigars"
@@ -34,33 +35,36 @@ export default function HomePage() {
       <section className="py-16 bg-white">
         <h2 className="text-3xl font-bold mb-10">Our Finest Selection</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+          {/* Product 1 */}
           <div>
             <Image
               src="/cigar-1.png"
               alt="Premium Cigar 1"
               width={400}
               height={400}
-              className="mx-auto rounded-lg shadow-lg"
+              className="mx-auto rounded-lg shadow-lg aspect-square object-cover"
             />
             <p className="mt-4 text-lg font-medium">Premium Cigar 1</p>
           </div>
+          {/* Product 2 */}
           <div>
             <Image
               src="/cigar-2.png"
               alt="Premium Cigar 2"
               width={400}
               height={400}
-              className="mx-auto rounded-lg shadow-lg"
+              className="mx-auto rounded-lg shadow-lg aspect-square object-cover"
             />
             <p className="mt-4 text-lg font-medium">Premium Cigar 2</p>
           </div>
+          {/* Product 3 */}
           <div>
             <Image
               src="/cigar-3.png"
               alt="Premium Cigar 3"
               width={400}
               height={400}
-              className="mx-auto rounded-lg shadow-lg"
+              className="mx-auto rounded-lg shadow-lg aspect-square object-cover"
             />
             <p className="mt-4 text-lg font-medium">Premium Cigar 3</p>
           </div>
