@@ -1,8 +1,19 @@
-export default function Page() {
+"use client";
+
+import CategoryPage from "../components/CategoryPage";
+
+export default function PromotionsPage() {
+  const products = [
+    { id: 1, name: "Discounted Sampler Pack", image: "/cigar-1.png", badge: "Sale" },
+    { id: 2, name: "Buy 2 Get 1 Free", image: "/cigar-2.png" },
+    { id: 3, name: "Special Edition Cigar", image: "/cigar-3.png", badge: "Limited" },
+  ];
+
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-4">Promotions</h1>
-      <p className="text-gray-500">This is the Promotions page content.</p>
-    </main>
+    <CategoryPage
+      title="Promotions"
+      description="Take advantage of our latest promotions — unbeatable deals on premium cigars, accessories, and exclusive bundles."
+      products={products}
+    />
   );
 }
