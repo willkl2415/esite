@@ -10,22 +10,23 @@ export default function AboutPage() {
         <div>
           <Image
             src="/history-1.png"
-            alt="Our Founder"
+            alt="Salman Khan ULLAH"
             width={500}
             height={350}
             className="rounded-lg shadow-lg object-cover w-full h-[350px]"
           />
         </div>
         <div>
-          <h2 className="text-2xl font-bold mb-4">Our Founder</h2>
+          <h2 className="text-2xl font-bold mb-4">Salman Khan ULLAH</h2>
           <p className="text-gray-700 leading-relaxed">
-            Cigar Manor was founded in the year of the pandemic 2021 by
-            entrepreneur <strong>Sarisap B.K.</strong>, a former boxer with a
-            deep passion for cigars. During his fighting career, cigars became a
-            way to unwind and reflect after long, grueling bouts in the ring.
-            Inspired by the wisdom and guidance of his late father{" "}
-            <strong>M.S. Ullah</strong>, he created Cigar Manor to share this
-            love and joy for cigars with the world.
+            Born in the fight, forged in 2021. Cigar Manor is the vision of{" "}
+            <strong>Sarisap B.K.</strong> — a boxer who learned that cigars
+            weren’t just smoke, but the ritual after the war, the calm after the
+            clash. Every round in the ring was followed by reflection in the
+            glow. Guided by the wisdom of his late father,{" "}
+            <strong>M.S. Ullah</strong>, he built Cigar Manor as more than a
+            brand — it’s a legacy carried forward, a lifestyle redefined, and
+            proof that from struggle comes culture.
           </p>
         </div>
       </div>
@@ -33,23 +34,19 @@ export default function AboutPage() {
       {/* Section 2 */}
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div className="order-2 md:order-1">
-          <h2 className="text-2xl font-bold mb-4">Our Story Continues</h2>
+          <h2 className="text-2xl font-bold mb-4">Barbara Kerekes</h2>
           <p className="text-gray-700 leading-relaxed">
-            The Manor has grown from a humble vision into a modern destination
-            for cigar lovers across the globe. Alongside the founder, our team
-            brings together experience, tradition, and a touch of modern flair —
-            proving that cigars are more than just smoke; they are heritage,
-            community, and craft.
-          </p>
-          <p className="text-gray-700 mt-4 italic">
-            (This section will be updated with the second profile once the
-            client provides final details.)
+            Cigar Manor isn’t just a name; it’s a spark that fuels a global
+            scene – where every cigar is culture in your hand. We don’t just
+            sell cigars; we serve heritage reimagined, culture amplified, and a
+            lifestyle without limits – where old-world craft collides with
+            next-gen cool.
           </p>
         </div>
         <div className="order-1 md:order-2">
           <Image
-            src="/history-f4.png"   // ✅ corrected lowercase path
-            alt="Our Story"
+            src="/history-f4.png"
+            alt="Barbara Kerekes"
             width={500}
             height={350}
             className="rounded-lg shadow-lg object-cover w-full h-[350px]"

@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   const navItems = [
     { label: "HOME", href: "/" }, // ✅ root landing page
-    { label: "ABOUT US", href: "/about" },
+    { label: "ABOUT US", href: "/about-us" }, // 🔥 fixed path
     { label: "HISTORY", href: "/history" },
     { label: "AWARDED CIGARS", href: "/awarded-cigars", dropdown: true },
     { label: "NEW WORLD CIGARS", href: "/new-world-cigars", dropdown: true },
@@ -110,7 +110,7 @@ export default function RootLayout({
           <div className="flex flex-col items-center gap-4">
             {/* Copyright */}
             <p className="text-center font-medium">
-              &copy; 2025 Cigar Manor — Where Connoisseurs of Cool Meet Pleasure
+              &copy; 2025 Cigar Manor — <em>"Where Connoisseurs of Cool Meet Pleasure"</em>
             </p>
 
             {/* Social Links */}
