@@ -110,7 +110,7 @@ export default function RootLayout({
           <div className="flex flex-col items-center gap-4">
             {/* Copyright */}
             <p className="text-center font-medium">
-              &copy; 2025 Cigar Manor — Where Heritage Meets Indulgence
+              &copy; 2025 Cigar Manor — Where Connoisseurs of Cool Meet Pleasure
             </p>
 
             {/* Social Links */}

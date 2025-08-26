@@ -1,12 +1,40 @@
-import CategoryPage from "../components/CategoryPage";
-import { newWorldCigars } from "../data/products";
+"use client";
+
+import { products } from "../data/products";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function NewWorldCigarsPage() {
+  const newWorld = products.filter((p) => p.category === "new-world-cigars");
+
   return (
-    <CategoryPage
-      title="New World Cigars"
-      description="Premium cigars crafted across the globe — bold flavours from Nicaragua, Honduras, and beyond."
-      products={newWorldCigars}
-    />
+    <div className="p-10 bg-[#ff9800] min-h-screen">
+      <h1 className="text-4xl font-bold text-center mb-10">New World Cigars</h1>
+
+      {newWorld.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+          {newWorld.map((product) => (
+            <div
+              key={product.id}
+              className="bg-white rounded-lg shadow-lg overflow-hidden p-4 text-center"
+            >
+              <Link href={`/new-world-cigars/${product.id}`}>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={300}
+                  height={300}
+                  className="mx-auto rounded-lg object-contain aspect-square"
+                />
+              </Link>
+              <h2 className="mt-4 text-lg font-semibold">{product.name}</h2>
+              <p className="text-sm text-gray-600">£{Number(product.price).toFixed(2)}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-lg">No New World cigars found.</p>
+      )}
+    </div>
   );
 }

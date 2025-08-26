@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "./data/products"; // ✅ now pulls products from your data file
+import { products } from "./data/products";
 
 export default function HomePage() {
-  // ✅ Only show featured products
+  // ✅ Show only featured products
   const featured = products.filter((p) => p.featured);
 
   return (
@@ -15,8 +15,8 @@ export default function HomePage() {
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
           Cigar Manor
         </h1>
-        <p className="text-xl md:text-2xl text-white mb-10">
-          Where Heritage Meets Indulgence
+        <p className="text-xl md:text-2xl text-white italic mb-10">
+          "Where Connoisseurs of Cool Meet Pleasure"
         </p>
 
         {/* CTA Buttons */}
@@ -47,13 +47,15 @@ export default function HomePage() {
                   <Image
                     src={product.image}
                     alt={product.name}
-                    width={400}
-                    height={400}
-                    className="mx-auto rounded-lg shadow-lg aspect-square object-cover hover:scale-105 transition"
+                    width={300}
+                    height={300}
+                    className="mx-auto rounded-lg shadow-lg object-contain bg-white hover:scale-105 transition"
                   />
                 </Link>
                 <p className="mt-4 text-lg font-medium">{product.name}</p>
-                <p className="text-sm text-gray-600">£{product.price.toFixed(2)}</p>
+                <p className="text-sm text-gray-600">
+                  £{Number(product.price).toFixed(2)}
+                </p>
               </div>
             ))
           ) : (
