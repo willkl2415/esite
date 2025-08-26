@@ -42,13 +42,13 @@ export default function AboutPage() {
             community, and craft.
           </p>
           <p className="text-gray-700 mt-4 italic">
-            (This section will be updated with the second profile once the client
-            provides final details.)
+            (This section will be updated with the second profile once the
+            client provides final details.)
           </p>
         </div>
         <div className="order-1 md:order-2">
           <Image
-            src="/history-f4.png"
+            src="/History-F4.png"   // ✅ fixed case-sensitive path
             alt="Our Story"
             width={500}
             height={350}
