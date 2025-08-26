@@ -188,13 +188,21 @@ export default function RootLayout({
             </div>
           </div>
 
-          {/* Help link (floats right) */}
-          <Link
-            href="/help"
-            className="absolute right-6 bottom-6 text-sm font-medium hover:underline"
-          >
-            Help & Information
-          </Link>
+          {/* Footer Links (right corner) */}
+          <div className="absolute right-6 bottom-6 flex space-x-6">
+            <Link
+              href="/help"
+              className="text-sm font-medium hover:underline"
+            >
+              Help & Information
+            </Link>
+            <Link
+              href="/contact"
+              className="text-sm font-medium hover:underline"
+            >
+              Contact
+            </Link>
+          </div>
         </footer>
       </body>
     </html>
