@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   const navItems = [
     { label: "HOME", href: "/" }, // ✅ root landing page
-    { label: "ABOUT US", href: "/about-us" }, // 🔥 fixed path
+    { label: "ABOUT US", href: "/about-us" },
     { label: "HISTORY", href: "/history" },
     { label: "AWARDED CIGARS", href: "/awarded-cigars", dropdown: true },
     { label: "NEW WORLD CIGARS", href: "/new-world-cigars", dropdown: true },
@@ -74,13 +74,13 @@ export default function RootLayout({
 
           {/* Right: Icons */}
           <div className="flex items-center gap-6 text-sm">
-            <a
+            <Link
               href="/account"
               className="flex items-center gap-1 hover:text-purple cursor-pointer transition"
             >
               <UserIcon className="h-5 w-5" />
               <span className="hidden md:inline">My Account</span>
-            </a>
+            </Link>
             <div className="flex items-center gap-1 hover:text-purple cursor-pointer transition">
               <ShoppingCartIcon className="h-5 w-5" />
               <span className="hidden md:inline">£0.00</span>
@@ -110,7 +110,7 @@ export default function RootLayout({
           <div className="flex flex-col items-center gap-4">
             {/* Copyright */}
             <p className="text-center font-medium">
-              &copy; 2025 Cigar Manor — <em>"Where Connoisseurs of Cool Meet Pleasure"</em>
+              &copy; 2025 Cigar Manor — <em>&quot;Where Connoisseurs of Cool Meet Pleasure&quot;</em>
             </p>
 
             {/* Social Links */}
@@ -188,7 +188,7 @@ export default function RootLayout({
             </div>
           </div>
 
-          {/* Footer Links (right corner) */}
+          {/* Footer Links */}
           <div className="absolute right-6 bottom-6 flex space-x-6">
             <Link
               href="/help"
