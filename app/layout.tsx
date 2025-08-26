@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const navItems = [
-    { label: "HOME", href: "/" }, // ✅ fixed root landing page
+    { label: "HOME", href: "/" }, // ✅ root landing page
     { label: "ABOUT US", href: "/about" },
     { label: "HISTORY", href: "/history" },
     { label: "AWARDED CIGARS", href: "/awarded-cigars", dropdown: true },
@@ -107,21 +107,27 @@ export default function RootLayout({
 
         {/* === Footer === */}
         <footer className="p-6 border-t text-sm bg-[#ff9800] text-black relative">
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-4">
             {/* Copyright */}
-            <p className="text-center">
+            <p className="text-center font-medium">
               &copy; 2025 Cigar Manor — Where Heritage Meets Indulgence
             </p>
 
             {/* Social Links */}
-            <div className="flex gap-6 text-2xl">
+            <div className="flex gap-6">
               <a
                 href="https://x.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="X (Twitter)"
               >
-                <Image src="/icons/x.svg" alt="X" width={24} height={24} />
+                <Image
+                  src="/icons/x.svg"
+                  alt="X"
+                  width={28}
+                  height={28}
+                  className="hover:scale-110 transition-transform"
+                />
               </a>
               <a
                 href="https://facebook.com"
@@ -129,7 +135,13 @@ export default function RootLayout({
                 rel="noopener noreferrer"
                 aria-label="Facebook"
               >
-                <Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} />
+                <Image
+                  src="/icons/facebook.svg"
+                  alt="Facebook"
+                  width={28}
+                  height={28}
+                  className="hover:scale-110 transition-transform"
+                />
               </a>
               <a
                 href="https://tiktok.com"
@@ -137,7 +149,13 @@ export default function RootLayout({
                 rel="noopener noreferrer"
                 aria-label="TikTok"
               >
-                <Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} />
+                <Image
+                  src="/icons/tiktok.svg"
+                  alt="TikTok"
+                  width={28}
+                  height={28}
+                  className="hover:scale-110 transition-transform"
+                />
               </a>
               <a
                 href="https://linkedin.com"
@@ -145,7 +163,13 @@ export default function RootLayout({
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
               >
-                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
+                <Image
+                  src="/icons/linkedin.svg"
+                  alt="LinkedIn"
+                  width={28}
+                  height={28}
+                  className="hover:scale-110 transition-transform"
+                />
               </a>
               <a
                 href="https://instagram.com"
@@ -153,7 +177,13 @@ export default function RootLayout({
                 rel="noopener noreferrer"
                 aria-label="Instagram"
               >
-                <Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} />
+                <Image
+                  src="/icons/instagram.svg"
+                  alt="Instagram"
+                  width={28}
+                  height={28}
+                  className="hover:scale-110 transition-transform"
+                />
               </a>
             </div>
           </div>
