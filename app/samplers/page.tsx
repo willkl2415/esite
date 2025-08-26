@@ -1,12 +1,11 @@
 import CategoryPage from "../components/CategoryPage";
-import { samplers } from "../data/products";
 
 export default function SamplersPage() {
   return (
     <CategoryPage
       title="Cigar Samplers"
-      description="Curated collections of cigars — perfect for trying new blends or gifting."
-      products={samplers}
+      description="Sample a curated selection of premium cigars, perfect for discovering new favorites."
+      category="samplers"
     />
   );
 }
