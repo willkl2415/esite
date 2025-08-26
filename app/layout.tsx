@@ -107,7 +107,58 @@ export default function RootLayout({
 
         {/* === Footer === */}
         <footer className="p-6 border-t text-sm bg-[#ff9800] text-black relative">
-          <p className="text-center">&copy; 2025 Cigar Manor — Where Heritage Meets Indulgence</p>
+          <div className="flex flex-col items-center gap-3">
+            {/* Copyright */}
+            <p className="text-center">
+              &copy; 2025 Cigar Manor — Where Heritage Meets Indulgence
+            </p>
+
+            {/* Social Links */}
+            <div className="flex gap-6 text-2xl">
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X (Twitter)"
+              >
+                <Image src="/icons/x.svg" alt="X" width={24} height={24} />
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} />
+              </a>
+              <a
+                href="https://tiktok.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+              >
+                <Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
+                <Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} />
+              </a>
+            </div>
+          </div>
+
+          {/* Help link (floats right) */}
           <Link
             href="/help"
             className="absolute right-6 bottom-6 text-sm font-medium hover:underline"
