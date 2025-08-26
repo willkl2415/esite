@@ -48,7 +48,7 @@ export default function AboutPage() {
         </div>
         <div className="order-1 md:order-2">
           <Image
-            src="/History-F4.png"   // ✅ fixed case-sensitive path
+            src="/history-F4.png"   // ✅ fixed case-sensitive path
             alt="Our Story"
             width={500}
             height={350}
