@@ -1,12 +1,9 @@
 import CategoryPage from "../components/CategoryPage";
-import { awardedCigars } from "../data/products";
+import { products } from "../data/products";
 
 export default function AwardedCigarsPage() {
-  return (
-    <CategoryPage
-      title="Awarded Cigars"
-      description="Explore award-winning cigars recognised worldwide for their quality and craftsmanship."
-      products={awardedCigars}
-    />
-  );
+  // Filter products that belong to Awarded Cigars
+  const awardedCigars = products.filter((p) => p.category === "awarded-cigars");
+
+  return <CategoryPage title="Awarded Cigars" products={awardedCigars} />;
 }

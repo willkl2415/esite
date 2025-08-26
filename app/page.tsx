@@ -1,8 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { products } from "./data/products"; // ✅ now pulls products from your data file
 
 export default function HomePage() {
+  // ✅ Only show featured products
+  const featured = products.filter((p) => p.featured);
+
   return (
     <div className="flex flex-col min-h-screen bg-[#ff9800] text-center">
       {/* Hero Section */}
@@ -16,58 +21,44 @@ export default function HomePage() {
 
         {/* CTA Buttons */}
         <div className="flex justify-center gap-6">
-          <a
+          <Link
             href="/awarded-cigars"
             className="bg-black hover:bg-white hover:text-black text-[#ff9800] font-semibold px-8 py-3 rounded-full shadow-md transition"
           >
             Shop Now
-          </a>
-          <a
-            href="/about"
+          </Link>
+          <Link
+            href="/about-us"
             className="border border-white text-white hover:bg-white hover:text-black font-semibold px-8 py-3 rounded-full transition"
           >
             Learn More
-          </a>
+          </Link>
         </div>
       </section>
 
-      {/* Product Images Section */}
+      {/* Product Highlights */}
       <section className="py-16 bg-white">
         <h2 className="text-3xl font-bold mb-10">Our Finest Selection</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
-          {/* Product 1 */}
-          <div>
-            <Image
-              src="/cigar-1.png"
-              alt="Premium Cigar 1"
-              width={400}
-              height={400}
-              className="mx-auto rounded-lg shadow-lg aspect-square object-cover"
-            />
-            <p className="mt-4 text-lg font-medium">Premium Cigar 1</p>
-          </div>
-          {/* Product 2 */}
-          <div>
-            <Image
-              src="/cigar-2.png"
-              alt="Premium Cigar 2"
-              width={400}
-              height={400}
-              className="mx-auto rounded-lg shadow-lg aspect-square object-cover"
-            />
-            <p className="mt-4 text-lg font-medium">Premium Cigar 2</p>
-          </div>
-          {/* Product 3 */}
-          <div>
-            <Image
-              src="/cigar-3.png"
-              alt="Premium Cigar 3"
-              width={400}
-              height={400}
-              className="mx-auto rounded-lg shadow-lg aspect-square object-cover"
-            />
-            <p className="mt-4 text-lg font-medium">Premium Cigar 3</p>
-          </div>
+          {featured.length > 0 ? (
+            featured.map((product) => (
+              <div key={product.id} className="text-center">
+                <Link href={`/awarded-cigars/${product.id}`}>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={400}
+                    height={400}
+                    className="mx-auto rounded-lg shadow-lg aspect-square object-cover hover:scale-105 transition"
+                  />
+                </Link>
+                <p className="mt-4 text-lg font-medium">{product.name}</p>
+                <p className="text-sm text-gray-600">£{product.price.toFixed(2)}</p>
+              </div>
+            ))
+          ) : (
+            <p>No featured products available.</p>
+          )}
         </div>
       </section>
     </div>
