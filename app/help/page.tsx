@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+
 export default function HelpPage() {
   return (
     <div className="p-10 max-w-4xl mx-auto">
@@ -6,24 +10,24 @@ export default function HelpPage() {
       </h1>
       <ul className="space-y-4 text-lg">
         <li>
-          <a href="/website-terms" className="text-black hover:text-[#ff9800]">
+          <Link href="/website-terms" className="text-black hover:text-[#ff9800]">
             Website Terms
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/refunds-returns" className="text-black hover:text-[#ff9800]">
+          <Link href="/refunds-returns" className="text-black hover:text-[#ff9800]">
             Refunds & Returns
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/privacy-policy" className="text-black hover:text-[#ff9800]">
+          <Link href="/privacy-policy" className="text-black hover:text-[#ff9800]">
             Privacy Policy
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/my-account" className="text-black hover:text-[#ff9800]">
+          <Link href="/account" className="text-black hover:text-[#ff9800]">
             My Account
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

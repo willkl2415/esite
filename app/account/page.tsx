@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+
 export default function AccountPage() {
   return (
     <div className="p-10 max-w-6xl mx-auto">
@@ -30,9 +34,9 @@ export default function AccountPage() {
               <label className="flex items-center gap-2">
                 <input type="checkbox" /> Remember me
               </label>
-              <a href="#" className="text-[#ff9800] hover:underline">
+              <Link href="#" className="text-[#ff9800] hover:underline">
                 Lost your password?
-              </a>
+              </Link>
             </div>
             <button
               type="submit"
