@@ -5,8 +5,8 @@ import Link from "next/link";
 import { products } from "./data/products";
 
 export default function HomePage() {
-  // ✅ Show only featured products
-  const featured = products.filter((p) => p.featured);
+  // ✅ Limit to 3 featured products
+  const featured = products.filter((p) => p.featured).slice(0, 3);
 
   return (
     <div className="flex flex-col min-h-screen bg-[#ff9800] text-center">
@@ -43,12 +43,12 @@ export default function HomePage() {
           {featured.length > 0 ? (
             featured.map((product) => (
               <div key={product.id} className="text-center">
-                <Link href={`/awarded-cigars/${product.id}`}>
+                <Link href={`/${product.category}/${product.id}`}>
                   <Image
                     src={product.image}
                     alt={product.name}
-                    width={300}
-                    height={300}
+                    width={250}
+                    height={250}
                     className="mx-auto rounded-lg shadow-lg object-contain bg-white hover:scale-105 transition"
                   />
                 </Link>
