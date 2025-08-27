@@ -25,13 +25,13 @@ export default function AwardedCigarsPage() {
               <Image
                 src={cigar.image}
                 alt={cigar.name}
-                width={120}
-                height={120}
-                className="w-full h-64 object-contain bg-white"
+                width={200}
+                height={200}
+                className="w-full h-40 object-contain bg-white"
               />
-              <div className="p-4 text-center">
-                <h2 className="text-xl font-semibold">{cigar.name}</h2>
-                <p className="text-gray-600 mt-2">
+              <div className="p-2 text-center">
+                <h2 className="text-lg font-semibold">{cigar.name}</h2>
+                <p className="text-gray-600 mt-1">
                   £{Number(cigar.price).toFixed(2)}
                 </p>
               </div>
