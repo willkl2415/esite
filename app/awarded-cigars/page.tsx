@@ -1,6 +1,6 @@
 "use client";
 
-import { products } from "../data/products";
+import { products } from "../../data/products";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -34,7 +34,6 @@ export default function AwardedCigarDetailPage({ params }: { params: { id: strin
         </p>
         <p className="mt-6 text-center text-gray-700">{product.description}</p>
 
-        {/* ✅ Only Next.js Link here, no <a> */}
         <div className="text-center mt-8">
           <Link href="/awarded-cigars" className="text-purple hover:underline">
             ← Back to Awarded Cigars

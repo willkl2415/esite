@@ -5,6 +5,7 @@ import Link from "next/link";
 import { products } from "./data/products";
 
 export default function HomePage() {
+  // ✅ Show only featured products
   const featured = products.filter((p) => p.featured);
 
   return (
