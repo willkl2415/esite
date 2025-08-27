@@ -20,7 +20,7 @@ export default function BlogPage() {
       date: "August 20, 2025",
       excerpt:
         "From Havana’s cobblestone streets to luxury lounges, the legend of the Cuban handroller maidens lives on — but what’s the truth behind the myth?",
-      image: "/history-F1.png",
+      image: "/history-F4.png",
       slug: "cuban-handrollers",
     },
     {
