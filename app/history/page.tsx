@@ -12,7 +12,7 @@ export default function HistoryPage() {
     {
       title: "The Spanish Discover Tobacco",
       text: "In the late 15th century, Spanish explorers encountered tobacco and carried it back to Europe. The exotic plant was quickly embraced in royal courts and salons, where men and women alike experimented with the ‘New World’ leaf. Cigars became a luxury symbol, and whispers spread of women in Havana rolling cigars with an artistry that outshone their male counterparts.",
-      image: "/History-F1.png",
+      image: "/history-F1.png",
     },
     {
       title: "Cuban Mastery",
@@ -22,7 +22,7 @@ export default function HistoryPage() {
     {
       title: "The Dominican Expansion",
       text: "In the 20th century, the Dominican Republic rose to prominence as Cuba’s great rival. Dominican cigars became celebrated for their consistency and elegance, winning admirers across Europe and the Americas. Women were not just consumers but also factory workers, tasters, and promoters, quietly shaping reputations in an industry that too often pretended otherwise.",
-      image: "/History-2.png",
+      image: "/history-2.png",
     },
     {
       title: "Nicaraguan Strength",
@@ -32,7 +32,7 @@ export default function HistoryPage() {
     {
       title: "Honduran Tradition",
       text: "Honduras became another powerhouse in the cigar world, producing distinctive blends known for depth and spice. Here too, the artistry of hand-rolling was passed down through generations, often within families where both men and women shared in the craft. The quiet pride of Honduran cigar makers reflected the intimacy of an art form born at the fingertips.",
-      image: "/History-F3.png",
+      image: "/history-F3.png",
     },
     {
       title: "Cigars in America",
@@ -42,7 +42,7 @@ export default function HistoryPage() {
     {
       title: "Global Growth",
       text: "Today, premium cigars are crafted in dozens of countries, celebrated by aficionados from London to Tokyo. Women, once hidden in the background of the trade, now appear on both sides of the counter — leading brands, shaping blends, and lighting up cigars in lounges with the same authority as any man. The myth of the handroller maidens lingers, but it is eclipsed by the very real achievements of women shaping the industry today.",
-      image: "/History-F4.png",
+      image: "/history-F4.png",
     },
     {
       title: "Modern Innovations",
