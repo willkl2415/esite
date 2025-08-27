@@ -47,9 +47,9 @@ export default function HomePage() {
                   <Image
                     src={product.image}
                     alt={product.name}
-                    width={250}
-                    height={250}
-                    className="mx-auto rounded-lg shadow-lg object-contain bg-white hover:scale-105 transition"
+                    width={300}
+                    height={300}
+                    className="w-full h-64 object-cover rounded-lg shadow-lg bg-white hover:scale-105 transition"
                   />
                 </Link>
                 <p className="mt-4 text-lg font-medium">{product.name}</p>
