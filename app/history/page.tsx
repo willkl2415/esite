@@ -22,7 +22,7 @@ export default function HistoryPage() {
     {
       title: "The Dominican Expansion",
       text: "In the 20th century, the Dominican Republic rose to prominence as Cuba’s great rival. Dominican cigars became celebrated for their consistency and elegance, winning admirers across Europe and the Americas. Women were not just consumers but also factory workers, tasters, and promoters, quietly shaping reputations in an industry that too often pretended otherwise.",
-      image: "/History-F2.png",
+      image: "/History-2.png",
     },
     {
       title: "Nicaraguan Strength",
