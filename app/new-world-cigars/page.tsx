@@ -1,45 +1,13 @@
 "use client";
 
-import { products } from "../data/products";
-import Image from "next/image";
-import Link from "next/link";
+import CategoryPage from "../components/CategoryPage";
 
-export default function NewWorldCigarDetailPage({ params }: { params: { id: string } }) {
-  const product = products.find((p) => p.id === params.id);
-
-  if (!product) {
-    return (
-      <div className="p-10 bg-[#ff9800] min-h-screen text-center">
-        <h1 className="text-2xl font-bold">Cigar not found</h1>
-        <Link href="/new-world-cigars" className="text-purple hover:underline block mt-6">
-          ← Back to New World Cigars
-        </Link>
-      </div>
-    );
-  }
-
+export default function NewWorldCigarsPage() {
   return (
-    <div className="p-10 bg-[#ff9800] min-h-screen">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
-        <Image
-          src={product.image}
-          alt={product.name}
-          width={400}
-          height={400}
-          className="mx-auto rounded-lg object-contain bg-white"
-        />
-        <h1 className="text-3xl font-bold text-center mt-6">{product.name}</h1>
-        <p className="text-center text-gray-600 text-lg mt-2">
-          £{Number(product.price).toFixed(2)}
-        </p>
-        <p className="mt-6 text-center text-gray-700">{product.description}</p>
-
-        <div className="text-center mt-8">
-          <Link href="/new-world-cigars" className="text-purple hover:underline">
-            ← Back to New World Cigars
-          </Link>
-        </div>
-      </div>
-    </div>
+    <CategoryPage
+      title="New World Cigars"
+      description="Discover premium cigars from across the globe, crafted with passion and innovation."
+      category="new-world-cigars"
+    />
   );
 }
