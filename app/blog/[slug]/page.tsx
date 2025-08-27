@@ -26,7 +26,7 @@ const posts: Record<
   "cuban-handrollers": {
     title: "Cuban Handrollers — Myth & Mastery",
     date: "August 20, 2025",
-    image: "/history-f1.png",
+    image: "/history-F1.png", // 🔥 same fix applied here
     content: [
       "The legend of the Cuban handroller maidens has fascinated cigar lovers for decades. While largely romanticised, it reflects the deep respect held for Cuba’s tobacco traditions.",
       "In reality, both men and women are part of Cuba’s expert torcedor (roller) community — each trained through years of apprenticeship.",
