@@ -25,8 +25,8 @@ export default function AwardedCigarsPage() {
               <Image
                 src={cigar.image}
                 alt={cigar.name}
-                width={150}
-                height={150}
+                width={120}
+                height={120}
                 className="w-full h-64 object-contain bg-white"
               />
               <div className="p-4 text-center">
