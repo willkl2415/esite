@@ -51,8 +51,6 @@ export default function AboutPage() {
             height={350}
             className="rounded-lg shadow-lg object-cover w-full h-[350px]"
           />
-assName="rounded-lg shadow-lg object-cover w-full h-[350px]"
-          />
         </div>
       </div>
     </div>
