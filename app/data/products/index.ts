@@ -10,6 +10,7 @@ export const products = [
       "Bold and powerful, the Bolívar Belicoso Fino is a rich, earthy Cuban cigar with notes of spice, cocoa, and leather. A classic full-bodied choice for seasoned aficionados.",
     category: "awarded-cigars",
     featured: true,
+    badge: "Award Winner", // ✅ Highlighted
   },
   {
     id: "montecristo-brillantes",
@@ -20,6 +21,7 @@ export const products = [
       "A special edition Montecristo celebrating the Year of the Dragon. Balanced and refined with cedar, coffee, and nutty undertones — a true collector’s piece.",
     category: "awarded-cigars",
     featured: false,
+    badge: "Limited Edition", // ✅ Collector’s edition
   },
   {
     id: "partagas-maestro",
@@ -30,6 +32,7 @@ export const products = [
       "Crafted with precision, the Partagás Maestro offers deep flavors of roasted coffee and spice, with a complexity that builds throughout the smoke.",
     category: "awarded-cigars",
     featured: true,
+    badge: "Award Winner",
   },
   {
     id: "romeo-wide-churchill",
@@ -40,6 +43,7 @@ export const products = [
       "Smooth, creamy, and aromatic, the Wide Churchill delivers a balanced medium-bodied experience with flavors of cedar, almond, and a hint of sweetness.",
     category: "awarded-cigars",
     featured: false,
+    badge: "", // ✅ No badge
   },
   {
     id: "cohiba-robusto",
@@ -50,5 +54,6 @@ export const products = [
       "The legendary Cohiba Robusto is medium-to-full-bodied with impeccable construction, offering layers of cream, spice, and subtle floral notes.",
     category: "awarded-cigars",
     featured: true,
+    badge: "Best Seller", // ✅ Big name cigar
   },
 ];
