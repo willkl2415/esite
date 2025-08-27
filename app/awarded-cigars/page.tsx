@@ -15,7 +15,7 @@ export default function AwardedCigarsPage() {
       {awardedCigars.length === 0 ? (
         <p className="text-center text-white text-lg">No awarded cigars found.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {awardedCigars.map((cigar) => (
             <Link
               key={cigar.id}
@@ -25,8 +25,8 @@ export default function AwardedCigarsPage() {
               <Image
                 src={cigar.image}
                 alt={cigar.name}
-                width={300}
-                height={300}
+                width={150}
+                height={150}
                 className="w-full h-64 object-contain bg-white"
               />
               <div className="p-4 text-center">
