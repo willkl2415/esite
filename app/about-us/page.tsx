@@ -45,11 +45,13 @@ export default function AboutPage() {
         </div>
         <div className="order-1 md:order-2">
           <Image
-            src="/history-f4.png"
+            src="/history-F4.png"
             alt="Barbara Kerekes"
             width={500}
             height={350}
             className="rounded-lg shadow-lg object-cover w-full h-[350px]"
+          />
+assName="rounded-lg shadow-lg object-cover w-full h-[350px]"
           />
         </div>
       </div>
