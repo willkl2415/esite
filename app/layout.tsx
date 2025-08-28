@@ -1,5 +1,3 @@
-"use client";
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -69,7 +67,7 @@ export default function RootLayout({
                 <MagnifyingGlassIcon className="absolute left-3 top-2 w-5 h-5 text-gray-400" />
                 <input
                   type="text"
-                  placeholder={t.searchPlaceholder} // ✅ Now translated
+                  placeholder={t.searchPlaceholder}
                   className="pl-10 pr-4 py-2 border rounded-lg"
                 />
               </div>
@@ -96,10 +94,10 @@ export default function RootLayout({
             © 2025 Cigar Manor — &quot;{t.footerTagline}&quot;
           </p>
           <div className="flex justify-center space-x-4 mt-4">
-            <Link href="#">X</Link>
-            <Link href="#">Facebook</Link>
-            <Link href="#">Instagram</Link>
-            <Link href="#">LinkedIn</Link>
+            <Link href="#">{t.x}</Link>
+            <Link href="#">{t.facebook}</Link>
+            <Link href="#">{t.instagram}</Link>
+            <Link href="#">{t.linkedin}</Link>
           </div>
           <div className="flex justify-center space-x-6 mt-4">
             <Link href="#">{t.help}</Link>
