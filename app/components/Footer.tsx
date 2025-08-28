@@ -1,43 +1,31 @@
-"use client";
-
 import Link from "next/link";
-import { useTranslation } from "../dictionary";
+import { labels } from "../dictionary";
+
+function getLang(): string {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search).get("lang") || "en";
+  }
+  return "en";
+}
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const lang = getLang();
+  const t = labels[lang] || labels.en;
 
   return (
-    <footer className="bg-[#ff9800] text-black mt-16">
-      <div className="max-w-7xl mx-auto px-6 py-10 text-center space-y-6">
-        <p className="italic">
-          © 2025 Cigar Manor — {t("footerTagline")}
-        </p>
-
-        {/* Socials */}
-        <div className="flex justify-center space-x-6">
-          <a href="#" aria-label="X" className="hover:underline">
-            X
-          </a>
-          <a href="#" aria-label="Facebook" className="hover:underline">
-            Facebook
-          </a>
-          <a href="#" aria-label="Instagram" className="hover:underline">
-            Instagram
-          </a>
-          <a href="#" aria-label="LinkedIn" className="hover:underline">
-            LinkedIn
-          </a>
-        </div>
-
-        {/* Help & Contact */}
-        <div className="flex justify-center space-x-6">
-          <Link href="/help" className="hover:underline">
-            {t("help")}
-          </Link>
-          <Link href="/contact" className="hover:underline">
-            {t("contact")}
-          </Link>
-        </div>
+    <footer className="bg-[#ff9800] text-center py-6 mt-10">
+      <p className="text-sm text-black italic">
+        © 2025 Cigar Manor — &quot;{t.footerTagline}&quot;
+      </p>
+      <div className="flex justify-center space-x-4 mt-4">
+        <Link href="#">{t.x}</Link>
+        <Link href="#">{t.facebook}</Link>
+        <Link href="#">{t.instagram}</Link>
+        <Link href="#">{t.linkedin}</Link>
+      </div>
+      <div className="flex justify-center space-x-6 mt-4">
+        <Link href="#">{t.help}</Link>
+        <Link href="#">{t.contact}</Link>
       </div>
     </footer>
   );
