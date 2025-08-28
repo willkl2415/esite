@@ -58,27 +58,32 @@ export default function RootLayout({
     <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <header>
-          <nav className="flex items-center justify-between px-6 py-4 border-b">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <Image src="/logo.png" alt="Logo" width={60} height={60} />
-              </Link>
-              <div className="relative">
-                <MagnifyingGlassIcon className="absolute left-3 top-2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder={t.searchPlaceholder}
-                  className="pl-10 pr-4 py-2 border rounded-lg"
-                />
-              </div>
+          <nav className="flex flex-col items-center border-b py-4">
+            {/* Logo */}
+            <Link href="/" className="mb-3">
+              <Image src="/logo.png" alt="Logo" width={80} height={80} />
+            </Link>
+
+            {/* Search */}
+            <div className="relative w-full max-w-md mb-3">
+              <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder={t.searchPlaceholder}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg"
+              />
             </div>
-            <ul className="flex space-x-6">
+
+            {/* Nav links */}
+            <ul className="flex flex-wrap justify-center space-x-6 mb-3">
               {navItems.map((item) => (
                 <li key={item.href}>
                   <Link href={`${item.href}?lang=${lang}`}>{item.label}</Link>
                 </li>
               ))}
             </ul>
+
+            {/* Lang + Icons */}
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
               <UserIcon className="w-6 h-6" />
@@ -93,12 +98,27 @@ export default function RootLayout({
           <p className="text-sm text-black italic">
             © 2025 Cigar Manor — &quot;{t.footerTagline}&quot;
           </p>
-          <div className="flex justify-center space-x-4 mt-4">
-            <Link href="#">{t.x}</Link>
-            <Link href="#">{t.facebook}</Link>
-            <Link href="#">{t.instagram}</Link>
-            <Link href="#">{t.linkedin}</Link>
+
+          {/* Social icons row */}
+          <div className="flex justify-center space-x-6 mt-4">
+            <Link href="#">
+              <Image src="/icons/x.svg" alt="X" width={20} height={20} />
+            </Link>
+            <Link href="#">
+              <Image src="/icons/facebook.svg" alt="Facebook" width={20} height={20} />
+            </Link>
+            <Link href="#">
+              <Image src="/icons/instagram.svg" alt="Instagram" width={20} height={20} />
+            </Link>
+            <Link href="#">
+              <Image src="/icons/linkedin.svg" alt="LinkedIn" width={20} height={20} />
+            </Link>
+            <Link href="#">
+              <Image src="/icons/tiktok.svg" alt="TikTok" width={20} height={20} />
+            </Link>
           </div>
+
+          {/* Footer links */}
           <div className="flex justify-center space-x-6 mt-4">
             <Link href="#">{t.help}</Link>
             <Link href="#">{t.contact}</Link>
