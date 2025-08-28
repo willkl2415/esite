@@ -57,15 +57,12 @@ export default function RootLayout({
   return (
     <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <header>
-          <nav className="flex flex-col items-center border-b py-4">
-            {/* Logo */}
-            <Link href="/" className="mb-3">
-              <Image src="/logo.png" alt="Logo" width={80} height={80} />
-            </Link>
-
+        {/* HEADER */}
+        <header className="border-b">
+          {/* Top row */}
+          <div className="flex items-center justify-between px-6 py-3 bg-white">
             {/* Search */}
-            <div className="relative w-full max-w-md mb-3">
+            <div className="relative w-1/3 max-w-sm">
               <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
               <input
                 type="text"
@@ -74,54 +71,109 @@ export default function RootLayout({
               />
             </div>
 
-            {/* Nav links */}
-            <ul className="flex flex-wrap justify-center space-x-6 mb-3">
+            {/* Logo */}
+            <div className="flex justify-center w-1/3">
+              <Link href="/">
+                <Image
+                  src="/cigar-manor.png"
+                  alt="Cigar Manor"
+                  width={120}
+                  height={120}
+                />
+              </Link>
+            </div>
+
+            {/* Account + Cart */}
+            <div className="flex items-center justify-end w-1/3 space-x-6">
+              <div className="flex items-center space-x-2">
+                <UserIcon className="w-6 h-6" />
+                <span>{t.account}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <ShoppingCartIcon className="w-6 h-6" />
+                <span>{t.cartTotal}</span>
+              </div>
+              <LanguageSwitcher />
+            </div>
+          </div>
+
+          {/* Nav row */}
+          <nav className="bg-[#ff9800]">
+            <ul className="flex justify-center space-x-8 py-3 text-sm font-medium text-black">
               {navItems.map((item) => (
                 <li key={item.href}>
                   <Link href={`${item.href}?lang=${lang}`}>{item.label}</Link>
                 </li>
               ))}
             </ul>
-
-            {/* Lang + Icons */}
-            <div className="flex items-center space-x-4">
-              <LanguageSwitcher />
-              <UserIcon className="w-6 h-6" />
-              <ShoppingCartIcon className="w-6 h-6" />
-            </div>
           </nav>
         </header>
 
+        {/* MAIN */}
         <main>{children}</main>
 
-        <footer className="bg-[#ff9800] text-center py-6 mt-10">
-          <p className="text-sm text-black italic">
-            © 2025 Cigar Manor — &quot;{t.footerTagline}&quot;
-          </p>
+        {/* FOOTER */}
+        <footer className="bg-[#ff9800] text-black mt-16">
+          <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-6 items-center">
+            {/* Left: copyright */}
+            <div className="text-sm italic">
+              © 2025 Cigar Manor — &quot;{t.footerTagline}&quot;
+            </div>
 
-          {/* Social icons row */}
-          <div className="flex justify-center space-x-6 mt-4">
-            <Link href="#">
-              <Image src="/icons/x.svg" alt="X" width={20} height={20} />
-            </Link>
-            <Link href="#">
-              <Image src="/icons/facebook.svg" alt="Facebook" width={20} height={20} />
-            </Link>
-            <Link href="#">
-              <Image src="/icons/instagram.svg" alt="Instagram" width={20} height={20} />
-            </Link>
-            <Link href="#">
-              <Image src="/icons/linkedin.svg" alt="LinkedIn" width={20} height={20} />
-            </Link>
-            <Link href="#">
-              <Image src="/icons/tiktok.svg" alt="TikTok" width={20} height={20} />
-            </Link>
-          </div>
+            {/* Center: socials */}
+            <div className="flex justify-center space-x-6">
+              <Link href="#">
+                <Image
+                  src="/icons/x.svg"
+                  alt="X"
+                  width={24}
+                  height={24}
+                  className="hover:opacity-70 transition"
+                />
+              </Link>
+              <Link href="#">
+                <Image
+                  src="/icons/facebook.svg"
+                  alt="Facebook"
+                  width={24}
+                  height={24}
+                  className="hover:opacity-70 transition"
+                />
+              </Link>
+              <Link href="#">
+                <Image
+                  src="/icons/instagram.svg"
+                  alt="Instagram"
+                  width={24}
+                  height={24}
+                  className="hover:opacity-70 transition"
+                />
+              </Link>
+              <Link href="#">
+                <Image
+                  src="/icons/linkedin.svg"
+                  alt="LinkedIn"
+                  width={24}
+                  height={24}
+                  className="hover:opacity-70 transition"
+                />
+              </Link>
+              <Link href="#">
+                <Image
+                  src="/icons/tiktok.svg"
+                  alt="TikTok"
+                  width={24}
+                  height={24}
+                  className="hover:opacity-70 transition"
+                />
+              </Link>
+            </div>
 
-          {/* Footer links */}
-          <div className="flex justify-center space-x-6 mt-4">
-            <Link href="#">{t.help}</Link>
-            <Link href="#">{t.contact}</Link>
+            {/* Right: links */}
+            <div className="flex justify-end space-x-6 text-sm">
+              <Link href="#">{t.help}</Link>
+              <Link href="#">{t.contact}</Link>
+            </div>
           </div>
         </footer>
       </body>
