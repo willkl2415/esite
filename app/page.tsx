@@ -5,7 +5,6 @@ import Link from "next/link";
 import { products } from "./data/products";
 
 export default function HomePage() {
-  // ✅ Limit to 3 featured products
   const featured = products.filter((p) => p.featured).slice(0, 3);
 
   return (
@@ -16,10 +15,9 @@ export default function HomePage() {
           Cigar Manor
         </h1>
         <p className="text-xl md:text-2xl text-white italic mb-10">
-          "Where Connoisseurs of Cool Meet Pleasure"
+          &quot;Where Connoisseurs of Cool Meet Pleasure&quot;
         </p>
 
-        {/* CTA Buttons */}
         <div className="flex justify-center gap-6">
           <Link
             href="/awarded-cigars"
