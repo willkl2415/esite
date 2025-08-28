@@ -7,6 +7,7 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import LanguageSwitcher from "./language-switcher"; // ✅ new client component
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,82 +24,13 @@ export const metadata: Metadata = {
   description: "Luxury Cigars & Lifestyle",
 };
 
-// ✅ Simple dictionary for languages
-const labels: Record<string, Record<string, string>> = {
-  en: {
-    home: "HOME",
-    about: "ABOUT US",
-    history: "HISTORY",
-    awarded: "AWARDED CIGARS",
-    newWorld: "NEW WORLD CIGARS",
-    machineMade: "MACHINE-MADE CIGARS",
-    flavoured: "FLAVOURED CIGARS",
-    samplers: "SAMPLERS",
-    accessories: "ACCESSORIES",
-    gifts: "GIFTS",
-    promotions: "PROMOTIONS",
-    blog: "BLOG",
-  },
-  es: {
-    home: "INICIO",
-    about: "SOBRE NOSOTROS",
-    history: "HISTORIA",
-    awarded: "PUROS PREMIADOS",
-    newWorld: "PUROS DEL NUEVO MUNDO",
-    machineMade: "PUROS DE MÁQUINA",
-    flavoured: "PUROS SABORIZADOS",
-    samplers: "MUESTRARIOS",
-    accessories: "ACCESORIOS",
-    gifts: "REGALOS",
-    promotions: "PROMOCIONES",
-    blog: "BLOG",
-  },
-  fr: {
-    home: "ACCUEIL",
-    about: "À PROPOS",
-    history: "HISTOIRE",
-    awarded: "CIGARES PRIMÉS",
-    newWorld: "CIGARES DU NOUVEAU MONDE",
-    machineMade: "CIGARES DE MACHINE",
-    flavoured: "CIGARES AROMATISÉS",
-    samplers: "ÉCHANTILLONS",
-    accessories: "ACCESSOIRES",
-    gifts: "CADEAUX",
-    promotions: "PROMOTIONS",
-    blog: "BLOG",
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // ✅ Default to English, allow switching via URL query (?lang=es)
-  const lang =
-    typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("lang") || "en"
-      : "en";
-
-  const t = labels[lang] || labels.en;
-
-  const navItems = [
-    { label: t.home, href: "/" },
-    { label: t.about, href: "/about" },
-    { label: t.history, href: "/history" },
-    { label: t.awarded, href: "/awarded-cigars" },
-    { label: t.newWorld, href: "/new-world-cigars" },
-    { label: t.machineMade, href: "/machine-made-cigars" },
-    { label: t.flavoured, href: "/flavoured-cigars" },
-    { label: t.samplers, href: "/samplers" },
-    { label: t.accessories, href: "/accessories" },
-    { label: t.gifts, href: "/gifts" },
-    { label: t.promotions, href: "/promotions" },
-    { label: t.blog, href: "/blog" },
-  ];
-
   return (
-    <html lang={lang}>
+    <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <header>
           <nav className="flex items-center justify-between px-6 py-4">
@@ -106,26 +38,21 @@ export default function RootLayout({
               <Image src="/logo.png" alt="Logo" width={60} height={60} />
             </Link>
             <ul className="flex space-x-6">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link href={`${item.href}?lang=${lang}`}>{item.label}</Link>
-                </li>
-              ))}
+              <li><Link href="/">HOME</Link></li>
+              <li><Link href="/about">ABOUT US</Link></li>
+              <li><Link href="/history">HISTORY</Link></li>
+              <li><Link href="/awarded-cigars">AWARDED CIGARS</Link></li>
+              <li><Link href="/new-world-cigars">NEW WORLD CIGARS</Link></li>
+              <li><Link href="/machine-made-cigars">MACHINE-MADE CIGARS</Link></li>
+              <li><Link href="/flavoured-cigars">FLAVOURED CIGARS</Link></li>
+              <li><Link href="/samplers">SAMPLERS</Link></li>
+              <li><Link href="/accessories">ACCESSORIES</Link></li>
+              <li><Link href="/gifts">GIFTS</Link></li>
+              <li><Link href="/promotions">PROMOTIONS</Link></li>
+              <li><Link href="/blog">BLOG</Link></li>
             </ul>
             <div className="flex items-center space-x-4">
-              {/* ✅ Language Switcher */}
-              <select
-                defaultValue={lang}
-                onChange={(e) => {
-                  const newLang = e.target.value;
-                  window.location.search = `?lang=${newLang}`;
-                }}
-                className="border px-2 py-1 rounded"
-              >
-                <option value="en">EN</option>
-                <option value="es">ES</option>
-                <option value="fr">FR</option>
-              </select>
+              <LanguageSwitcher /> {/* ✅ safe client-side only */}
               <UserIcon className="w-6 h-6" />
               <ShoppingCartIcon className="w-6 h-6" />
             </div>
