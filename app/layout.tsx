@@ -1,3 +1,5 @@
+"use client";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -5,6 +7,7 @@ import Image from "next/image";
 import {
   UserIcon,
   ShoppingCartIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import LanguageSwitcher from "./language-switcher";
@@ -40,7 +43,7 @@ export default function RootLayout({
 
   const navItems = [
     { label: t.home, href: "/" },
-    { label: t.about, href: "/about" },
+    { label: t.about, href: "/about-us" },
     { label: t.history, href: "/history" },
     { label: t.awarded, href: "/awarded-cigars" },
     { label: t.newWorld, href: "/new-world-cigars" },
@@ -57,10 +60,20 @@ export default function RootLayout({
     <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <header>
-          <nav className="flex items-center justify-between px-6 py-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <Image src="/logo.png" alt="Logo" width={60} height={60} />
-            </Link>
+          <nav className="flex items-center justify-between px-6 py-4 border-b">
+            <div className="flex items-center space-x-4">
+              <Link href="/" className="flex items-center space-x-2">
+                <Image src="/logo.png" alt="Logo" width={60} height={60} />
+              </Link>
+              <div className="relative">
+                <MagnifyingGlassIcon className="absolute left-3 top-2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder} // ✅ Now translated
+                  className="pl-10 pr-4 py-2 border rounded-lg"
+                />
+              </div>
+            </div>
             <ul className="flex space-x-6">
               {navItems.map((item) => (
                 <li key={item.href}>
@@ -77,6 +90,22 @@ export default function RootLayout({
         </header>
 
         <main>{children}</main>
+
+        <footer className="bg-[#ff9800] text-center py-6 mt-10">
+          <p className="text-sm text-black italic">
+            © 2025 Cigar Manor — &quot;{t.footerTagline}&quot;
+          </p>
+          <div className="flex justify-center space-x-4 mt-4">
+            <Link href="#">X</Link>
+            <Link href="#">Facebook</Link>
+            <Link href="#">Instagram</Link>
+            <Link href="#">LinkedIn</Link>
+          </div>
+          <div className="flex justify-center space-x-6 mt-4">
+            <Link href="#">{t.help}</Link>
+            <Link href="#">{t.contact}</Link>
+          </div>
+        </footer>
       </body>
     </html>
   );
