@@ -3,8 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "./data/products";
+import { labels } from "./dictionary";
 
 export default function HomePage() {
+  const lang =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("lang") || "en"
+      : "en";
+
+  const t = labels[lang] || labels.en;
+
   const featured = products.filter((p) => p.featured).slice(0, 3);
 
   return (
@@ -12,36 +20,36 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative flex flex-col justify-center items-center flex-1 py-20">
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-          Cigar Manor
+          {t.title}
         </h1>
         <p className="text-xl md:text-2xl text-white italic mb-10">
-          &quot;Where Connoisseurs of Cool Meet Pleasure&quot;
+          &quot;{t.tagline}&quot;
         </p>
 
         <div className="flex justify-center gap-6">
           <Link
-            href="/awarded-cigars"
+            href={`/awarded-cigars?lang=${lang}`}
             className="bg-black hover:bg-white hover:text-black text-[#ff9800] font-semibold px-8 py-3 rounded-full shadow-md transition"
           >
-            Shop Now
+            {t.shopNow}
           </Link>
           <Link
-            href="/about"
+            href={`/about?lang=${lang}`}
             className="border border-white text-white hover:bg-white hover:text-black font-semibold px-8 py-3 rounded-full transition"
           >
-            Learn More
+            {t.learnMore}
           </Link>
         </div>
       </section>
 
       {/* Product Highlights */}
       <section className="py-16 bg-white">
-        <h2 className="text-3xl font-bold mb-10">Our Finest Selection</h2>
+        <h2 className="text-3xl font-bold mb-10">{t.finestSelection}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
           {featured.length > 0 ? (
             featured.map((product) => (
               <div key={product.id} className="text-center">
-                <Link href={`/${product.category}/${product.id}`}>
+                <Link href={`/${product.category}/${product.id}?lang=${lang}`}>
                   <Image
                     src={product.image}
                     alt={product.name}

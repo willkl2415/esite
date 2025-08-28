@@ -7,7 +7,8 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import LanguageSwitcher from "./language-switcher"; // ✅ new client component
+import LanguageSwitcher from "./language-switcher";
+import { labels } from "./dictionary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,13 +25,36 @@ export const metadata: Metadata = {
   description: "Luxury Cigars & Lifestyle",
 };
 
+function getLang(): string {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search).get("lang") || "en";
+  }
+  return "en";
+}
+
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
+  const lang = getLang();
+  const t = labels[lang] || labels.en;
+
+  const navItems = [
+    { label: t.home, href: "/" },
+    { label: t.about, href: "/about" },
+    { label: t.history, href: "/history" },
+    { label: t.awarded, href: "/awarded-cigars" },
+    { label: t.newWorld, href: "/new-world-cigars" },
+    { label: t.machineMade, href: "/machine-made-cigars" },
+    { label: t.flavoured, href: "/flavoured-cigars" },
+    { label: t.samplers, href: "/samplers" },
+    { label: t.accessories, href: "/accessories" },
+    { label: t.gifts, href: "/gifts" },
+    { label: t.promotions, href: "/promotions" },
+    { label: t.blog, href: "/blog" },
+  ];
+
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <header>
           <nav className="flex items-center justify-between px-6 py-4">
@@ -38,21 +62,14 @@ export default function RootLayout({
               <Image src="/logo.png" alt="Logo" width={60} height={60} />
             </Link>
             <ul className="flex space-x-6">
-              <li><Link href="/">HOME</Link></li>
-              <li><Link href="/about">ABOUT US</Link></li>
-              <li><Link href="/history">HISTORY</Link></li>
-              <li><Link href="/awarded-cigars">AWARDED CIGARS</Link></li>
-              <li><Link href="/new-world-cigars">NEW WORLD CIGARS</Link></li>
-              <li><Link href="/machine-made-cigars">MACHINE-MADE CIGARS</Link></li>
-              <li><Link href="/flavoured-cigars">FLAVOURED CIGARS</Link></li>
-              <li><Link href="/samplers">SAMPLERS</Link></li>
-              <li><Link href="/accessories">ACCESSORIES</Link></li>
-              <li><Link href="/gifts">GIFTS</Link></li>
-              <li><Link href="/promotions">PROMOTIONS</Link></li>
-              <li><Link href="/blog">BLOG</Link></li>
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <Link href={`${item.href}?lang=${lang}`}>{item.label}</Link>
+                </li>
+              ))}
             </ul>
             <div className="flex items-center space-x-4">
-              <LanguageSwitcher /> {/* ✅ safe client-side only */}
+              <LanguageSwitcher />
               <UserIcon className="w-6 h-6" />
               <ShoppingCartIcon className="w-6 h-6" />
             </div>
