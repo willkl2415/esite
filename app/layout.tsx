@@ -8,6 +8,8 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,8 +31,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { i18n } = useTranslation();
+  const router = useRouter();
+
   const navItems = [
-    { label: "HOME", href: "/" }, // ✅ root landing page
+    { label: "HOME", href: "/" },
     { label: "ABOUT US", href: "/about-us" },
     { label: "HISTORY", href: "/history" },
     { label: "AWARDED CIGARS", href: "/awarded-cigars", dropdown: true },
@@ -43,6 +48,11 @@ export default function RootLayout({
     { label: "PROMOTIONS", href: "/promotions", dropdown: true },
     { label: "BLOG", href: "/blog" },
   ];
+
+  // Language switch function
+  const changeLanguage = (lang: string) => {
+    router.push(`/${lang}`);
+  };
 
   return (
     <html lang="en">
@@ -72,8 +82,19 @@ export default function RootLayout({
             />
           </div>
 
-          {/* Right: Icons */}
+          {/* Right: Icons + Language Switcher */}
           <div className="flex items-center gap-6 text-sm">
+            {/* Language Dropdown */}
+            <select
+              value={i18n.language}
+              onChange={(e) => changeLanguage(e.target.value)}
+              className="border border-gray-300 rounded-md px-2 py-1 text-sm"
+            >
+              <option value="en">🇬🇧 EN</option>
+              <option value="es">🇪🇸 ES</option>
+              <option value="fr">🇫🇷 FR</option>
+            </select>
+
             <Link
               href="/account"
               className="flex items-center gap-1 hover:text-purple cursor-pointer transition"
@@ -108,12 +129,11 @@ export default function RootLayout({
         {/* === Footer === */}
         <footer className="p-6 border-t text-sm bg-[#ff9800] text-black relative">
           <div className="flex flex-col items-center gap-4">
-            {/* Copyright */}
             <p className="text-center font-medium">
-              &copy; 2025 Cigar Manor — <em>&quot;Where Connoisseurs of Cool Meet Pleasure&quot;</em>
+              &copy; 2025 Cigar Manor —{" "}
+              <em>&quot;Where Connoisseurs of Cool Meet Pleasure&quot;</em>
             </p>
 
-            {/* Social Links */}
             <div className="flex gap-6">
               <a
                 href="https://x.com"
@@ -188,12 +208,8 @@ export default function RootLayout({
             </div>
           </div>
 
-          {/* Footer Links */}
           <div className="absolute right-6 bottom-6 flex space-x-6">
-            <Link
-              href="/help"
-              className="text-sm font-medium hover:underline"
-            >
+            <Link href="/help" className="text-sm font-medium hover:underline">
               Help & Information
             </Link>
             <Link
