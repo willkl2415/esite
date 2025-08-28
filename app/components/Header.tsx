@@ -1,69 +1,63 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { UserIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import LanguageSwitcher from "../language-switcher";
-import { useTranslation } from "../dictionary";
+import { labels } from "../dictionary";
+
+function getLang(): string {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search).get("lang") || "en";
+  }
+  return "en";
+}
 
 export default function Header() {
-  const { t } = useTranslation();
+  const lang = getLang();
+  const t = labels[lang] || labels.en;
 
   const navItems = [
-    { label: t("home"), href: "/" },
-    { label: t("about"), href: "/about-us" },
-    { label: t("history"), href: "/history" },
-    { label: t("awarded"), href: "/awarded-cigars" },
-    { label: t("newWorld"), href: "/new-world-cigars" },
-    { label: t("machineMade"), href: "/machine-made-cigars" },
-    { label: t("flavoured"), href: "/flavoured-cigars" },
-    { label: t("samplers"), href: "/samplers" },
-    { label: t("accessories"), href: "/accessories" },
-    { label: t("gifts"), href: "/gifts" },
-    { label: t("promotions"), href: "/promotions" },
-    { label: t("blog"), href: "/blog" },
+    { label: t.home, href: "/" },
+    { label: t.about, href: "/about-us" },
+    { label: t.history, href: "/history" },
+    { label: t.awarded, href: "/awarded-cigars" },
+    { label: t.newWorld, href: "/new-world-cigars" },
+    { label: t.machineMade, href: "/machine-made-cigars" },
+    { label: t.flavoured, href: "/flavoured-cigars" },
+    { label: t.samplers, href: "/samplers" },
+    { label: t.accessories, href: "/accessories" },
+    { label: t.gifts, href: "/gifts" },
+    { label: t.promotions, href: "/promotions" },
+    { label: t.blog, href: "/blog" },
   ];
 
   return (
-    <header className="border-b border-gray-200 bg-white">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <Image src="/logo.png" alt="Cigar Manor" width={60} height={60} />
-        </Link>
-
-        {/* Search */}
-        <div className="flex-1 mx-6">
-          <input
-            type="text"
-            placeholder={t("searchPlaceholder")}
-            className="w-full max-w-md border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff9800]"
-          />
+    <header>
+      <nav className="flex items-center justify-between px-6 py-4 border-b">
+        <div className="flex items-center space-x-4">
+          <Link href="/" className="flex items-center space-x-2">
+            <Image src="/logo.png" alt="Logo" width={60} height={60} />
+          </Link>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder={t.searchPlaceholder}
+              className="pl-10 pr-4 py-2 border rounded-lg"
+            />
+          </div>
         </div>
-
-        {/* Nav */}
-        <nav>
-          <ul className="hidden md:flex space-x-6">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-sm font-medium text-gray-700 hover:text-black"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {/* Actions */}
-        <div className="flex items-center space-x-4 ml-6">
+        <ul className="flex space-x-6">
+          {navItems.map((item) => (
+            <li key={item.href}>
+              <Link href={`${item.href}?lang=${lang}`}>{item.label}</Link>
+            </li>
+          ))}
+        </ul>
+        <div className="flex items-center space-x-4">
           <LanguageSwitcher />
-          <UserIcon className="w-6 h-6 text-gray-700" />
-          <ShoppingCartIcon className="w-6 h-6 text-gray-700" />
+          <UserIcon className="w-6 h-6" />
+          <ShoppingCartIcon className="w-6 h-6" />
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
