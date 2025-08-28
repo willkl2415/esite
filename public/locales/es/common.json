@@ -1,8 +1,19 @@
 {
   "title": "Cigar Manor",
-  "tagline": "Donde los conocedores del estilo se encuentran con el placer",
+  "tagline": "Donde los Conocedores del Estilo se Encuentran con el Placer",
   "shopNow": "Comprar Ahora",
   "learnMore": "Aprender Más",
   "finestSelection": "Nuestra Selección Más Fina",
-  "noProducts": "No hay productos destacados disponibles."
+  "home": "Inicio",
+  "about": "Sobre Nosotros",
+  "history": "Historia",
+  "awarded": "Puros Premiados",
+  "newWorld": "Puros del Nuevo Mundo",
+  "machineMade": "Puros de Máquina",
+  "flavoured": "Puros Saborizados",
+  "samplers": "Muestrarios",
+  "accessories": "Accesorios",
+  "gifts": "Regalos",
+  "promotions": "Promociones",
+  "blog": "Blog"
 }
