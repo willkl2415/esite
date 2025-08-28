@@ -6,7 +6,8 @@ import { products } from "./data/products";
 import { useTranslation } from "next-i18next";
 
 export default function HomePage() {
-  const { t } = useTranslation("home"); // ✅ use "home.json" namespace from /public/locales
+  // ✅ Use the "common" namespace from /public/locales
+  const { t } = useTranslation("common");
 
   // ✅ Limit to 3 featured products
   const featured = products.filter((p) => p.featured).slice(0, 3);
