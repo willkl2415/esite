@@ -59,10 +59,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {/* HEADER */}
         <header className="bg-white border-b">
-          {/* Top row: 3 columns */}
-          <div className="grid grid-cols-3 items-center px-6 py-3">
-            {/* Search (left) */}
-            <div className="relative max-w-md">
+          <div className="flex items-center justify-between px-6 py-3">
+            {/* Search */}
+            <div className="relative max-w-xs w-full">
               <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
               <input
                 type="text"
@@ -71,9 +70,9 @@ export default function RootLayout({
               />
             </div>
 
-            {/* Logo (center) */}
-            <div className="flex justify-center">
-              <Link href="/">
+            {/* Logo - centered */}
+            <div className="flex justify-center flex-1">
+              <Link href="/" className="flex items-center">
                 <Image
                   src="/cigar-manor.png"
                   alt="Cigar Manor Logo"
@@ -83,8 +82,8 @@ export default function RootLayout({
               </Link>
             </div>
 
-            {/* Icons (right) */}
-            <div className="flex justify-end items-center space-x-4">
+            {/* Icons */}
+            <div className="flex items-center space-x-4">
               <Link href="/account" className="flex items-center space-x-1">
                 <UserIcon className="w-6 h-6" />
                 <span className="hidden md:inline">{t.myAccount}</span>
@@ -114,23 +113,53 @@ export default function RootLayout({
 
         {/* FOOTER */}
         <footer className="bg-[#ff9800] text-black mt-16">
-          <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 items-center">
+          <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-6 items-center">
             {/* Left: socials */}
             <div className="flex justify-start space-x-4">
-              <Link href="#"><Image src="/icons/x.svg" alt="X" width={24} height={24} /></Link>
-              <Link href="#"><Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} /></Link>
-              <Link href="#"><Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} /></Link>
-              <Link href="#"><Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} /></Link>
-              <Link href="#"><Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} /></Link>
+              <Link href="#">
+                <Image src="/icons/x.svg" alt="X" width={24} height={24} />
+              </Link>
+              <Link href="#">
+                <Image
+                  src="/icons/facebook.svg"
+                  alt="Facebook"
+                  width={24}
+                  height={24}
+                />
+              </Link>
+              <Link href="#">
+                <Image
+                  src="/icons/instagram.svg"
+                  alt="Instagram"
+                  width={24}
+                  height={24}
+                />
+              </Link>
+              <Link href="#">
+                <Image
+                  src="/icons/linkedin.svg"
+                  alt="LinkedIn"
+                  width={24}
+                  height={24}
+                />
+              </Link>
+              <Link href="#">
+                <Image
+                  src="/icons/tiktok.svg"
+                  alt="TikTok"
+                  width={24}
+                  height={24}
+                />
+              </Link>
             </div>
 
-            {/* Middle: copyright + tagline */}
-            <div className="text-center text-sm">
-              <p>© 2025 Cigar Manor</p>
-              <p className="italic">"{t.footerTagline}"</p>
+            {/* Center: copyright */}
+            <div className="text-center">
+              <p className="text-sm font-medium">© 2025 Cigar Manor</p>
+              <p className="text-sm italic">&quot;{t.footerTagline}&quot;</p>
             </div>
 
-            {/* Right: Help + Contact */}
+            {/* Right: help/contact */}
             <div className="flex justify-end space-x-6 text-sm">
               <Link href="/help">{t.help}</Link>
               <Link href="/contact">{t.contact}</Link>
