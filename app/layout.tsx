@@ -57,12 +57,13 @@ export default function RootLayout({
   return (
     <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {/* Top header row */}
+        {/* HEADER */}
         <header className="bg-white border-b">
+          {/* Top row */}
           <div className="flex items-center justify-between px-6 py-3">
             {/* Search */}
-            <div className="relative max-w-md w-full">
-              <MagnifyingGlassIcon className="absolute left-3 top-2 w-5 h-5 text-gray-400" />
+            <div className="relative w-full max-w-sm">
+              <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
               <input
                 type="text"
                 placeholder={t.searchPlaceholder}
@@ -70,19 +71,19 @@ export default function RootLayout({
               />
             </div>
 
-            {/* Logo - centered */}
+            {/* Logo - truly centered */}
             <div className="flex justify-center flex-1">
               <Link href="/" className="flex items-center">
                 <Image
                   src="/cigar-manor.png"
                   alt="Cigar Manor Logo"
-                  width={80}
-                  height={80}
+                  width={100}
+                  height={100}
                 />
               </Link>
             </div>
 
-            {/* Icons */}
+            {/* Account + Cart + Language */}
             <div className="flex items-center space-x-4">
               <Link href="/account" className="flex items-center space-x-1">
                 <UserIcon className="w-6 h-6" />
@@ -108,13 +109,14 @@ export default function RootLayout({
           </nav>
         </header>
 
+        {/* MAIN */}
         <main>{children}</main>
 
-        {/* Footer */}
+        {/* FOOTER */}
         <footer className="bg-[#ff9800] text-center py-6 mt-10">
           <p className="text-sm text-black font-medium">© 2025 Cigar Manor</p>
           <p className="text-sm text-black italic">
-            "{t.footerTagline}"
+            &quot;{t.footerTagline}&quot;
           </p>
 
           {/* Social icons */}
