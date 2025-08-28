@@ -3,12 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "./data/products";
-import { useTranslation } from "next-i18next";
 
 export default function HomePage() {
-  // ✅ Use the "common" namespace from /public/locales
-  const { t } = useTranslation("common");
-
   // ✅ Limit to 3 featured products
   const featured = products.filter((p) => p.featured).slice(0, 3);
 
@@ -17,10 +13,10 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative flex flex-col justify-center items-center flex-1 py-20">
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-          {t("title")} {/* e.g. "Cigar Manor" */}
+          Cigar Manor
         </h1>
         <p className="text-xl md:text-2xl text-white italic mb-10">
-          {t("tagline")} {/* e.g. "Where Connoisseurs of Cool Meet Pleasure" */}
+          "Where Connoisseurs of Cool Meet Pleasure"
         </p>
 
         {/* CTA Buttons */}
@@ -29,20 +25,20 @@ export default function HomePage() {
             href="/awarded-cigars"
             className="bg-black hover:bg-white hover:text-black text-[#ff9800] font-semibold px-8 py-3 rounded-full shadow-md transition"
           >
-            {t("shopNow")} {/* e.g. "Shop Now" */}
+            Shop Now
           </Link>
           <Link
-            href="/about-us"
+            href="/about"
             className="border border-white text-white hover:bg-white hover:text-black font-semibold px-8 py-3 rounded-full transition"
           >
-            {t("learnMore")} {/* e.g. "Learn More" */}
+            Learn More
           </Link>
         </div>
       </section>
 
       {/* Product Highlights */}
       <section className="py-16 bg-white">
-        <h2 className="text-3xl font-bold mb-10">{t("finestSelection")}</h2>
+        <h2 className="text-3xl font-bold mb-10">Our Finest Selection</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
           {featured.length > 0 ? (
             featured.map((product) => (
@@ -63,7 +59,7 @@ export default function HomePage() {
               </div>
             ))
           ) : (
-            <p>{t("noProducts")}</p>
+            <p>No products available.</p>
           )}
         </div>
       </section>
