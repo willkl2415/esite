@@ -114,25 +114,25 @@ export default function RootLayout({
         {/* MAIN */}
         <main>{children}</main>
 
-        {/* FOOTER - compact 3-column grid */}
-        <footer className="bg-[#ff9800] text-black mt-10">
-          <div className="max-w-7xl mx-auto px-6 py-4 grid md:grid-cols-3 gap-4 items-center">
+        {/* FOOTER - smaller height */}
+        <footer className="bg-[#ff9800] text-black mt-8">
+          <div className="max-w-7xl mx-auto px-6 py-2 grid md:grid-cols-3 gap-2 items-center">
             {/* Left: Socials */}
-            <div className="flex justify-start space-x-3">
+            <div className="flex justify-start space-x-2">
               <Link href="#">
-                <Image src="/icons/x.svg" alt="X" width={22} height={22} />
+                <Image src="/icons/x.svg" alt="X" width={20} height={20} />
               </Link>
               <Link href="#">
-                <Image src="/icons/facebook.svg" alt="Facebook" width={22} height={22} />
+                <Image src="/icons/facebook.svg" alt="Facebook" width={20} height={20} />
               </Link>
               <Link href="#">
-                <Image src="/icons/instagram.svg" alt="Instagram" width={22} height={22} />
+                <Image src="/icons/instagram.svg" alt="Instagram" width={20} height={20} />
               </Link>
               <Link href="#">
-                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={22} height={22} />
+                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={20} height={20} />
               </Link>
               <Link href="#">
-                <Image src="/icons/tiktok.svg" alt="TikTok" width={22} height={22} />
+                <Image src="/icons/tiktok.svg" alt="TikTok" width={20} height={20} />
               </Link>
             </div>
 
