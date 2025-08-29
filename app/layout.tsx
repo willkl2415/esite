@@ -114,25 +114,25 @@ export default function RootLayout({
         {/* MAIN */}
         <main>{children}</main>
 
-        {/* FOOTER - smaller height */}
-        <footer className="bg-[#ff9800] text-black mt-8">
-          <div className="max-w-7xl mx-auto px-6 py-2 grid md:grid-cols-3 gap-2 items-center">
+        {/* FOOTER - even smaller height */}
+        <footer className="bg-[#ff9800] text-black mt-6">
+          <div className="max-w-7xl mx-auto px-4 py-1 grid md:grid-cols-3 gap-2 items-center">
             {/* Left: Socials */}
             <div className="flex justify-start space-x-2">
               <Link href="#">
-                <Image src="/icons/x.svg" alt="X" width={20} height={20} />
+                <Image src="/icons/x.svg" alt="X" width={18} height={18} />
               </Link>
               <Link href="#">
-                <Image src="/icons/facebook.svg" alt="Facebook" width={20} height={20} />
+                <Image src="/icons/facebook.svg" alt="Facebook" width={18} height={18} />
               </Link>
               <Link href="#">
-                <Image src="/icons/instagram.svg" alt="Instagram" width={20} height={20} />
+                <Image src="/icons/instagram.svg" alt="Instagram" width={18} height={18} />
               </Link>
               <Link href="#">
-                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={20} height={20} />
+                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={18} height={18} />
               </Link>
               <Link href="#">
-                <Image src="/icons/tiktok.svg" alt="TikTok" width={20} height={20} />
+                <Image src="/icons/tiktok.svg" alt="TikTok" width={18} height={18} />
               </Link>
             </div>
 
@@ -143,7 +143,7 @@ export default function RootLayout({
             </div>
 
             {/* Right: Links */}
-            <div className="flex justify-end space-x-4 text-xs">
+            <div className="flex justify-end space-x-3 text-xs">
               <Link href="/help">{t.help}</Link>
               <Link href="/contact">{t.contact}</Link>
             </div>
