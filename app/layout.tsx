@@ -60,11 +60,11 @@ export default function RootLayout({
         {/* HEADER */}
         <header className="bg-white border-b sticky top-0 z-50 shadow">
           {/* Top row in 3-column grid */}
-          <div className="grid grid-cols-3 items-center px-6 py-3">
+          <div className="grid grid-cols-3 items-center px-6 py-2.5">
             {/* Left: Search */}
             <div className="flex justify-start">
               <div className="relative w-64">
-                <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                <MagnifyingGlassIcon className="absolute left-3 top-2 w-5 h-5 text-gray-400" />
                 <input
                   type="text"
                   placeholder={t.searchPlaceholder}
@@ -88,11 +88,11 @@ export default function RootLayout({
             {/* Right: Account / Cart / Language */}
             <div className="flex justify-end items-center space-x-4">
               <Link href="/account" className="flex items-center space-x-1">
-                <UserIcon className="w-6 h-6" />
+                <UserIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">{t.myAccount}</span>
               </Link>
               <Link href="/cart" className="flex items-center space-x-1">
-                <ShoppingCartIcon className="w-6 h-6" />
+                <ShoppingCartIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">£0.00</span>
               </Link>
               <LanguageSwitcher />
@@ -114,7 +114,7 @@ export default function RootLayout({
         {/* MAIN */}
         <main>{children}</main>
 
-        {/* FOOTER - even smaller height */}
+        {/* FOOTER - reduced further */}
         <footer className="bg-[#ff9800] text-black mt-6">
           <div className="max-w-7xl mx-auto px-4 py-1 grid md:grid-cols-3 gap-2 items-center">
             {/* Left: Socials */}
