@@ -36,7 +36,10 @@ export const metadata: Metadata = {
 };
 
 // Collect all translations
-const translations: Record<string, any> = {
+type Translation = Record<string, string>;
+
+const translations: Record<string, Translation> = {
+
   en,
   es,
   fr,
