@@ -27,7 +27,7 @@ export default function AboutPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Salman Khan ULLAH</h2>
           <p className="text-gray-700 leading-relaxed">
-            {t.aboutSection1}
+            {t.aboutPageBody}
           </p>
         </div>
       </div>
@@ -37,7 +37,7 @@ export default function AboutPage() {
         <div className="order-2 md:order-1">
           <h2 className="text-2xl font-bold mb-4">Barbara Kerekes</h2>
           <p className="text-gray-700 leading-relaxed">
-            {t.aboutSection2}
+            {t.aboutPageBody}
           </p>
         </div>
         <div className="order-1 md:order-2">
