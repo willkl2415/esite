@@ -1,9 +1,4 @@
 {
-  "title": "Cigar Manor",
-  "tagline": "Where Connoisseurs of Cool Meet Pleasure",
-  "shopNow": "Shop Now",
-  "learnMore": "Learn More",
-  "finestSelection": "Our Finest Selection",
   "home": "Home",
   "about": "About Us",
   "history": "History",
@@ -15,5 +10,9 @@
   "accessories": "Accessories",
   "gifts": "Gifts",
   "promotions": "Promotions",
-  "blog": "Blog"
+  "blog": "Blog",
+  "searchPlaceholder": "Search for products...",
+  "myAccount": "My Account",
+  "help": "Help",
+  "contact": "Contact"
 }

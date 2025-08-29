@@ -9,7 +9,16 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import LanguageSwitcher from "./language-switcher";
-import { labels } from "./dictionary";
+
+// Import JSON translations
+import en from "../public/locales/en/common.json";
+import es from "../public/locales/es/common.json";
+import fr from "../public/locales/fr/common.json";
+import de from "../public/locales/de/common.json";
+import zh from "../public/locales/zh/common.json";
+import pt from "../public/locales/pt/common.json";
+import ar from "../public/locales/ar/common.json";
+import it from "../public/locales/it/common.json";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +35,18 @@ export const metadata: Metadata = {
   description: "Luxury Cigars & Lifestyle",
 };
 
+// Collect all translations
+const translations: Record<string, any> = {
+  en,
+  es,
+  fr,
+  de,
+  zh,
+  pt,
+  ar,
+  it,
+};
+
 function getLang(): string {
   if (typeof window !== "undefined") {
     return new URLSearchParams(window.location.search).get("lang") || "en";
@@ -37,7 +58,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const lang = getLang();
-  const t = labels[lang] || labels.en;
+  const t = translations[lang] || translations.en;
 
   const navItems = [
     { label: t.home, href: "/" },
@@ -114,7 +135,7 @@ export default function RootLayout({
         {/* MAIN */}
         <main>{children}</main>
 
-        {/* FOOTER - reduced further */}
+        {/* FOOTER */}
         <footer className="bg-[#ff9800] text-black mt-6">
           <div className="max-w-7xl mx-auto px-4 py-1 grid md:grid-cols-3 gap-2 items-center">
             {/* Left: Socials */}
@@ -139,7 +160,7 @@ export default function RootLayout({
             {/* Center: Copyright */}
             <div className="text-center text-xs">
               <p>© 2025 Cigar Manor</p>
-              <p className="italic">&quot;{t.footerTagline}&quot;</p>
+              <p className="italic">&quot;{t.footerTagline || "Luxury Cigars & Lifestyle"}&quot;</p>
             </div>
 
             {/* Right: Links */}

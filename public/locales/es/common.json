@@ -1,9 +1,4 @@
 {
-  "title": "Cigar Manor",
-  "tagline": "Donde los Conocedores del Estilo se Encuentran con el Placer",
-  "shopNow": "Comprar Ahora",
-  "learnMore": "Aprender Más",
-  "finestSelection": "Nuestra Selección Más Fina",
   "home": "Inicio",
   "about": "Sobre Nosotros",
   "history": "Historia",
@@ -15,5 +10,9 @@
   "accessories": "Accesorios",
   "gifts": "Regalos",
   "promotions": "Promociones",
-  "blog": "Blog"
+  "blog": "Blog",
+  "searchPlaceholder": "Buscar productos...",
+  "myAccount": "Mi Cuenta",
+  "help": "Ayuda",
+  "contact": "Contacto"
 }
