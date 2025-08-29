@@ -51,55 +51,44 @@ export default function BlogPostPage() {
 
   if (!post) {
     return (
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <div className="bg-white p-8 rounded-lg shadow-md text-center">
-          <h1 className="text-2xl font-bold">Post not found</h1>
-          <p className="text-gray-700 mt-4">
-            Sorry, we couldn’t find the article you were looking for.
-          </p>
-          <Link
-            href="/blog"
-            className="text-[#ff9800] hover:text-black mt-4 block"
-          >
-            ← Back to Blog
-          </Link>
-        </div>
+      <div className="p-10 max-w-4xl mx-auto text-center">
+        <h1 className="text-2xl font-bold text-red-600">Post Not Found</h1>
+        <Link href="/blog" className="text-[#ff9800] hover:text-black mt-4 block">
+          ← Back to Blog
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12">
-      <div className="bg-white p-8 rounded-lg shadow-md">
-        {/* Back link */}
-        <Link
-          href="/blog"
-          className="text-[#ff9800] hover:text-black text-sm mb-6 inline-block"
-        >
-          ← Back to Blog
-        </Link>
+    <div className="p-10 max-w-4xl mx-auto leading-relaxed text-gray-800">
+      {/* Back Link */}
+      <Link href="/blog" className="text-[#ff9800] hover:text-black text-sm mb-6 inline-block">
+        ← Back to Blog
+      </Link>
 
-        {/* Title & Date */}
-        <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
-        <p className="text-sm text-gray-500 mb-6">{post.date}</p>
+      {/* Title */}
+      <h1 className="text-3xl font-bold mb-2 text-[#ff9800]">{post.title}</h1>
+      <p className="text-gray-500 mb-6">{post.date}</p>
 
-        {/* Image */}
+      {/* Image with size constraints */}
+      <div className="flex justify-center mb-6">
         <Image
           src={post.image}
           alt={post.title}
-          width={800}
-          height={500}
-          className="rounded-lg shadow mb-6 w-full h-auto object-cover"
+          width={700}
+          height={400}
+          className="rounded-xl shadow-lg object-cover max-h-[400px] w-auto"
         />
+      </div>
 
-        {/* Content */}
-        <div className="prose max-w-none text-gray-800">
-          {post.content.map((para, idx) => (
-            <p key={idx} className="mb-4">
-              {para}
-            </p>
-          ))}
-        </div>
+      {/* Content */}
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        {post.content.map((para, idx) => (
+          <p key={idx} className="mb-4">
+            {para}
+          </p>
+        ))}
       </div>
     </div>
   );
