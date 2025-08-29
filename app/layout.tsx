@@ -116,24 +116,34 @@ export default function RootLayout({
 
         {/* FOOTER - 3-column grid */}
         <footer className="bg-[#ff9800] text-black mt-10">
-          <div className="max-w-7xl mx-auto px-6 py-4 grid md:grid-cols-3 items-center">
+          <div className="max-w-7xl mx-auto px-6 py-6 grid md:grid-cols-3 gap-6 items-center">
             {/* Left: Socials */}
-            <div className="flex justify-start space-x-3">
-              <Link href="#"><Image src="/icons/x.svg" alt="X" width={20} height={20} /></Link>
-              <Link href="#"><Image src="/icons/facebook.svg" alt="Facebook" width={20} height={20} /></Link>
-              <Link href="#"><Image src="/icons/instagram.svg" alt="Instagram" width={20} height={20} /></Link>
-              <Link href="#"><Image src="/icons/linkedin.svg" alt="LinkedIn" width={20} height={20} /></Link>
-              <Link href="#"><Image src="/icons/tiktok.svg" alt="TikTok" width={20} height={20} /></Link>
+            <div className="flex justify-start space-x-4">
+              <Link href="#">
+                <Image src="/icons/x.svg" alt="X" width={24} height={24} />
+              </Link>
+              <Link href="#">
+                <Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} />
+              </Link>
+              <Link href="#">
+                <Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} />
+              </Link>
+              <Link href="#">
+                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
+              </Link>
+              <Link href="#">
+                <Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} />
+              </Link>
             </div>
 
             {/* Center: Copyright */}
-            <div className="text-center text-xs">
+            <div className="text-center text-sm">
               <p>© 2025 Cigar Manor</p>
-              <p className="italic">"{t.footerTagline}"</p>
+              <p className="italic">&quot;{t.footerTagline}&quot;</p>
             </div>
 
             {/* Right: Links */}
-            <div className="flex justify-end space-x-4 text-xs">
+            <div className="flex justify-end space-x-6 text-sm">
               <Link href="/help">{t.help}</Link>
               <Link href="/contact">{t.contact}</Link>
             </div>
