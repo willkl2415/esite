@@ -139,7 +139,7 @@ export default function RootLayout({
             {/* Center: Copyright */}
             <div className="text-center text-sm">
               <p>© 2025 Cigar Manor</p>
-              <p className="italic">"{t.footerTagline}"</p>
+              <p className="italic">&quot;{t.footerTagline}&quot;</p>
             </div>
 
             {/* Right: Links */}
