@@ -21,12 +21,13 @@ export const labels: Record<string, Record<string, string>> = {
     help: "Help & Information",
     contact: "Contact",
     aboutPageTitle: "About Us",
-    aboutPageBody:
+    aboutSection1:
       "Cigar Manor was founded in 2021 by Sarisap B.K., a former boxer with a passion for cigars. During his career, cigars were a way to unwind and reflect. Inspired by his late father M.S. Ullah, he created Cigar Manor to share this love with the world.",
+    aboutSection2:
+      "Barbara Kerekes brings her creativity and passion to Cigar Manor, shaping its modern identity. She ensures that tradition meets innovation, helping transform the brand into a global lifestyle choice for cigar lovers.",
     historyPageTitle: "Our History",
     historyPageBody:
       "From humble beginnings to a global presence, Cigar Manor blends tradition and modern flair to bring you the finest cigar experience.",
-    // ✅ Added keys
     searchPlaceholder: "Search for products...",
     x: "X",
     facebook: "Facebook",
@@ -56,12 +57,13 @@ export const labels: Record<string, Record<string, string>> = {
     help: "Ayuda e Información",
     contact: "Contacto",
     aboutPageTitle: "Sobre Nosotros",
-    aboutPageBody:
-      "Cigar Manor fue fundado en 2021 por Sarisap B.K., un ex boxeador apasionado por los cigarros. Durante su carrera, los cigarros fueron una forma de relajarse y reflexionar. Inspirado por su difunto padre M.S. Ullah, creó Cigar Manor para compartir este amor con el mundo.",
+    aboutSection1:
+      "Cigar Manor fue fundado en 2021 por Sarisap B.K., un ex boxeador apasionado por los cigarros. Durante su carrera, los cigarros eran una forma de relajarse y reflexionar. Inspirado por su difunto padre M.S. Ullah, creó Cigar Manor para compartir este amor con el mundo.",
+    aboutSection2:
+      "Barbara Kerekes aporta su creatividad y pasión a Cigar Manor, dando forma a su identidad moderna. Ella asegura que la tradición se encuentre con la innovación, ayudando a transformar la marca en una elección de estilo de vida global para los amantes de los cigarros.",
     historyPageTitle: "Nuestra Historia",
     historyPageBody:
       "De comienzos humildes a una presencia global, Cigar Manor combina tradición y estilo moderno para ofrecer la mejor experiencia de cigarros.",
-    // ✅ Added keys
     searchPlaceholder: "Buscar productos...",
     x: "X",
     facebook: "Facebook",
@@ -90,12 +92,13 @@ export const labels: Record<string, Record<string, string>> = {
     help: "Aide & Informations",
     contact: "Contact",
     aboutPageTitle: "À Propos",
-    aboutPageBody:
+    aboutSection1:
       "Cigar Manor a été fondé en 2021 par Sarisap B.K., un ancien boxeur passionné par les cigares. Pendant sa carrière, les cigares étaient un moyen de se détendre et de réfléchir. Inspiré par son défunt père M.S. Ullah, il a créé Cigar Manor pour partager cet amour avec le monde.",
+    aboutSection2:
+      "Barbara Kerekes apporte sa créativité et sa passion à Cigar Manor, façonnant son identité moderne. Elle veille à ce que la tradition rencontre l’innovation, aidant à transformer la marque en un choix de style de vie mondial pour les amateurs de cigares.",
     historyPageTitle: "Notre Histoire",
     historyPageBody:
       "D’humbles débuts à une présence mondiale, Cigar Manor allie tradition et style moderne pour offrir la meilleure expérience de cigare.",
-    // ✅ Added keys
     searchPlaceholder: "Rechercher des produits...",
     x: "X",
     facebook: "Facebook",
