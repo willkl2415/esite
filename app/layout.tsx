@@ -58,12 +58,12 @@ export default function RootLayout({
     <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {/* HEADER */}
-        <header className="bg-white border-b">
+        <header className="bg-white border-b sticky top-0 z-50 shadow">
           {/* Top row in 3-column grid */}
           <div className="grid grid-cols-3 items-center px-6 py-3">
-            {/* Left: Search */}
+            {/* Left: Search (narrower like old version) */}
             <div className="flex justify-start">
-              <div className="relative w-full max-w-xs">
+              <div className="relative w-64">
                 <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
                 <input
                   type="text"
@@ -100,8 +100,8 @@ export default function RootLayout({
           </div>
 
           {/* Sticky Nav */}
-          <nav className="bg-[#ff9800] sticky top-0 z-50">
-            <ul className="flex justify-center space-x-6 py-3">
+          <nav className="bg-white border-t">
+            <ul className="flex justify-center space-x-6 py-3 text-sm font-medium text-black">
               {navItems.map((item) => (
                 <li key={item.href}>
                   <Link href={`${item.href}?lang=${lang}`}>{item.label}</Link>
