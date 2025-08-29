@@ -24,20 +24,20 @@ export default function AboutPage() {
             className="rounded-lg shadow-lg object-cover w-full h-[350px]"
           />
         </div>
-        <div>
+        <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-4">Salman Khan ULLAH</h2>
-          <p className="text-gray-700 leading-relaxed">
-            {t.aboutPageBody}
+          <p className="text-gray-800 leading-relaxed">
+            {t.aboutSection1}
           </p>
         </div>
       </div>
 
       {/* Section 2 */}
       <div className="grid md:grid-cols-2 gap-12 items-center">
-        <div className="order-2 md:order-1">
+        <div className="order-2 md:order-1 bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-4">Barbara Kerekes</h2>
-          <p className="text-gray-700 leading-relaxed">
-            {t.aboutPageBody}
+          <p className="text-gray-800 leading-relaxed">
+            {t.aboutSection2}
           </p>
         </div>
         <div className="order-1 md:order-2">
