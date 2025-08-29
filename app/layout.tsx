@@ -61,7 +61,7 @@ export default function RootLayout({
         <header className="bg-white border-b sticky top-0 z-50 shadow">
           {/* Top row in 3-column grid */}
           <div className="grid grid-cols-3 items-center px-6 py-3">
-            {/* Left: Search (narrower like old version) */}
+            {/* Left: Search */}
             <div className="flex justify-start">
               <div className="relative w-64">
                 <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
@@ -114,37 +114,36 @@ export default function RootLayout({
         {/* MAIN */}
         <main>{children}</main>
 
-        {/* FOOTER - 3-column grid */}
-        <footer className="bg-[#ff9800] text-black mt-16">
-          {/* 🔥 Reduced py-10 → py-5 */}
-          <div className="max-w-7xl mx-auto px-6 py-5 grid md:grid-cols-3 gap-6 items-center">
+        {/* FOOTER - reduced height */}
+        <footer className="bg-[#ff9800] text-black mt-10">
+          <div className="max-w-7xl mx-auto px-6 py-5 grid md:grid-cols-3 gap-4 items-center">
             {/* Left: Socials */}
-            <div className="flex justify-start space-x-4">
+            <div className="flex justify-start space-x-3">
               <Link href="#">
-                <Image src="/icons/x.svg" alt="X" width={24} height={24} />
+                <Image src="/icons/x.svg" alt="X" width={20} height={20} />
               </Link>
               <Link href="#">
-                <Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} />
+                <Image src="/icons/facebook.svg" alt="Facebook" width={20} height={20} />
               </Link>
               <Link href="#">
-                <Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} />
+                <Image src="/icons/instagram.svg" alt="Instagram" width={20} height={20} />
               </Link>
               <Link href="#">
-                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
+                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={20} height={20} />
               </Link>
               <Link href="#">
-                <Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} />
+                <Image src="/icons/tiktok.svg" alt="TikTok" width={20} height={20} />
               </Link>
             </div>
 
             {/* Center: Copyright */}
-            <div className="text-center text-sm">
+            <div className="text-center text-xs">
               <p>© 2025 Cigar Manor</p>
               <p className="italic">&quot;{t.footerTagline}&quot;</p>
             </div>
 
             {/* Right: Links */}
-            <div className="flex justify-end space-x-6 text-sm">
+            <div className="flex justify-end space-x-4 text-xs">
               <Link href="/help">{t.help}</Link>
               <Link href="/contact">{t.contact}</Link>
             </div>
