@@ -115,8 +115,9 @@ export default function RootLayout({
         <main>{children}</main>
 
         {/* FOOTER - 3-column grid */}
-        <footer className="bg-[#ff9800] text-black mt-10">
-          <div className="max-w-7xl mx-auto px-6 py-6 grid md:grid-cols-3 gap-6 items-center">
+        <footer className="bg-[#ff9800] text-black mt-16">
+          {/* 🔥 Reduced py-10 → py-5 */}
+          <div className="max-w-7xl mx-auto px-6 py-5 grid md:grid-cols-3 gap-6 items-center">
             {/* Left: Socials */}
             <div className="flex justify-start space-x-4">
               <Link href="#">
