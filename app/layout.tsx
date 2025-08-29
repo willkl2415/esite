@@ -59,19 +59,22 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {/* HEADER */}
         <header className="bg-white border-b">
-          <div className="flex items-center justify-between px-6 py-3">
-            {/* Search */}
-            <div className="relative max-w-xs w-full">
-              <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder={t.searchPlaceholder}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg"
-              />
+          {/* Top row in 3-column grid */}
+          <div className="grid grid-cols-3 items-center px-6 py-3">
+            {/* Left: Search */}
+            <div className="flex justify-start">
+              <div className="relative w-full max-w-xs">
+                <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg"
+                />
+              </div>
             </div>
 
-            {/* Logo - centered */}
-            <div className="flex justify-center flex-1">
+            {/* Center: Logo */}
+            <div className="flex justify-center">
               <Link href="/" className="flex items-center">
                 <Image
                   src="/cigar-manor.png"
@@ -82,8 +85,8 @@ export default function RootLayout({
               </Link>
             </div>
 
-            {/* Icons */}
-            <div className="flex items-center space-x-4">
+            {/* Right: Account / Cart / Language */}
+            <div className="flex justify-end items-center space-x-4">
               <Link href="/account" className="flex items-center space-x-1">
                 <UserIcon className="w-6 h-6" />
                 <span className="hidden md:inline">{t.myAccount}</span>
@@ -96,7 +99,7 @@ export default function RootLayout({
             </div>
           </div>
 
-          {/* Sticky Nav Bar */}
+          {/* Sticky Nav */}
           <nav className="bg-[#ff9800] sticky top-0 z-50">
             <ul className="flex justify-center space-x-6 py-3">
               {navItems.map((item) => (
@@ -111,55 +114,35 @@ export default function RootLayout({
         {/* MAIN */}
         <main>{children}</main>
 
-        {/* FOOTER */}
+        {/* FOOTER - 3-column grid */}
         <footer className="bg-[#ff9800] text-black mt-16">
           <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-6 items-center">
-            {/* Left: socials */}
+            {/* Left: Socials */}
             <div className="flex justify-start space-x-4">
               <Link href="#">
                 <Image src="/icons/x.svg" alt="X" width={24} height={24} />
               </Link>
               <Link href="#">
-                <Image
-                  src="/icons/facebook.svg"
-                  alt="Facebook"
-                  width={24}
-                  height={24}
-                />
+                <Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} />
               </Link>
               <Link href="#">
-                <Image
-                  src="/icons/instagram.svg"
-                  alt="Instagram"
-                  width={24}
-                  height={24}
-                />
+                <Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} />
               </Link>
               <Link href="#">
-                <Image
-                  src="/icons/linkedin.svg"
-                  alt="LinkedIn"
-                  width={24}
-                  height={24}
-                />
+                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
               </Link>
               <Link href="#">
-                <Image
-                  src="/icons/tiktok.svg"
-                  alt="TikTok"
-                  width={24}
-                  height={24}
-                />
+                <Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} />
               </Link>
             </div>
 
-            {/* Center: copyright */}
-            <div className="text-center">
-              <p className="text-sm font-medium">© 2025 Cigar Manor</p>
-              <p className="text-sm italic">&quot;{t.footerTagline}&quot;</p>
+            {/* Center: Copyright */}
+            <div className="text-center text-sm">
+              <p>© 2025 Cigar Manor</p>
+              <p className="italic">"{t.footerTagline}"</p>
             </div>
 
-            {/* Right: help/contact */}
+            {/* Right: Links */}
             <div className="flex justify-end space-x-6 text-sm">
               <Link href="/help">{t.help}</Link>
               <Link href="/contact">{t.contact}</Link>
