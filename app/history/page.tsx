@@ -56,7 +56,7 @@ export default function HistoryPage() {
       <h1 className="text-4xl font-bold text-center mb-12">
         🌍 The History of Cigars
       </h1>
-      <div className="space-y-24">
+      <div className="space-y-16">
         {sections.map((section, index) => (
           <div
             key={index}
@@ -64,12 +64,15 @@ export default function HistoryPage() {
               index % 2 === 1 ? "md:flex-row-reverse" : ""
             }`}
           >
-            <div>
+            {/* Narrative in white card */}
+            <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
               <p className="text-lg text-gray-700 leading-relaxed">
                 {section.text}
               </p>
             </div>
+
+            {/* Image */}
             <div className="flex justify-center">
               <div className="w-[500px] h-[300px] relative">
                 <Image
