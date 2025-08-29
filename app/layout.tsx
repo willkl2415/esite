@@ -120,19 +120,19 @@ export default function RootLayout({
             {/* Left: Socials */}
             <div className="flex justify-start space-x-2">
               <Link href="#">
-                <Image src="/icons/x.svg" alt="X" width={18} height={18} />
+                <Image src="/icons/x.svg" alt="X" width={24} height={24} />
               </Link>
               <Link href="#">
-                <Image src="/icons/facebook.svg" alt="Facebook" width={18} height={18} />
+                <Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} />
               </Link>
               <Link href="#">
-                <Image src="/icons/instagram.svg" alt="Instagram" width={18} height={18} />
+                <Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} />
               </Link>
               <Link href="#">
-                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={18} height={18} />
+                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
               </Link>
               <Link href="#">
-                <Image src="/icons/tiktok.svg" alt="TikTok" width={18} height={18} />
+                <Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} />
               </Link>
             </div>
 

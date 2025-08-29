@@ -21,11 +21,16 @@ export default function LanguageSwitcher() {
     <select
       value={lang}
       onChange={(e) => handleChange(e.target.value)}
-      className="border px-2 py-1 rounded"
+      className="border px-2 py-1 rounded text-sm"
     >
       <option value="en">EN</option>
       <option value="es">ES</option>
       <option value="fr">FR</option>
+      <option value="de">DE</option>
+      <option value="zh">中文</option>
+      <option value="pt">PT</option>
+      <option value="ar">AR</option>
+      <option value="it">IT</option>
     </select>
   );
 }
