@@ -8,6 +8,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import GoogleTranslateMenu from "./components/GoogleTranslateMenu"; // Import the new component
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -68,8 +69,9 @@ export default function RootLayout({
                 <ShoppingCartIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">£0.00</span>
               </Link>
-              {/* ✅ Google Translate Dropdown */}
-              <div id="google_translate_element" />
+
+              {/* Custom Google Translate Menu */}
+              <GoogleTranslateMenu /> {/* Use the new component here */}
             </div>
           </div>
 
@@ -131,35 +133,6 @@ export default function RootLayout({
           </div>
         </footer>
 
-        {/* GOOGLE TRANSLATE SCRIPT */}
-        <script
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html: `
-              function googleTranslateElementInit() {
-                new google.translate.TranslateElement(
-                  {pageLanguage: 'en'},
-                  'google_translate_element'
-                );
-              }
-            `,
-          }}
-        />
-        <script
-          type="text/javascript"
-          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        />
-
-        {/* CSS Fix: Hide branding but keep dropdown */}
-        <style>{`
-          .goog-logo-link,
-          .goog-te-gadget span {
-            display: none !important;
-          }
-          .goog-te-gadget {
-            color: transparent !important;
-          }
-        `}</style>
       </body>
     </html>
   );
