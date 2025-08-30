@@ -8,17 +8,6 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import LanguageSwitcher from "./language-switcher";
-
-// Import JSON translations
-import en from "../public/locales/en/common.json";
-import es from "../public/locales/es/common.json";
-import fr from "../public/locales/fr/common.json";
-import de from "../public/locales/de/common.json";
-import zh from "../public/locales/zh/common.json";
-import pt from "../public/locales/pt/common.json";
-import ar from "../public/locales/ar/common.json";
-import it from "../public/locales/it/common.json";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,57 +24,11 @@ export const metadata: Metadata = {
   description: "Luxury Cigars & Lifestyle",
 };
 
-// Collect all translations
-type Translation = Record<string, string>;
-
-const translations: Record<string, Translation> = {
-  en,
-  es,
-  fr,
-  de,
-  zh,
-  pt,
-  ar,
-  it,
-};
-
-function getLang(): string {
-  if (typeof window !== "undefined") {
-    return new URLSearchParams(window.location.search).get("lang") || "en";
-  }
-  return "en";
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const lang = getLang();
-  const current = translations[lang] || translations.en;
-
-  // ✅ Proxy fallback: if a key is missing, fallback to English
-  const t = new Proxy(current, {
-    get: (target, prop: string) => {
-      return target[prop] || translations.en[prop] || prop;
-    },
-  });
-
-  const navItems = [
-    { label: t.home, href: "/" },
-    { label: t.about, href: "/about-us" },
-    { label: t.history, href: "/history" },
-    { label: t.awarded, href: "/awarded-cigars" },
-    { label: t.newWorld, href: "/new-world-cigars" },
-    { label: t.machineMade, href: "/machine-made-cigars" },
-    { label: t.flavoured, href: "/flavoured-cigars" },
-    { label: t.samplers, href: "/samplers" },
-    { label: t.accessories, href: "/accessories" },
-    { label: t.gifts, href: "/gifts" },
-    { label: t.promotions, href: "/promotions" },
-    { label: t.blog, href: "/blog" },
-  ];
-
   return (
-    <html lang={lang}>
+    <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {/* HEADER */}
         <header className="bg-white border-b sticky top-0 z-50 shadow">
@@ -97,7 +40,7 @@ export default function RootLayout({
                 <MagnifyingGlassIcon className="absolute left-3 top-2 w-5 h-5 text-gray-400" />
                 <input
                   type="text"
-                  placeholder={t.searchPlaceholder}
+                  placeholder="Search for products..."
                   className="w-full pl-10 pr-4 py-2 border rounded-lg"
                 />
               </div>
@@ -119,24 +62,32 @@ export default function RootLayout({
             <div className="flex justify-end items-center space-x-4">
               <Link href="/account" className="flex items-center space-x-1">
                 <UserIcon className="w-[18px] h-[18px]" />
-                <span className="hidden md:inline">{t.myAccount}</span>
+                <span className="hidden md:inline">My Account</span>
               </Link>
               <Link href="/cart" className="flex items-center space-x-1">
                 <ShoppingCartIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">£0.00</span>
               </Link>
-              <LanguageSwitcher />
+              {/* Google Translate dropdown will appear here */}
+              <div id="google_translate_element" />
             </div>
           </div>
 
           {/* Sticky Nav */}
           <nav className="bg-white border-t">
             <ul className="flex justify-center space-x-6 py-3 text-sm font-medium text-black">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link href={`${item.href}?lang=${lang}`}>{item.label}</Link>
-                </li>
-              ))}
+              <li><Link href="/">Home</Link></li>
+              <li><Link href="/about-us">About Us</Link></li>
+              <li><Link href="/history">History</Link></li>
+              <li><Link href="/awarded-cigars">Awarded Cigars</Link></li>
+              <li><Link href="/new-world-cigars">New World Cigars</Link></li>
+              <li><Link href="/machine-made-cigars">Machine-Made Cigars</Link></li>
+              <li><Link href="/flavoured-cigars">Flavoured Cigars</Link></li>
+              <li><Link href="/samplers">Samplers</Link></li>
+              <li><Link href="/accessories">Accessories</Link></li>
+              <li><Link href="/gifts">Gifts</Link></li>
+              <li><Link href="/promotions">Promotions</Link></li>
+              <li><Link href="/blog">Blog</Link></li>
             </ul>
           </nav>
         </header>
@@ -169,16 +120,35 @@ export default function RootLayout({
             {/* Center: Copyright */}
             <div className="text-center text-xs">
               <p>© 2025 Cigar Manor</p>
-              <p className="italic">&quot;{t.footerTagline || "Luxury Cigars & Lifestyle"}&quot;</p>
+              <p className="italic">"Luxury Cigars & Lifestyle"</p>
             </div>
 
             {/* Right: Links */}
             <div className="flex justify-end space-x-3 text-xs">
-              <Link href="/help">{t.help}</Link>
-              <Link href="/contact">{t.contact}</Link>
+              <Link href="/help">Help</Link>
+              <Link href="/contact">Contact</Link>
             </div>
           </div>
         </footer>
+
+        {/* GOOGLE TRANSLATE SCRIPT */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
+              function googleTranslateElementInit() {
+                new google.translate.TranslateElement(
+                  {pageLanguage: 'en'},
+                  'google_translate_element'
+                );
+              }
+            `,
+          }}
+        />
+        <script
+          type="text/javascript"
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        />
       </body>
     </html>
   );
