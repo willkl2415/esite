@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 
-// Extend window type
 declare global {
   interface Window {
     googleTranslateElementInit: () => void;
@@ -35,15 +34,20 @@ export default function TranslateMenu() {
         "iframe.goog-te-menu-frame"
       );
       if (frame && frame.style) {
+        // ✅ Forcefully override Google’s hidden styles
         frame.style.display = "block";
         frame.style.visibility = "visible";
+        frame.style.opacity = "1";
         frame.style.position = "absolute";
-        frame.style.top = "50px"; // position under header
-        frame.style.right = "10px"; // align near button
+        frame.style.top = "60px"; // adjust position
+        frame.style.right = "20px";
+        frame.style.zIndex = "9999"; // bring above everything
+        frame.style.width = "200px"; // optional: make it smaller
+        frame.style.height = "auto";
         clearInterval(interval);
       }
       attempts++;
-      if (attempts > 20) clearInterval(interval); // stop after ~2s
+      if (attempts > 30) clearInterval(interval); // stop after ~3s
     }, 100);
   };
 
