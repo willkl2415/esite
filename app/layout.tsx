@@ -8,7 +8,6 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import TranslateMenu from "./components/TranslateMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,7 +58,7 @@ export default function RootLayout({
               </Link>
             </div>
 
-            {/* Right: Account / Cart / Translate */}
+            {/* Right: Account / Cart / Language */}
             <div className="flex justify-end items-center space-x-4">
               <Link href="/account" className="flex items-center space-x-1">
                 <UserIcon className="w-[18px] h-[18px]" />
@@ -69,8 +68,8 @@ export default function RootLayout({
                 <ShoppingCartIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">£0.00</span>
               </Link>
-              {/* ✅ Custom Translate Menu (client component) */}
-              <TranslateMenu />
+              {/* ✅ Original Google Translate Dropdown */}
+              <div id="google_translate_element" />
             </div>
           </div>
 
@@ -131,6 +130,25 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+
+        {/* GOOGLE TRANSLATE SCRIPT */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
+              function googleTranslateElementInit() {
+                new google.translate.TranslateElement(
+                  {pageLanguage: 'en'},
+                  'google_translate_element'
+                );
+              }
+            `,
+          }}
+        />
+        <script
+          type="text/javascript"
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        />
       </body>
     </html>
   );
