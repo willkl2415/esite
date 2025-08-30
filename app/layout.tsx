@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Cigar Manor",
-  description: "Luxury Cigars & Lifestyle",
+  description: "Where Connoisseurs of Cool Meet Pleasure",
 };
 
 export default function RootLayout({
@@ -120,7 +120,7 @@ export default function RootLayout({
             {/* Center: Copyright */}
             <div className="text-center text-xs">
               <p>© 2025 Cigar Manor</p>
-              <p className="italic">"Luxury Cigars & Lifestyle"</p>
+              <p className="italic">"Where Connoisseurs of Cool Meet Pleasure"</p>
             </div>
 
             {/* Right: Links */}
