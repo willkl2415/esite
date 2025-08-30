@@ -2,19 +2,25 @@
 
 import { useEffect } from "react";
 
+// Extend window type
+declare global {
+  interface Window {
+    googleTranslateElementInit: () => void;
+    google: any;
+  }
+}
+
 export default function TranslateMenu() {
   useEffect(() => {
-    // Inject Google Translate script if not already loaded
-    const existing = document.getElementById("google-translate-script");
-    if (!existing) {
+    if (!document.getElementById("google-translate-script")) {
       const script = document.createElement("script");
       script.id = "google-translate-script";
       script.src =
         "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       document.body.appendChild(script);
 
-      (window as any).googleTranslateElementInit = () => {
-        new (window as any).google.translate.TranslateElement(
+      window.googleTranslateElementInit = () => {
+        new window.google.translate.TranslateElement(
           { pageLanguage: "en" },
           "google_translate_element"
         );
@@ -23,33 +29,33 @@ export default function TranslateMenu() {
   }, []);
 
   const openMenu = () => {
-    const frame: HTMLElement | null = document.querySelector(
-      "iframe.goog-te-menu-frame"
-    );
-    if (frame) {
-      frame.style.display = "block";
-      frame.style.visibility = "visible";
-      frame.style.opacity = "1";
-      frame.style.zIndex = "9999";
-    } else {
-      alert("Language menu is still loading. Please try again in 1–2 seconds.");
-    }
+    let attempts = 0;
+    const interval = setInterval(() => {
+      const frame = document.querySelector<HTMLIFrameElement>(
+        "iframe.goog-te-menu-frame"
+      );
+      if (frame && frame.style) {
+        frame.style.display = "block";
+        frame.style.visibility = "visible";
+        frame.style.position = "absolute";
+        frame.style.top = "50px"; // position under header
+        frame.style.right = "10px"; // align near button
+        clearInterval(interval);
+      }
+      attempts++;
+      if (attempts > 20) clearInterval(interval); // stop after ~2s
+    }, 100);
   };
 
   return (
-    <div>
-      {/* Hidden default widget */}
-      <div id="google_translate_element" style={{ display: "none" }} />
-
-      {/* Custom button */}
+    <div className="flex items-center cursor-pointer">
+      <div id="google_translate_element" className="hidden" />
       <button
+        id="custom_translate_button"
+        className="border px-3 py-1 rounded text-sm"
         onClick={openMenu}
-        className="border px-3 py-1 rounded cursor-pointer text-sm flex items-center space-x-1"
       >
-        <span role="img" aria-label="globe">
-          🌐
-        </span>
-        <span>Menu</span>
+        🌐 Menu
       </button>
     </div>
   );
