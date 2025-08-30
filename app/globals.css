@@ -61,3 +61,23 @@ footer {
   font-weight: 600;
   padding: 1.5rem;
 }
+
+/* === GOOGLE TRANSLATE CUSTOM MENU === */
+
+/* Hide default Google branding + dropdown */
+.goog-logo-link,
+.goog-te-gadget span,
+.goog-te-gadget-simple {
+  display: none !important;
+}
+
+/* Style custom 🌐 Menu button */
+#custom_translate_button {
+  @apply bg-white text-[#000100] font-semibold px-3 py-1 rounded cursor-pointer shadow-sm hover:bg-[#000100] hover:text-white transition;
+}
+
+/* Style Google Translate dropdown menu when it appears */
+.goog-te-menu-frame {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+  border-radius: 8px !important;
+}
