@@ -39,7 +39,6 @@ export const metadata: Metadata = {
 type Translation = Record<string, string>;
 
 const translations: Record<string, Translation> = {
-
   en,
   es,
   fr,
@@ -61,7 +60,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const lang = getLang();
-  const t = translations[lang] || translations.en;
+  const current = translations[lang] || translations.en;
+
+  // ✅ Proxy fallback: if a key is missing, fallback to English
+  const t = new Proxy(current, {
+    get: (target, prop: string) => {
+      return target[prop] || translations.en[prop] || prop;
+    },
+  });
 
   const navItems = [
     { label: t.home, href: "/" },
