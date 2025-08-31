@@ -8,7 +8,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import GoogleTranslateMenu from "./components/GoogleTranslateMenu";
+import { useEffect } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +28,22 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const iframe = document.querySelector<HTMLIFrameElement>(
+        "iframe.goog-te-menu-frame"
+      );
+      if (iframe && iframe.contentDocument) {
+        const unwanted = iframe.contentDocument.querySelectorAll(
+          ".goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame"
+        );
+        unwanted.forEach((el) => (el as HTMLElement).style.display = "none");
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
@@ -68,11 +84,11 @@ export default function RootLayout({
                 <ShoppingCartIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">£0.00</span>
               </Link>
-              <GoogleTranslateMenu />
+              <div id="google_translate_element" />
             </div>
           </div>
 
-          {/* Sticky Nav */}
+          {/* Nav */}
           <nav className="bg-white border-t">
             <ul className="flex justify-center space-x-6 py-3 text-sm font-medium text-black">
               <li><Link href="/">Home</Link></li>
@@ -119,6 +135,25 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+
+        {/* GOOGLE TRANSLATE SCRIPT */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
+              function googleTranslateElementInit() {
+                new google.translate.TranslateElement(
+                  {pageLanguage: 'en'},
+                  'google_translate_element'
+                );
+              }
+            `,
+          }}
+        />
+        <script
+          type="text/javascript"
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        />
       </body>
     </html>
   );
