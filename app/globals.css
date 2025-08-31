@@ -96,19 +96,20 @@ footer {
   display: inline !important;
 }
 
-/* OPTIONAL: hide the little globe icon inside the button */
+/* Hide the little globe icon inside the button */
 #google_translate_element .goog-te-gadget-icon {
   display: none !important;
 }
 
-/* ---- Hide the "Powered by Google / Translate" block ---- */
-/* It’s rendered as a direct child <span> of .goog-te-gadget */
-#google_translate_element .goog-te-gadget > span {
+/* ---- Hide ALL "Powered by Google / Translate" text ---- */
+.goog-logo-link,
+#google_translate_element .goog-te-gadget > span,
+.goog-te-gadget span[style*="color:#666"],
+.goog-te-gadget span[style*="color: #666"] {
   display: none !important;
-}
-/* And the logo link, if Google injects it */
-#google_translate_element .goog-logo-link {
-  display: none !important;
+  visibility: hidden !important;
+  line-height: 0 !important;
+  font-size: 0 !important;
 }
 
 /* ---- Dropdown list look (inside the iframe) ---- */
@@ -116,8 +117,8 @@ footer {
   background: #ffffff !important;         /* white background */
   border: 1px solid #000100 !important;
   border-radius: 8px !important;
-  max-width: 280px !important;            /* compact width */
-  min-width: 220px !important;
+  max-width: 220px !important;            /* ✅ tighter width */
+  min-width: 180px !important;
   padding: 6px !important;
 }
 
