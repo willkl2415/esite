@@ -62,22 +62,35 @@ footer {
   padding: 1.5rem;
 }
 
-/* === GOOGLE TRANSLATE CUSTOM MENU === */
-
-/* Hide default Google branding + dropdown */
+/* === Google Translate Widget Fixes === */
 .goog-logo-link,
 .goog-te-gadget span,
-.goog-te-gadget-simple {
+.goog-te-gadget-simple .goog-te-menu-value span:first-child {
   display: none !important;
 }
 
-/* Style custom 🌐 Menu button */
-#custom_translate_button {
-  @apply bg-white text-[#000100] font-semibold px-3 py-1 rounded cursor-pointer shadow-sm hover:bg-[#000100] hover:text-white transition;
+.goog-te-gadget {
+  color: transparent !important;
+  font-size: 0 !important; /* hides leftover text */
 }
 
-/* Style Google Translate dropdown menu when it appears */
-.goog-te-menu-frame {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+/* === Custom Dropdown Style (Cigar Manor Theme) === */
+.goog-te-gadget .goog-te-combo {
+  background-color: #000100 !important;   /* black background */
+  color: #ff9800 !important;              /* orange text */
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  padding: 0.4rem 0.6rem !important;
+  border: 1px solid #ff9800 !important;   /* orange border */
   border-radius: 8px !important;
+  cursor: pointer !important;
+  appearance: none !important;            /* clean look */
+}
+
+/* Hover + Focus Effects */
+.goog-te-gadget .goog-te-combo:hover,
+.goog-te-gadget .goog-te-combo:focus {
+  background-color: #ff9800 !important;   /* orange hover */
+  color: #000100 !important;              /* black text */
+  border-color: #000100 !important;       /* black border */
 }
