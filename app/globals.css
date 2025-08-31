@@ -62,35 +62,51 @@ footer {
   padding: 1.5rem;
 }
 
-/* === Google Translate Widget Fixes === */
+/* === GOOGLE TRANSLATE WIDGET FIXES === */
+#google_translate_element {
+  display: inline-block;
+}
+
+/* Style the dropdown button */
+.goog-te-gadget-simple {
+  background: #000100 !important;
+  color: #ff9800 !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  border: none !important;
+  cursor: pointer;
+  font-size: 14px !important;
+  width: auto !important;   /* ✅ not too wide */
+}
+
+.goog-te-gadget-simple span {
+  color: #ff9800 !important;
+  font-weight: 600 !important;
+}
+
+/* Hide default Google branding text */
 .goog-logo-link,
-.goog-te-gadget span,
-.goog-te-gadget-simple .goog-te-menu-value span:first-child {
+.goog-te-gadget span[style*="color: #666"],
+.goog-te-gadget span[style*="color:#666"] {
   display: none !important;
 }
 
-.goog-te-gadget {
-  color: transparent !important;
-  font-size: 0 !important; /* hides leftover text */
+/* Dropdown list styling */
+.goog-te-menu2 {
+  background: #ffffff !important;   /* White background */
+  border: 1px solid #000100 !important;
+  border-radius: 6px !important;
 }
 
-/* === Custom Dropdown Style (Cigar Manor Theme) === */
-.goog-te-gadget .goog-te-combo {
-  background-color: #000100 !important;   /* black background */
-  color: #ff9800 !important;              /* orange text */
-  font-size: 0.9rem !important;
-  font-weight: 600 !important;
-  padding: 0.4rem 0.6rem !important;
-  border: 1px solid #ff9800 !important;   /* orange border */
-  border-radius: 8px !important;
-  cursor: pointer !important;
-  appearance: none !important;            /* clean look */
+.goog-te-menu2 td {
+  color: #000100 !important;       /* Black text */
+  font-weight: 700 !important;     /* Bold */
+  font-size: 14px !important;
+  padding: 6px 10px !important;
 }
 
-/* Hover + Focus Effects */
-.goog-te-gadget .goog-te-combo:hover,
-.goog-te-gadget .goog-te-combo:focus {
-  background-color: #ff9800 !important;   /* orange hover */
-  color: #000100 !important;              /* black text */
-  border-color: #000100 !important;       /* black border */
+.goog-te-menu2 td:hover {
+  background: #ff9800 !important;  /* Orange hover */
+  color: #ffffff !important;       /* White text on hover */
 }
