@@ -88,14 +88,16 @@ footer {
 #google_translate_element .goog-te-gadget-simple {
   background: #000100 !important;
   color: #ff9800 !important;
-  font-weight: 700 !important;
+  font-weight: 700 !important;     /* ✅ Bold */
   border-radius: 10px !important;
-  padding: 8px 14px !important;
+  padding: 6px 12px !important;    /* ✅ Slightly tighter */
   border: none !important;
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 8px !important;
-  width: auto !important;          /* compact width */
+  min-width: 120px !important;     /* ✅ Shrink width */
+  max-width: 160px !important;     /* ✅ Prevent oversized */
   box-shadow: 0 0 0 2px #ff9800 inset;
 }
 
@@ -103,7 +105,7 @@ footer {
 #google_translate_element .goog-te-gadget-simple span,
 #google_translate_element .goog-te-gadget-simple a {
   color: #ff9800 !important;
-  font-weight: 700 !important;
+  font-weight: 700 !important;     /* ✅ Bold text */
   text-decoration: none !important;
 }
 
@@ -117,5 +119,22 @@ footer {
   display: none !important;
 }
 
-/* Do NOT hide all spans anymore (that’s what broke the dropdown). */
-/* No iframe styling here (can’t reliably style cross-origin). */
+/* === Dropdown menu inside iframe === */
+.goog-te-menu2 {
+  background: #ffffff !important;
+  border: 1px solid #000100 !important;
+  border-radius: 6px !important;
+  max-width: 220px !important;     /* ✅ Smaller dropdown */
+  min-width: 160px !important;
+}
+
+.goog-te-menu2-item div {
+  color: #000100 !important;
+  font-weight: 700 !important;     /* ✅ Bold country names */
+  font-size: 14px !important;
+}
+
+.goog-te-menu2-item:hover div {
+  background: #ff9800 !important;
+  color: #ffffff !important;
+}
