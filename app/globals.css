@@ -63,74 +63,57 @@ footer {
 }
 
 /* ===========================================================
-   GOOGLE TRANSLATE WIDGET — stable styling & branding removal
+   GOOGLE TRANSLATE WIDGET — compact size + bold label
    =========================================================== */
 
-/* Keep the container present */
 #google_translate_element {
   display: inline-block !important;
 }
 
-/* Make the whole gadget’s text 0px so "Powered by" collapses. */
-#google_translate_element .goog-te-gadget {
-  font-size: 0 !important;
-  line-height: 0 !important;
-}
-
-/* Restore normal size on the actual control (both render modes). */
-#google_translate_element .goog-te-gadget .goog-te-gadget-simple,
-#google_translate_element .goog-te-gadget .goog-te-combo {
-  font-size: 14px !important;
-  line-height: 1.1 !important;
-}
-
-/* Button look for the "simple" style gadget */
+/* Style the dropdown "button" */
 #google_translate_element .goog-te-gadget-simple {
   background: #000100 !important;
   color: #ff9800 !important;
-  font-weight: 700 !important;     /* ✅ Bold */
-  border-radius: 10px !important;
-  padding: 6px 12px !important;    /* ✅ Slightly tighter */
+  font-weight: 700 !important;          /* ✅ Bold */
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
   border: none !important;
+  cursor: pointer;
+  font-size: 13px !important;
+  width: auto !important;               /* ✅ Compact */
+  min-width: 120px !important;          /* ✅ Shrink width */
+  max-width: 160px !important;          /* ✅ Prevent oversize */
+  line-height: 1.2 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 8px !important;
-  min-width: 120px !important;     /* ✅ Shrink width */
-  max-width: 160px !important;     /* ✅ Prevent oversized */
-  box-shadow: 0 0 0 2px #ff9800 inset;
 }
 
-/* Ensure the visible label is colored correctly inside the button */
-#google_translate_element .goog-te-gadget-simple span,
-#google_translate_element .goog-te-gadget-simple a {
+/* Ensure the label text is bold & orange */
+#google_translate_element .goog-te-gadget-simple span {
   color: #ff9800 !important;
-  font-weight: 700 !important;     /* ✅ Bold text */
-  text-decoration: none !important;
+  font-weight: 700 !important;
+  display: inline !important;
 }
 
-/* Optional: hide the tiny globe icon inside the button if present */
-#google_translate_element .goog-te-gadget-icon {
-  display: none !important;
-}
-
-/* Hide Google’s branding link explicitly */
+/* Hide "Powered by Google" */
+#google_translate_element .goog-te-gadget > span,
 #google_translate_element .goog-logo-link {
   display: none !important;
 }
 
-/* === Dropdown menu inside iframe === */
+/* Dropdown list inside iframe */
 .goog-te-menu2 {
   background: #ffffff !important;
   border: 1px solid #000100 !important;
   border-radius: 6px !important;
-  max-width: 220px !important;     /* ✅ Smaller dropdown */
+  max-width: 220px !important;          /* ✅ Smaller dropdown */
   min-width: 160px !important;
 }
 
 .goog-te-menu2-item div {
   color: #000100 !important;
-  font-weight: 700 !important;     /* ✅ Bold country names */
+  font-weight: 700 !important;
   font-size: 14px !important;
 }
 
