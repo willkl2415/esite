@@ -14,9 +14,9 @@ export default function HelpPage() {
         <div className="mb-6 text-left">
           <Link
             href="/"
-            className="inline-block bg-purple-600 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition"
+            className="inline-flex items-center bg-purple-600 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition"
           >
-            👉 Back Home
+            👈 <span className="ml-2">Back Home</span>
           </Link>
         </div>
 
