@@ -82,12 +82,14 @@ footer {
 #google_translate_element .goog-te-gadget .goog-te-combo {
   font-size: 14px !important;
   line-height: 1.1 !important;
+  font-weight: 700 !important;       /* bold text */
+  color: #000100 !important;         /* black text */
 }
 
 /* Button look for the "simple" style gadget */
 #google_translate_element .goog-te-gadget-simple {
-  background: #ff9800 !important;   /* 🔶 orange background */
-  color: #000100 !important;        /* ⚫ black text */
+  background: #ff9800 !important;    /* 🔶 orange background */
+  color: #000100 !important;         /* ⚫ black text */
   font-weight: 700 !important;
   border-radius: 10px !important;
   padding: 8px 14px !important;
@@ -95,19 +97,34 @@ footer {
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
-  width: auto !important;          /* compact width */
-  box-shadow: none !important;     /* remove orange inset shadow */
+  width: auto !important;            /* compact width */
+  box-shadow: none !important;       /* remove inset */
 }
 
-/* Ensure the visible label is colored correctly inside the button */
+/* Ensure the visible label is styled correctly */
 #google_translate_element .goog-te-gadget-simple span,
 #google_translate_element .goog-te-gadget-simple a {
-  color: #000100 !important;        /* ⚫ black text inside */
+  color: #000100 !important;         /* ⚫ black text inside */
   font-weight: 700 !important;
   text-decoration: none !important;
 }
 
-/* Optional: hide the tiny globe icon inside the button if present */
+/* Native dropdown (<select>) look */
+#google_translate_element .goog-te-combo {
+  background: #ff9800 !important;    /* 🔶 orange background */
+  color: #000100 !important;         /* ⚫ black text */
+  font-weight: 700 !important;
+  border: 2px solid #000100 !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  width: 140px !important;           /* compact width */
+  max-width: 160px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+/* Optional: hide the tiny globe icon inside the button */
 #google_translate_element .goog-te-gadget-icon {
   display: none !important;
 }
@@ -118,12 +135,3 @@ footer {
 }
 
 /* Do NOT hide all spans anymore (that’s what broke the dropdown). */
-/* No iframe styling here (can’t reliably style cross-origin). */
-
-/* -----------------------------------------------------------
-   ONLY CHANGE REQUESTED: make the native <select> narrower
-   ----------------------------------------------------------- */
-#google_translate_element .goog-te-combo {
-  width: 140px !important;
-  max-width: 140px !important;
-}
