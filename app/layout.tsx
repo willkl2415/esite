@@ -8,7 +8,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import GoogleTranslateMenu from "./components/GoogleTranslateMenu"; // Import the new component
+import GoogleTranslateMenu from "./components/GoogleTranslateMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +33,6 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {/* HEADER */}
         <header className="bg-white border-b sticky top-0 z-50 shadow">
-          {/* Top row in 3-column grid */}
           <div className="grid grid-cols-3 items-center px-6 py-2.5">
             {/* Left: Search */}
             <div className="flex justify-start">
@@ -69,9 +68,7 @@ export default function RootLayout({
                 <ShoppingCartIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">£0.00</span>
               </Link>
-
-              {/* Custom Google Translate Menu */}
-              <GoogleTranslateMenu /> {/* Use the new component here */}
+              <GoogleTranslateMenu />
             </div>
           </div>
 
@@ -102,21 +99,11 @@ export default function RootLayout({
           <div className="max-w-7xl mx-auto px-4 py-1 grid md:grid-cols-3 gap-2 items-center">
             {/* Left: Socials */}
             <div className="flex justify-start space-x-2">
-              <Link href="#">
-                <Image src="/icons/x.svg" alt="X" width={24} height={24} />
-              </Link>
-              <Link href="#">
-                <Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} />
-              </Link>
-              <Link href="#">
-                <Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} />
-              </Link>
-              <Link href="#">
-                <Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
-              </Link>
-              <Link href="#">
-                <Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} />
-              </Link>
+              <Link href="#"><Image src="/icons/x.svg" alt="X" width={24} height={24} /></Link>
+              <Link href="#"><Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} /></Link>
+              <Link href="#"><Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} /></Link>
+              <Link href="#"><Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} /></Link>
+              <Link href="#"><Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} /></Link>
             </div>
 
             {/* Center: Copyright */}
@@ -132,7 +119,6 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
-
       </body>
     </html>
   );

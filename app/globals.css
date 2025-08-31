@@ -39,7 +39,7 @@ section.hero {
   @apply bg-[#ff9800] text-[#000100];
 }
 
-/* Product Cards */
+/* Product Cards - keep white for images */
 .product-card {
   @apply border border-[#000100] rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition bg-white;
 }
@@ -63,27 +63,22 @@ footer {
 }
 
 /* ===========================================================
-   GOOGLE TRANSLATE WIDGET — clean + compact + no branding
+   GOOGLE TRANSLATE WIDGET — clean styling
    =========================================================== */
-
 #google_translate_element {
   display: inline-block !important;
 }
 
-/* Dropdown button styling */
 #google_translate_element .goog-te-gadget-simple {
   background: #000100 !important;
   color: #ff9800 !important;
   font-weight: 600 !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   padding: 6px 12px !important;
-  border: none !important;
   cursor: pointer;
   font-size: 14px !important;
   width: auto !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  box-shadow: 0 0 0 2px #ff9800 inset;
+  line-height: 1 !important;
 }
 
 #google_translate_element .goog-te-gadget-simple span {
@@ -91,22 +86,20 @@ footer {
   font-weight: 700 !important;
 }
 
-/* Hide branding (all cases) */
+/* Hide branding completely */
 .goog-logo-link,
-.goog-te-gadget span,
-.goog-te-gadget img,
-#google_translate_element .goog-te-gadget > span,
-#google_translate_element .goog-te-gadget > div {
+.goog-te-gadget > span,
+.goog-te-banner-frame.skiptranslate {
   display: none !important;
 }
 
-/* Dropdown menu styling */
+/* Dropdown list */
 .goog-te-menu2 {
   background: #ffffff !important;
   border: 1px solid #000100 !important;
   border-radius: 6px !important;
-  min-width: 180px !important;  /* ✅ compact */
-  max-width: 220px !important;
+  min-width: 200px !important;
+  max-width: 240px !important;
 }
 
 .goog-te-menu2 td {
@@ -119,4 +112,10 @@ footer {
 .goog-te-menu2 td:hover {
   background: #ff9800 !important;
   color: #ffffff !important;
+}
+
+/* Ensure dropdown appears above everything */
+.goog-te-menu-frame.skiptranslate {
+  z-index: 999999 !important;
+  border-radius: 6px !important;
 }
