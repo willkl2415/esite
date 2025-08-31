@@ -9,22 +9,31 @@ export default function HelpPage() {
         Help & Information
       </h1>
 
-      {/* Policies Section */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-[#ff9800]">Policies</h2>
-        <ul className="space-y-2 text-lg">
+      <div className="bg-white rounded-2xl shadow-md p-10 text-center">
+        {/* Back Home Button */}
+        <div className="mb-6 text-left">
+          <Link
+            href="/"
+            className="inline-block bg-purple-600 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition"
+          >
+            👉 Back Home
+          </Link>
+        </div>
+
+        {/* Links List */}
+        <ul className="space-y-6 text-xl font-bold">
           <li>
             <Link
               href="/website-terms"
-              className="text-black hover:underline hover:text-[#ff9800]"
+              className="text-black hover:text-[#ff9800] transition"
             >
-              Website Terms
+              Terms & Conditions
             </Link>
           </li>
           <li>
             <Link
               href="/refunds-returns"
-              className="text-black hover:underline hover:text-[#ff9800]"
+              className="text-black hover:text-[#ff9800] transition"
             >
               Refunds & Returns
             </Link>
@@ -32,39 +41,25 @@ export default function HelpPage() {
           <li>
             <Link
               href="/privacy-policy"
-              className="text-black hover:underline hover:text-[#ff9800]"
+              className="text-black hover:text-[#ff9800] transition"
             >
               Privacy Policy
             </Link>
           </li>
-        </ul>
-      </div>
-
-      {/* Account Section */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-[#ff9800]">Account</h2>
-        <ul className="space-y-2 text-lg">
           <li>
             <Link
               href="/account"
-              className="text-black hover:underline hover:text-[#ff9800]"
+              className="text-black hover:text-[#ff9800] transition"
             >
               My Account
             </Link>
           </li>
-        </ul>
-      </div>
-
-      {/* Resources Section */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4 text-[#ff9800]">Resources</h2>
-        <ul className="space-y-2 text-lg">
           <li>
             <Link
               href="/help/lexicon"
-              className="text-black hover:underline hover:text-[#ff9800]"
+              className="text-black hover:text-[#ff9800] transition"
             >
-              Cigar Manor Lexicon
+              Cigar Lexicon
             </Link>
           </li>
         </ul>
