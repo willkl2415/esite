@@ -62,59 +62,82 @@ footer {
   padding: 1.5rem;
 }
 
-/* === GOOGLE TRANSLATE WIDGET FIXES === */
+/* ===========================================================
+   GOOGLE TRANSLATE WIDGET — visibility + styling fixes
+   =========================================================== */
+
+/* Keep the container visible */
 #google_translate_element {
-  display: inline-block;
+  display: inline-block !important;
 }
 
-/* Style the dropdown button */
-.goog-te-gadget-simple {
+/* Style the dropdown "button" */
+#google_translate_element .goog-te-gadget-simple {
   background: #000100 !important;
   color: #ff9800 !important;
   font-weight: 600 !important;
-  border-radius: 8px !important;
-  padding: 6px 12px !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
   border: none !important;
   cursor: pointer;
   font-size: 14px !important;
-  width: auto !important;
+  width: auto !important;    /* compact width */
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 0 0 2px #ff9800 inset;
 }
 
-.goog-te-gadget-simple span {
+/* Make sure the label inside the button stays visible */
+#google_translate_element .goog-te-gadget-simple span {
   color: #ff9800 !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  display: inline !important;
 }
 
-/* ✅ Hide ALL Google branding text */
-.goog-logo-link,
-.goog-te-gadget span,
-.goog-te-gadget .goog-te-combo,
-.goog-te-banner-frame.skiptranslate,
-.goog-te-balloon-frame,
-.goog-te-gadget img {
+/* OPTIONAL: hide the little globe icon inside the button */
+#google_translate_element .goog-te-gadget-icon {
   display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  width: 0 !important;
-  line-height: 0 !important;
-  font-size: 0 !important;
 }
 
-/* Dropdown list styling */
+/* ---- Hide the "Powered by Google / Translate" block ---- */
+/* It’s rendered as a direct child <span> of .goog-te-gadget */
+#google_translate_element .goog-te-gadget > span {
+  display: none !important;
+}
+/* And the logo link, if Google injects it */
+#google_translate_element .goog-logo-link {
+  display: none !important;
+}
+
+/* ---- Dropdown list look (inside the iframe) ---- */
 .goog-te-menu2 {
-  background: #ffffff !important;   /* White background */
+  background: #ffffff !important;         /* white background */
   border: 1px solid #000100 !important;
-  border-radius: 6px !important;
+  border-radius: 8px !important;
+  max-width: 280px !important;            /* compact width */
+  min-width: 220px !important;
+  padding: 6px !important;
 }
 
-.goog-te-menu2 td {
-  color: #000100 !important;       /* Black text */
-  font-weight: 700 !important;     /* Bold */
+.goog-te-menu2-item div,
+.goog-te-menu2-item:link div,
+.goog-te-menu2-item:visited div {
+  color: #000100 !important;              /* black text */
+  font-weight: 700 !important;            /* bold */
   font-size: 14px !important;
-  padding: 6px 10px !important;
 }
 
-.goog-te-menu2 td:hover {
-  background: #ff9800 !important;  /* Orange hover */
-  color: #ffffff !important;       /* White text on hover */
+.goog-te-menu2-item:hover div {
+  background: #ff9800 !important;         /* orange hover */
+  color: #ffffff !important;              /* white on hover */
+}
+
+/* Positioning + z-index to ensure the dropdown shows above everything */
+.goog-te-menu-frame.skiptranslate {
+  z-index: 2147483647 !important;         /* max z-index */
+  border: 1px solid #000100 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25) !important;
 }
