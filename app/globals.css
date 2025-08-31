@@ -119,3 +119,11 @@ footer {
 
 /* Do NOT hide all spans anymore (that’s what broke the dropdown). */
 /* No iframe styling here (can’t reliably style cross-origin). */
+
+/* -----------------------------------------------------------
+   ONLY CHANGE REQUESTED: make the native <select> narrower
+   ----------------------------------------------------------- */
+#google_translate_element .goog-te-combo {
+  width: 160px !important;      /* shrink overall width */
+  max-width: 160px !important;  /* keep it compact */
+}
