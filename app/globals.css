@@ -86,23 +86,23 @@ footer {
 
 /* Button look for the "simple" style gadget */
 #google_translate_element .goog-te-gadget-simple {
-  background: #000100 !important;
-  color: #ff9800 !important;
+  background: #ff9800 !important;   /* 🔶 orange background */
+  color: #000100 !important;        /* ⚫ black text */
   font-weight: 700 !important;
   border-radius: 10px !important;
   padding: 8px 14px !important;
-  border: none !important;
+  border: 2px solid #000100 !important;  /* ⚫ black border */
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
   width: auto !important;          /* compact width */
-  box-shadow: 0 0 0 2px #ff9800 inset;
+  box-shadow: none !important;     /* remove orange inset shadow */
 }
 
 /* Ensure the visible label is colored correctly inside the button */
 #google_translate_element .goog-te-gadget-simple span,
 #google_translate_element .goog-te-gadget-simple a {
-  color: #ff9800 !important;
+  color: #000100 !important;        /* ⚫ black text inside */
   font-weight: 700 !important;
   text-decoration: none !important;
 }
@@ -124,6 +124,6 @@ footer {
    ONLY CHANGE REQUESTED: make the native <select> narrower
    ----------------------------------------------------------- */
 #google_translate_element .goog-te-combo {
-  width: 140px !important;      /* shrink overall width */
-  max-width: 140px !important;  /* keep it compact */
+  width: 140px !important;
+  max-width: 140px !important;
 }
