@@ -14,10 +14,14 @@ export default function HelpPage() {
         <div className="mb-6 text-left">
           <Link
             href="/"
-            className="inline-flex items-center bg-purple-600 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition"
+            className="flex items-center bg-purple-600 text-white px-5 py-2 rounded-full shadow hover:bg-purple-700 transition"
           >
-            <span className="text-lg">👈</span>
-            <span className="ml-2 text-lg font-semibold">Back Home</span>
+            <span role="img" aria-label="back" className="text-lg">
+              👈
+            </span>
+            <span className="ml-2 text-lg font-semibold block">
+              Back Home
+            </span>
           </Link>
         </div>
 
