@@ -1,3 +1,5 @@
+"use client";  // ✅ Mark this as a client component so we can use hooks
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -154,36 +156,6 @@ export default function RootLayout({
           type="text/javascript"
           src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
         />
-
-        {/* CUSTOM CSS TO HIDE BRANDING */}
-        <style>{`
-          .goog-logo-link,
-          .goog-te-gadget span,
-          .goog-te-gadget-simple img,
-          .goog-te-gadget div > span {
-            display: none !important;
-          }
-
-          /* Force-hide "Powered by" */
-          .goog-te-gadget {
-            font-size: 0 !important;
-          }
-          .goog-te-gadget * {
-            font-size: 0 !important;
-          }
-
-          /* Keep dropdown visible + styled */
-          .goog-te-gadget .goog-te-combo {
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            color: #ff9800 !important;
-            background: #000100 !important;
-            border-radius: 8px !important;
-            padding: 6px 12px !important;
-            border: none !important;
-            cursor: pointer !important;
-          }
-        `}</style>
       </body>
     </html>
   );
