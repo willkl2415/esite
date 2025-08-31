@@ -63,59 +63,59 @@ footer {
 }
 
 /* ===========================================================
-   GOOGLE TRANSLATE WIDGET — clean styling
+   GOOGLE TRANSLATE WIDGET — stable styling & branding removal
    =========================================================== */
+
+/* Keep the container present */
 #google_translate_element {
   display: inline-block !important;
 }
 
+/* Make the whole gadget’s text 0px so "Powered by" collapses. */
+#google_translate_element .goog-te-gadget {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+/* Restore normal size on the actual control (both render modes). */
+#google_translate_element .goog-te-gadget .goog-te-gadget-simple,
+#google_translate_element .goog-te-gadget .goog-te-combo {
+  font-size: 14px !important;
+  line-height: 1.1 !important;
+}
+
+/* Button look for the "simple" style gadget */
 #google_translate_element .goog-te-gadget-simple {
   background: #000100 !important;
   color: #ff9800 !important;
-  font-weight: 600 !important;
-  border-radius: 8px !important;
-  padding: 6px 12px !important;
-  cursor: pointer;
-  font-size: 14px !important;
-  width: auto !important;
-  line-height: 1 !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: auto !important;          /* compact width */
+  box-shadow: 0 0 0 2px #ff9800 inset;
 }
 
-#google_translate_element .goog-te-gadget-simple span {
+/* Ensure the visible label is colored correctly inside the button */
+#google_translate_element .goog-te-gadget-simple span,
+#google_translate_element .goog-te-gadget-simple a {
   color: #ff9800 !important;
   font-weight: 700 !important;
+  text-decoration: none !important;
 }
 
-/* Hide branding completely */
-.goog-logo-link,
-.goog-te-gadget > span,
-.goog-te-banner-frame.skiptranslate {
+/* Optional: hide the tiny globe icon inside the button if present */
+#google_translate_element .goog-te-gadget-icon {
   display: none !important;
 }
 
-/* Dropdown list */
-.goog-te-menu2 {
-  background: #ffffff !important;
-  border: 1px solid #000100 !important;
-  border-radius: 6px !important;
-  min-width: 200px !important;
-  max-width: 240px !important;
+/* Hide Google’s branding link explicitly */
+#google_translate_element .goog-logo-link {
+  display: none !important;
 }
 
-.goog-te-menu2 td {
-  color: #000100 !important;
-  font-weight: 700 !important;
-  font-size: 14px !important;
-  padding: 6px 10px !important;
-}
-
-.goog-te-menu2 td:hover {
-  background: #ff9800 !important;
-  color: #ffffff !important;
-}
-
-/* Ensure dropdown appears above everything */
-.goog-te-menu-frame.skiptranslate {
-  z-index: 999999 !important;
-  border-radius: 6px !important;
-}
+/* Do NOT hide all spans anymore (that’s what broke the dropdown). */
+/* No iframe styling here (can’t reliably style cross-origin). */
