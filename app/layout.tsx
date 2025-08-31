@@ -1,5 +1,6 @@
-"use client";  // ✅ Now client-only
+"use client";  // ✅ needed for useEffect
 
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
@@ -21,17 +22,30 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const metadata: Metadata = {
+  title: "Cigar Manor",
+  description: "Where Connoisseurs of Cool Meet Pleasure",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   useEffect(() => {
+    // Interval to continuously remove Google branding
     const interval = setInterval(() => {
+      // Remove injected text spans
+      document.querySelectorAll(".goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame")
+        .forEach((el) => {
+          (el as HTMLElement).style.display = "none";
+        });
+
+      // Clean inside the dropdown iframe
       const iframe = document.querySelector<HTMLIFrameElement>(
         "iframe.goog-te-menu-frame"
       );
       if (iframe && iframe.contentDocument) {
         const unwanted = iframe.contentDocument.querySelectorAll(
-          ".goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame"
+          ".goog-logo-link, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame"
         );
         unwanted.forEach((el) => (el as HTMLElement).style.display = "none");
       }
@@ -80,6 +94,7 @@ export default function RootLayout({
                 <ShoppingCartIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">£0.00</span>
               </Link>
+              {/* Google Translate Dropdown */}
               <div id="google_translate_element" />
             </div>
           </div>
