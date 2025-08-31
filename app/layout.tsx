@@ -1,6 +1,5 @@
-"use client";  // ✅ needed for useEffect
+"use client";  // ✅ Client so useEffect works
 
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
@@ -11,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect } from "react";
+import { siteMetadata } from "./metadata"; // ✅ import server-safe metadata
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,24 +22,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Cigar Manor",
-  description: "Where Connoisseurs of Cool Meet Pleasure",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   useEffect(() => {
-    // Interval to continuously remove Google branding
     const interval = setInterval(() => {
-      // Remove injected text spans
-      document.querySelectorAll(".goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame")
-        .forEach((el) => {
-          (el as HTMLElement).style.display = "none";
-        });
+      document.querySelectorAll(
+        ".goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame"
+      ).forEach((el) => (el as HTMLElement).style.display = "none");
 
-      // Clean inside the dropdown iframe
       const iframe = document.querySelector<HTMLIFrameElement>(
         "iframe.goog-te-menu-frame"
       );
@@ -48,6 +39,16 @@ export default function RootLayout({
           ".goog-logo-link, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame"
         );
         unwanted.forEach((el) => (el as HTMLElement).style.display = "none");
+
+        const menu = iframe.contentDocument.querySelector(".goog-te-menu2");
+        if (menu) {
+          (menu as HTMLElement).style.width = "220px";
+          (menu as HTMLElement).style.minWidth = "200px";
+          (menu as HTMLElement).style.maxWidth = "240px";
+          (menu as HTMLElement).style.background = "#fff";
+          (menu as HTMLElement).style.border = "1px solid #000100";
+          (menu as HTMLElement).style.borderRadius = "8px";
+        }
       }
     }, 1000);
 
@@ -56,6 +57,10 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <title>{siteMetadata.title as string}</title>
+        <meta name="description" content={siteMetadata.description as string} />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {/* HEADER */}
         <header className="bg-white border-b sticky top-0 z-50 shadow">
@@ -94,7 +99,6 @@ export default function RootLayout({
                 <ShoppingCartIcon className="w-[18px] h-[18px]" />
                 <span className="hidden md:inline">£0.00</span>
               </Link>
-              {/* Google Translate Dropdown */}
               <div id="google_translate_element" />
             </div>
           </div>
@@ -124,7 +128,6 @@ export default function RootLayout({
         {/* FOOTER */}
         <footer className="bg-[#ff9800] text-black mt-6">
           <div className="max-w-7xl mx-auto px-4 py-1 grid md:grid-cols-3 gap-2 items-center">
-            {/* Left: Socials */}
             <div className="flex justify-start space-x-2">
               <Link href="#"><Image src="/icons/x.svg" alt="X" width={24} height={24} /></Link>
               <Link href="#"><Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} /></Link>
@@ -132,14 +135,10 @@ export default function RootLayout({
               <Link href="#"><Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} /></Link>
               <Link href="#"><Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} /></Link>
             </div>
-
-            {/* Center: Copyright */}
             <div className="text-center text-xs">
               <p>© 2025 Cigar Manor</p>
               <p className="italic">"Where Connoisseurs of Cool Meet Pleasure"</p>
             </div>
-
-            {/* Right: Links */}
             <div className="flex justify-end space-x-3 text-xs">
               <Link href="/help">Help</Link>
               <Link href="/contact">Contact</Link>
