@@ -26,8 +26,18 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#ff9800] p-8">
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-10">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-10 relative">
+        {/* Back to Category Button in Top-Right */}
+        <div className="absolute top-6 right-6">
+          <Link
+            href=".."
+            className="bg-[#000100] text-[#ff9800] font-bold px-5 py-2 rounded-full shadow-md hover:bg-gray-900 hover:text-white transition"
+          >
+            ← Back to {product.category.replace("-", " ")}
+          </Link>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 items-start">
           {/* Product Image */}
           <Image
             src={product.image}
@@ -45,15 +55,9 @@ export default function ProductDetailPage() {
             <p className="text-xl text-[#ff9800] font-bold mb-4">
               £{Number(product.price).toFixed(2)}
             </p>
-            <p className="text-gray-700 leading-relaxed mb-6">
+            <p className="text-gray-700 leading-relaxed">
               {product.description}
             </p>
-            <Link
-              href=".."
-              className="bg-[#000100] text-[#ff9800] font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-900 hover:text-white transition"
-            >
-              ← Back to {product.category.replace("-", " ")}
-            </Link>
           </div>
         </div>
       </div>
