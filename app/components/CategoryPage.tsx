@@ -34,7 +34,8 @@ export default function CategoryPage({ title, description, category }: CategoryP
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedVitolas, setSelectedVitolas] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(100);
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
 
@@ -54,7 +55,8 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setSearchTerm("");
     setSelectedBrands([]);
     setSelectedVitolas([]);
-    setPriceRange([0, 100]);
+    setPriceMin(0);
+    setPriceMax(100);
     setApplyFilters(false);
     setSortOption("Default Sorting");
   };
@@ -70,7 +72,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
       selectedBrands.length === 0 || (p.brand && selectedBrands.includes(p.brand));
     const matchesVitola =
       selectedVitolas.length === 0 || (p.vitola && selectedVitolas.includes(p.vitola));
-    const matchesPrice = p.price >= priceRange[0] && p.price <= priceRange[1];
+    const matchesPrice = p.price >= priceMin && p.price <= priceMax;
 
     return matchesSearch && matchesBrand && matchesVitola && matchesPrice;
   });
@@ -85,13 +87,13 @@ export default function CategoryPage({ title, description, category }: CategoryP
       case "Price High to Low":
         return b.price - a.price;
       case "Newest Additions":
-        return (b.dateAdded || 0) - (a.dateAdded || 0); // needs dateAdded field
+        return (b.dateAdded || 0) - (a.dateAdded || 0);
       case "Top 5 Sellers":
-        return (b.sales || 0) - (a.sales || 0); // needs sales field
+        return (b.sales || 0) - (a.sales || 0);
       case "Average Rating":
-        return (b.rating || 0) - (a.rating || 0); // needs rating field
+        return (b.rating || 0) - (a.rating || 0);
       default:
-        return 0; // Default Sorting (no change)
+        return 0;
     }
   });
 
@@ -125,22 +127,29 @@ export default function CategoryPage({ title, description, category }: CategoryP
             </button>
           </div>
 
+          {/* Price Filter */}
           <div>
-            <h3 className="font-semibold mb-2">Price</h3>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={priceRange[1]}
-              onChange={(e) => setPriceRange([0, Number(e.target.value)])}
-              className="w-full accent-[#CFAE70]"
-            />
-            <div className="flex justify-between text-sm mt-1">
-              <span>£{priceRange[0]}</span>
-              <span>£{priceRange[1]}</span>
+            <h3 className="font-semibold mb-2">Price Range (£)</h3>
+            <div className="flex items-center space-x-2">
+              <input
+                type="number"
+                min="0"
+                value={priceMin}
+                onChange={(e) => setPriceMin(Number(e.target.value))}
+                className="w-1/2 border rounded-lg px-2 py-1 text-sm"
+              />
+              <span>-</span>
+              <input
+                type="number"
+                min="0"
+                value={priceMax}
+                onChange={(e) => setPriceMax(Number(e.target.value))}
+                className="w-1/2 border rounded-lg px-2 py-1 text-sm"
+              />
             </div>
           </div>
 
+          {/* Brands */}
           {brandsInCategory.length > 0 && (
             <details className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
@@ -160,6 +169,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
             </details>
           )}
 
+          {/* Vitolas */}
           {vitolasInCategory.length > 0 && (
             <details className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
