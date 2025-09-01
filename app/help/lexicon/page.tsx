@@ -9,7 +9,7 @@ export default function LexiconPage() {
       </h1>
 
       {/* Jump Index with id=top */}
-      <div id="top" className="mb-10 text-center">
+      <div id="top" className="mb-10 text-center scroll-mt-24">
         {letters.map(letter => (
           <a
             key={letter}
@@ -26,7 +26,7 @@ export default function LexiconPage() {
           An A–Z glossary of cigar terminology and culture, compiled by Cigar Manor.
         </p>
 
-        <h2 id="A" className="text-2xl font-semibold text-[#ff9800] mb-4">A</h2>
+        <h2 id="A" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">A</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Acopio Y Beneficio</strong> – The process of gathering and improving tobacco leaves after harvest until placed in bales to mature.</li>
           <li><strong>Aging / Ageing Room</strong> – The process of resting cigars in controlled conditions (humidity, temperature) to enhance flavors, aroma, and smoothness. Properly aged cigars are more refined and less harsh.</li>
@@ -42,7 +42,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="B" className="text-2xl font-semibold text-[#ff9800] mb-4">B</h2>
+        <h2 id="B" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">B</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Band</strong> – Decorative paper strip around cigars, historically for protection, now branding.</li>
           <li><strong>Barajita</strong> – “Pack of cards,” nickname for blending department, since mixing leaves resembles shuffling.</li>
@@ -62,7 +62,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="C" className="text-2xl font-semibold text-[#ff9800] mb-4">C</h2>
+        <h2 id="C" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">C</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Cajuela / Mini-Rodero</strong> – Lidless open box used inside factories to move cigars before QC.</li>
           <li><strong>Candela</strong> – Green wrapper, produced by quick curing; gives grassy, vegetal flavor.</li>
@@ -93,7 +93,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="D" className="text-2xl font-semibold text-[#ff9800] mb-4">D</h2>
+        <h2 id="D" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">D</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Desbotonar</strong> – Removing top flower bud to direct energy to leaves.</li>
           <li><strong>Deshije</strong> – Removing side shoots.</li>
@@ -107,7 +107,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="E" className="text-2xl font-semibold text-[#ff9800] mb-4">E</h2>
+        <h2 id="E" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">E</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Edición Limitada</strong> – Cuban annual Limited Editions with aged wrapper/filler/binder (2+ years).</li>
           <li><strong>Emboquillado</strong> – Technique of combining two types of filler leaves in one bunch.</li>
@@ -119,7 +119,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="F" className="text-2xl font-semibold text-[#ff9800] mb-4">F</h2>
+        <h2 id="F" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">F</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Fermentation</strong> – Natural heating of moist tobacco piles to reduce ammonia and develop flavor.</li>
           <li><strong>Filler / Tripa</strong> – Core of the cigar; determines body, strength, and flavors.</li>
@@ -134,7 +134,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="G" className="text-2xl font-semibold text-[#ff9800] mb-4">G</h2>
+        <h2 id="G" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">G</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Galera</strong> – Factory workshop floor for hand-rolling cigars.</li>
           <li><strong>Gauge / Ring Gauge</strong> – Cigar diameter, measured in 64ths of an inch.</li>
@@ -148,7 +148,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="H" className="text-2xl font-semibold text-[#ff9800] mb-4">H</h2>
+        <h2 id="H" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">H</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Habano</strong> – Cuban cigar made exclusively of Cuban tobacco. Protected Denomination of Origin.</li>
           <li><strong>Habanos S.A.</strong> – Cuban state-owned distributor of premium brands worldwide.</li>
@@ -165,7 +165,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="I" className="text-2xl font-semibold text-[#ff9800] mb-4">I</h2>
+        <h2 id="I" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">I</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Infused Cigars</strong> – Cigars flavored with botanicals, liquor, fruits, etc.</li>
           <li><strong>Instituto De Investigaciones Del Tabaco</strong> – Cuban research institute developing and regulating seeds.</li>
@@ -174,7 +174,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="J" className="text-2xl font-semibold text-[#ff9800] mb-4">J</h2>
+        <h2 id="J" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">J</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Julep Strainer</strong> – Tool used in shaping cigar caps during rolling.</li>
         </ul>
@@ -182,7 +182,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="K" className="text-2xl font-semibold text-[#ff9800] mb-4">K</h2>
+        <h2 id="K" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">K</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Kiln Drying</strong> – Mechanical process removing leaf moisture; controversial due to impact on flavor.</li>
         </ul>
@@ -190,7 +190,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="L" className="text-2xl font-semibold text-[#ff9800] mb-4">L</h2>
+        <h2 id="L" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">L</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>La Casa Del Habano</strong> – Cuban cigar shop franchise (140+ globally).</li>
           <li><strong>Lector</strong> – Reader who entertains cigar rollers by reading books/newspapers aloud.</li>
@@ -203,7 +203,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="M" className="text-2xl font-semibold text-[#ff9800] mb-4">M</h2>
+        <h2 id="M" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">M</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Maduro</strong> – Dark, well-fermented wrapper (brown to black); produces sweet, rich flavors.</li>
           <li><strong>Mancuerna</strong> – Harvesting method cutting stems with two leaves attached.</li>
@@ -217,7 +217,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="N" className="text-2xl font-semibold text-[#ff9800] mb-4">N</h2>
+        <h2 id="N" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">N</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Non-Cuban Cigars</strong> – Cigars made outside Cuba (e.g., Nicaragua, Dominican Republic, Honduras).</li>
         </ul>
@@ -225,7 +225,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="O" className="text-2xl font-semibold text-[#ff9800] mb-4">O</h2>
+        <h2 id="O" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">O</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Oil</strong> – Sheen of natural oils on wrapper, indicator of quality and proper storage.</li>
           <li><strong>Oscuro</strong> – Very dark (almost black) wrapper shade; strongest fermentation.</li>
@@ -234,7 +234,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="P" className="text-2xl font-semibold text-[#ff9800] mb-4">P</h2>
+        <h2 id="P" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">P</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Pacas</strong> – Hessian bales where binder/filler leaves are aged.</li>
           <li><strong>Panatela</strong> – Thin, long cigar shape.</li>
@@ -247,7 +247,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="Q" className="text-2xl font-semibold text-[#ff9800] mb-4">Q</h2>
+        <h2 id="Q" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">Q</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Quarter Filler</strong> – Cheap chopped filler used in lower-grade cigars.</li>
         </ul>
@@ -255,7 +255,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="R" className="text-2xl font-semibold text-[#ff9800] mb-4">R</h2>
+        <h2 id="R" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">R</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Reserva</strong> – Cuban release aged minimum 3 years pre-roll.</li>
           <li><strong>Rezagado</strong> – Final wrapper grading.</li>
@@ -268,7 +268,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="S" className="text-2xl font-semibold text-[#ff9800] mb-4">S</h2>
+        <h2 id="S" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">S</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>San Juan Y Martínez</strong> – Cuban region known for binder/filler cultivation.</li>
           <li><strong>San Luis</strong> – Cuban region renowned for wrapper production.</li>
@@ -286,7 +286,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="T" className="text-2xl font-semibold text-[#ff9800] mb-4">T</h2>
+        <h2 id="T" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">T</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Tabaco</strong> – Spanish for tobacco/cigar.</li>
           <li><strong>Tabaco Mecanizado</strong> – Machine-made cigars.</li>
@@ -308,7 +308,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="U" className="text-2xl font-semibold text-[#ff9800] mb-4">U</h2>
+        <h2 id="U" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">U</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Upmann (H. Upmann)</strong> – Classic Cuban brand, founded 1844, still active.</li>
         </ul>
@@ -316,7 +316,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="V" className="text-2xl font-semibold text-[#ff9800] mb-4">V</h2>
+        <h2 id="V" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">V</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>V-Cut</strong> – Cutter making v-shaped cut.</li>
           <li><strong>Vegas De Primera</strong> – Approved first-class Cuban fields.</li>
@@ -331,7 +331,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="W" className="text-2xl font-semibold text-[#ff9800] mb-4">W</h2>
+        <h2 id="W" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">W</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Wood Aging</strong> – Process of barrel-aging cigars for flavor.</li>
           <li><strong>Wrapper / Capa</strong> – Outermost tobacco leaf, contributes greatly to flavor and appearance.</li>
@@ -340,7 +340,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="Y" className="text-2xl font-semibold text-[#ff9800] mb-4">Y</h2>
+        <h2 id="Y" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">Y</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Yagua</strong> – Palm bark used to wrap tercios.</li>
         </ul>
@@ -348,7 +348,7 @@ export default function LexiconPage() {
           <a href="#top" className="text-sm text-[#ff9800] hover:underline">👆 Back to top</a>
         </div>
 
-        <h2 id="Z" className="text-2xl font-semibold text-[#ff9800] mb-4">Z</h2>
+        <h2 id="Z" className="text-2xl font-semibold text-[#ff9800] mb-4 scroll-mt-24">Z</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Zafado</strong> – Loosening tobacco leaves after unpacking from gavillas.</li>
         </ul>
