@@ -125,15 +125,16 @@ export default function RootLayout({
         {/* MAIN */}
         <main>{children}</main>
 
-        {/* UNIVERSAL BACK HOME BUTTON */}
+      {/* UNIVERSAL BACK HOME BUTTON */}
         <div className="flex justify-center my-6">
-          <Link
-            href="/"
-            className="bg-purple-600 text-black px-6 py-2 rounded-full font-bold shadow hover:bg-purple-700 transition-colors"
-          >
-            Back Home
-          </Link>
+        <Link
+        href="/"
+        className="bg-[#000100] text-[#ff9800] px-6 py-2 rounded-full font-bold shadow hover:bg-gray-900 transition-colors"
+        >
+        Back Home
+        </Link>
         </div>
+
 
         {/* FOOTER */}
         <footer className="bg-[#ff9800] text-black mt-6">
