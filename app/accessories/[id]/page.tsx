@@ -26,6 +26,7 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen bg-[#ff9800] p-10">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-12">
+        {/* Back Button */}
         <div className="flex justify-end mb-6">
           <Link
             href="/accessories"
@@ -34,7 +35,10 @@ export default function ProductDetailPage() {
             ← Back to accessories
           </Link>
         </div>
+
+        {/* Grid Layout */}
         <div className="grid md:grid-cols-2 gap-10 items-start">
+          {/* Product Image */}
           <Image
             src={product.image}
             alt={product.name}
@@ -42,7 +46,19 @@ export default function ProductDetailPage() {
             height={400}
             className="rounded-lg shadow-lg object-cover w-full h-[400px]"
           />
+
+          {/* Product Info */}
           <div>
             <h1 className="text-4xl font-bold text-black mb-6">{product.name}</h1>
             <p className="text-2xl text-[#ff9800] font-bold mb-6">
-              £{Number(product.price).toFixed(
+              £{Number(product.price).toFixed(2)}
+            </p>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              {product.description}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
