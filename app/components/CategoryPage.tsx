@@ -23,18 +23,62 @@ const cigarCategories = [
 export default function CategoryPage({ title, description, category }: CategoryPageProps) {
   const filtered = products.filter((p) => p.category === category);
 
-  // ✅ build brand list only from products in this category
-  const brandsInCategory = Array.from(new Set(filtered.map((p) => p.brand))).filter(Boolean);
+  // ✅ Build dynamic brand + vitola lists (safe for missing fields)
+  const brandsInCategory = Array.from(
+    new Set(filtered.map((p: any) => p.brand || null))
+  ).filter(Boolean);
 
-  // ✅ Vitola list (if data has it)
-  const vitolasInCategory = Array.from(new Set(filtered.map((p) => p.vitola))).filter(Boolean);
+  const vitolasInCategory =
+    cigarCategories.includes(category)
+      ? Array.from(new Set(filtered.map((p: any) => p.vitola || null))).filter(Boolean)
+      : [];
 
-  // ✅ local search state
+  // ✅ State for filters
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedVitolas, setSelectedVitolas] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState([0, 100]); // default £0–100
+  const [applyFilters, setApplyFilters] = useState(false);
 
-  const displayedProducts = filtered.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // ✅ Toggle brand filter
+  const toggleBrand = (brand: string) => {
+    setSelectedBrands((prev) =>
+      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
+    );
+  };
+
+  // ✅ Toggle vitola filter
+  const toggleVitola = (vitola: string) => {
+    setSelectedVitolas((prev) =>
+      prev.includes(vitola) ? prev.filter((v) => v !== vitola) : [...prev, vitola]
+    );
+  };
+
+  // ✅ Reset everything
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSelectedBrands([]);
+    setSelectedVitolas([]);
+    setPriceRange([0, 100]);
+    setApplyFilters(false);
+  };
+
+  // ✅ Apply all filters
+  const displayedProducts = filtered.filter((p: any) => {
+    if (!applyFilters) {
+      return p.name.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesBrand =
+      selectedBrands.length === 0 || (p.brand && selectedBrands.includes(p.brand));
+    const matchesVitola =
+      selectedVitolas.length === 0 || (p.vitola && selectedVitolas.includes(p.vitola));
+    const matchesPrice =
+      p.price >= priceRange[0] && p.price <= priceRange[1];
+
+    return matchesSearch && matchesBrand && matchesVitola && matchesPrice;
+  });
 
   return (
     <div className="min-h-screen bg-[#ff9800] p-6">
@@ -54,11 +98,14 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
           {/* Filter / Clear buttons */}
           <div className="flex space-x-4">
-            <button className="bg-[#000100] text-[#ff9800] font-semibold px-4 py-2 rounded-full hover:bg-white hover:text-[#000100] transition">
+            <button
+              onClick={() => setApplyFilters(true)}
+              className="bg-[#000100] text-[#ff9800] font-semibold px-4 py-2 rounded-full hover:bg-white hover:text-[#000100] transition"
+            >
               FILTER
             </button>
             <button
-              onClick={() => setSearchTerm("")}
+              onClick={clearFilters}
               className="border border-[#000100] text-[#000100] px-4 py-2 rounded-full hover:bg-[#000100] hover:text-white transition"
             >
               CLEAR
@@ -68,10 +115,17 @@ export default function CategoryPage({ title, description, category }: CategoryP
           {/* Price Filter */}
           <div>
             <h3 className="font-semibold mb-2">Price</h3>
-            <input type="range" min="10" max="100" className="w-full accent-[#CFAE70]" />
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={priceRange[1]}
+              onChange={(e) => setPriceRange([0, Number(e.target.value)])}
+              className="w-full accent-[#CFAE70]"
+            />
             <div className="flex justify-between text-sm mt-1">
-              <span>£10</span>
-              <span>£100</span>
+              <span>£{priceRange[0]}</span>
+              <span>£{priceRange[1]}</span>
             </div>
           </div>
 
@@ -82,21 +136,33 @@ export default function CategoryPage({ title, description, category }: CategoryP
               <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
                 {brandsInCategory.map((brand) => (
                   <label key={brand} className="block">
-                    <input type="checkbox" className="mr-2" /> {brand}
+                    <input
+                      type="checkbox"
+                      checked={selectedBrands.includes(brand)}
+                      onChange={() => toggleBrand(brand)}
+                      className="mr-2"
+                    />
+                    {brand}
                   </label>
                 ))}
               </div>
             </details>
           )}
 
-          {/* Vitola Filter (only for cigar categories) */}
-          {cigarCategories.includes(category) && vitolasInCategory.length > 0 && (
+          {/* Vitola Filter */}
+          {vitolasInCategory.length > 0 && (
             <details className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
               <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
                 {vitolasInCategory.map((vitola) => (
                   <label key={vitola} className="block">
-                    <input type="checkbox" className="mr-2" /> {vitola}
+                    <input
+                      type="checkbox"
+                      checked={selectedVitolas.includes(vitola)}
+                      onChange={() => toggleVitola(vitola)}
+                      className="mr-2"
+                    />
+                    {vitola}
                   </label>
                 ))}
               </div>
@@ -128,7 +194,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
           {/* Product Grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayedProducts.length > 0 ? (
-              displayedProducts.map((product) => (
+              displayedProducts.map((product: any) => (
                 <div
                   key={product.id}
                   className="relative bg-[#3E2723] border border-[#CFAE70] p-6 rounded-2xl shadow-xl hover:scale-105 hover:shadow-2xl transition transform duration-300"
