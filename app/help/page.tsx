@@ -10,16 +10,6 @@ export default function HelpPage() {
       </h1>
 
       <div className="bg-white rounded-2xl shadow-md p-10 text-center">
-        {/* Back Home Button (big arrow only) */}
-        <div className="mb-6 text-left">
-          <Link
-            href="/"
-            className="inline-flex items-center bg-purple-600 text-white px-5 py-2 rounded-full shadow hover:bg-purple-700 transition text-3xl"
-          >
-            👈
-          </Link>
-        </div>
-
         {/* Links List */}
         <ul className="space-y-6 text-xl font-bold">
           <li>
