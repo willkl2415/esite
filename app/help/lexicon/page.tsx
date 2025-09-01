@@ -1,24 +1,31 @@
 "use client";
 
 export default function LexiconPage() {
-  const letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","Y","Z"];
+  const letters = [
+    "A","B","C","D","E","F","G","H","I","J","K","L","M",
+    "N","O","P","Q","R","S","T","U","V","W","Y","Z"
+  ];
+
   return (
     <div className="p-10 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-center text-black">
-        Cigar Manor Lexicon
-      </h1>
+      {/* Top Anchor (title + index) */}
+      <div id="top">
+        <h1 className="text-3xl font-bold mb-8 text-center text-black">
+          Cigar Manor Lexicon
+        </h1>
 
-      {/* Jump Index */}
-      <div id="top" className="mb-10 text-center">
-        {letters.map(letter => (
-          <a
-            key={letter}
-            href={`#${letter}`}
-            className="mx-2 text-black font-bold hover:text-[#ff9800]"
-          >
-            {letter}
-          </a>
-        ))}
+        {/* Jump Index */}
+        <div className="mb-10 text-center">
+          {letters.map(letter => (
+            <a
+              key={letter}
+              href={`#${letter}`}
+              className="mx-2 text-black font-bold hover:text-[#ff9800]"
+            >
+              {letter}
+            </a>
+          ))}
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl shadow-md p-10 text-left">
