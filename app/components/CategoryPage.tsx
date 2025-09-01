@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "../data/products"; // ✅ central product list
@@ -11,8 +11,30 @@ type CategoryPageProps = {
   category: string;
 };
 
+// ✅ categories that use Vitola
+const cigarCategories = [
+  "awarded-cigars",
+  "new-world-cigars",
+  "machine-made-cigars",
+  "flavoured-cigars",
+  "samplers",
+];
+
 export default function CategoryPage({ title, description, category }: CategoryPageProps) {
   const filtered = products.filter((p) => p.category === category);
+
+  // ✅ build brand list only from products in this category
+  const brandsInCategory = Array.from(new Set(filtered.map((p) => p.brand))).filter(Boolean);
+
+  // ✅ Vitola list (if data has it)
+  const vitolasInCategory = Array.from(new Set(filtered.map((p) => p.vitola))).filter(Boolean);
+
+  // ✅ local search state
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const displayedProducts = filtered.filter((p) =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#ff9800] p-6">
@@ -21,11 +43,24 @@ export default function CategoryPage({ title, description, category }: CategoryP
         <aside className="bg-white shadow-lg p-6 rounded-2xl space-y-6">
           <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
+          {/* Search box */}
+          <input
+            type="text"
+            placeholder={`Search ${title}...`}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full border px-3 py-2 rounded-lg mb-4"
+          />
+
+          {/* Filter / Clear buttons */}
           <div className="flex space-x-4">
             <button className="bg-[#000100] text-[#ff9800] font-semibold px-4 py-2 rounded-full hover:bg-white hover:text-[#000100] transition">
               FILTER
             </button>
-            <button className="border border-[#000100] text-[#000100] px-4 py-2 rounded-full hover:bg-[#000100] hover:text-white transition">
+            <button
+              onClick={() => setSearchTerm("")}
+              className="border border-[#000100] text-[#000100] px-4 py-2 rounded-full hover:bg-[#000100] hover:text-white transition"
+            >
               CLEAR
             </button>
           </div>
@@ -40,17 +75,33 @@ export default function CategoryPage({ title, description, category }: CategoryP
             </div>
           </div>
 
-          {/* Expandable Filters */}
-          <div className="space-y-2">
-            {["Categories", "Brands", "Vitola", "Smoking Time"].map((f) => (
-              <details key={f} className="border rounded-lg">
-                <summary className="cursor-pointer px-3 py-2 font-medium">{f}</summary>
-                <div className="px-3 py-2 text-sm text-gray-600">
-                  Example {f} option
-                </div>
-              </details>
-            ))}
-          </div>
+          {/* Brands Filter */}
+          {brandsInCategory.length > 0 && (
+            <details className="border rounded-lg">
+              <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
+              <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
+                {brandsInCategory.map((brand) => (
+                  <label key={brand} className="block">
+                    <input type="checkbox" className="mr-2" /> {brand}
+                  </label>
+                ))}
+              </div>
+            </details>
+          )}
+
+          {/* Vitola Filter (only for cigar categories) */}
+          {cigarCategories.includes(category) && vitolasInCategory.length > 0 && (
+            <details className="border rounded-lg">
+              <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
+              <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
+                {vitolasInCategory.map((vitola) => (
+                  <label key={vitola} className="block">
+                    <input type="checkbox" className="mr-2" /> {vitola}
+                  </label>
+                ))}
+              </div>
+            </details>
+          )}
         </aside>
 
         {/* Main Content */}
@@ -76,12 +127,11 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
           {/* Product Grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.length > 0 ? (
-              filtered.map((product) => (
+            {displayedProducts.length > 0 ? (
+              displayedProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="relative bg-[#3E2723] border border-[#CFAE70] p-6 rounded-2xl shadow-xl 
-                             hover:scale-105 hover:shadow-2xl transition transform duration-300"
+                  className="relative bg-[#3E2723] border border-[#CFAE70] p-6 rounded-2xl shadow-xl hover:scale-105 hover:shadow-2xl transition transform duration-300"
                 >
                   {product.badge && (
                     <span className="absolute top-3 left-3 bg-[#CFAE70] text-black text-xs font-semibold px-3 py-1 rounded-full shadow">
@@ -110,9 +160,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
                 </div>
               ))
             ) : (
-              <p className="text-center text-lg text-white">
-                No products found in {title}.
-              </p>
+              <p className="text-center text-lg text-white">No products found in {title}.</p>
             )}
           </section>
         </main>
