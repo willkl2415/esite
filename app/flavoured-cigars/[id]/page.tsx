@@ -14,10 +14,10 @@ export default function ProductDetailPage() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-[#ff9800] p-10">
         <h1 className="text-2xl font-bold text-red-600">Product Not Found</h1>
         <Link
-          href=".."
+          href="/flavoured-cigars"
           className="mt-4 bg-black text-[#ff9800] font-bold px-6 py-3 rounded-full shadow-md hover:bg-white hover:text-black transition"
         >
-          ← Back to Products
+          ← Back to flavoured cigars
         </Link>
       </div>
     );
@@ -28,10 +28,10 @@ export default function ProductDetailPage() {
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-12">
         <div className="flex justify-end mb-6">
           <Link
-            href=".."
+            href="/flavoured-cigars"
             className="bg-[#000100] text-[#ff9800] font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-900 hover:text-white transition"
           >
-            ← Back to {product.category.replace("-", " ")}
+            ← Back to flavoured cigars
           </Link>
         </div>
         <div className="grid md:grid-cols-2 gap-10 items-start">
