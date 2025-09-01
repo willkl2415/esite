@@ -1,37 +1,31 @@
 "use client";
 
 export default function LexiconPage() {
-  const letters = [
-    "A","B","C","D","E","F","G","H","I","J","K","L","M",
-    "N","O","P","Q","R","S","T","U","V","W","Y","Z"
-  ];
-
+  const letters = ["A","B","Z"];
   return (
     <div className="p-10 max-w-6xl mx-auto">
-      {/* Top Anchor (title + index) */}
-      <div id="top">
-        <h1 className="text-3xl font-bold mb-8 text-center text-black">
-          Cigar Manor Lexicon
-        </h1>
+      <h1 className="text-3xl font-bold mb-8 text-center text-black">
+        Cigar Manor Lexicon
+      </h1>
 
-        {/* Jump Index */}
-        <div className="mb-10 text-center">
-          {letters.map(letter => (
-            <a
-              key={letter}
-              href={`#${letter}`}
-              className="mx-2 text-black font-bold hover:text-[#ff9800]"
-            >
-              {letter}
-            </a>
-          ))}
-        </div>
+      {/* Jump Index with id=top */}
+      <div id="top" className="mb-10 text-center">
+        {letters.map(letter => (
+          <a
+            key={letter}
+            href={`#${letter}`}
+            className="mx-2 text-black font-bold hover:text-[#ff9800]"
+          >
+            {letter}
+          </a>
+        ))}
       </div>
 
       <div className="bg-white rounded-2xl shadow-md p-10 text-left">
         <p className="mb-8 text-lg text-gray-700">
           An A–Z glossary of cigar terminology and culture, compiled by Cigar Manor.
         </p>
+
         <h2 id="A" className="text-2xl font-semibold text-[#ff9800] mb-4">A</h2>
         <ul className="space-y-3 mb-4">
           <li><strong>Acopio Y Beneficio</strong> – The process of gathering and improving tobacco leaves after harvest until placed in bales to mature.</li>
