@@ -2,17 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === Global styles using Orange (#ff9800) and Black (#000100) === */
 body {
   @apply bg-[#ff9800] text-[#000100] font-sans antialiased;
 }
 
-/* Links */
 a {
   @apply text-[#000100] hover:text-white transition-colors duration-200;
 }
 
-/* Buttons */
 button {
   @apply transition duration-200 ease-in-out;
 }
@@ -25,7 +22,6 @@ button.secondary {
   @apply border border-[#000100] text-[#000100] font-semibold px-6 py-3 rounded-full hover:bg-white hover:text-[#ff9800];
 }
 
-/* Header + Nav */
 header {
   @apply bg-[#ff9800] border-b shadow-sm;
 }
@@ -34,12 +30,10 @@ nav a {
   @apply text-[#000100] hover:text-white;
 }
 
-/* Hero Section */
 section.hero {
   @apply bg-[#ff9800] text-[#000100];
 }
 
-/* Product Cards - keep white for images */
 .product-card {
   @apply border border-[#000100] rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition bg-white;
 }
@@ -52,7 +46,6 @@ section.hero {
   @apply text-[#000100] mb-4;
 }
 
-/* Footer */
 footer {
   background-color: #ff9800 !important;
   color: #000100 !important;
@@ -62,76 +55,68 @@ footer {
   padding: 1.5rem;
 }
 
-/* ===========================================================
-   GOOGLE TRANSLATE WIDGET — stable styling & branding removal
-   =========================================================== */
-
-/* Keep the container present */
+/* Google Translate widget styling */
 #google_translate_element {
   display: inline-block !important;
 }
 
-/* Make the whole gadget’s text 0px so "Powered by" collapses. */
 #google_translate_element .goog-te-gadget {
   font-size: 0 !important;
   line-height: 0 !important;
 }
 
-/* Restore normal size on the actual control (both render modes). */
 #google_translate_element .goog-te-gadget .goog-te-gadget-simple,
 #google_translate_element .goog-te-gadget .goog-te-combo {
   font-size: 14px !important;
   line-height: 1.1 !important;
-  font-weight: 700 !important;       /* bold text */
-  color: #000100 !important;         /* black text */
+  font-weight: 700 !important;
+  color: #000100 !important;
 }
 
-/* Button look for the "simple" style gadget */
 #google_translate_element .goog-te-gadget-simple {
-  background: #ff9800 !important;    /* 🔶 orange background */
-  color: #000100 !important;         /* ⚫ black text */
+  background: #ff9800 !important;
+  color: #000100 !important;
   font-weight: 700 !important;
   border-radius: 10px !important;
   padding: 8px 14px !important;
-  border: 2px solid #000100 !important;  /* ⚫ black border */
+  border: 2px solid #000100 !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
-  width: auto !important;            /* compact width */
-  box-shadow: none !important;       /* remove inset */
+  width: auto !important;
+  box-shadow: none !important;
 }
 
-/* Ensure the visible label is styled correctly */
 #google_translate_element .goog-te-gadget-simple span,
 #google_translate_element .goog-te-gadget-simple a {
-  color: #000100 !important;         /* ⚫ black text inside */
+  color: #000100 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
 }
 
-/* Native dropdown (<select>) look */
 #google_translate_element .goog-te-combo {
-  background: #ff9800 !important;    /* 🔶 orange background */
-  color: #000100 !important;         /* ⚫ black text */
+  background: #ff9800 !important;
+  color: #000100 !important;
   font-weight: 700 !important;
   border: 2px solid #000100 !important;
   border-radius: 6px !important;
   padding: 6px 12px !important;
-  width: 140px !important;           /* compact width */
+  width: 140px !important;
   max-width: 160px !important;
   appearance: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
 }
 
-/* Optional: hide the tiny globe icon inside the button */
 #google_translate_element .goog-te-gadget-icon {
   display: none !important;
 }
 
-/* Hide Google’s branding link explicitly */
 #google_translate_element .goog-logo-link {
   display: none !important;
 }
 
-/* Do NOT hide all spans anymore (that’s what broke the dropdown). */
+/* Anchor scroll offset fix */
+html {
+  scroll-padding-top: 100px;
+}
