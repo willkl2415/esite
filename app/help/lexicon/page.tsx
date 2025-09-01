@@ -1,7 +1,7 @@
 "use client";
 
 export default function LexiconPage() {
-  const letters = ["A","B","Z"];
+    const letters = [ "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z" ];
   return (
     <div className="p-10 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-8 text-center text-black">
