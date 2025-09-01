@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "../data/products"; // ✅ central product list
+import { products } from "../data/products";
 
 type CategoryPageProps = {
   title: string;
@@ -11,7 +11,6 @@ type CategoryPageProps = {
   category: string;
 };
 
-// ✅ categories that use Vitola
 const cigarCategories = [
   "awarded-cigars",
   "new-world-cigars",
@@ -23,7 +22,6 @@ const cigarCategories = [
 export default function CategoryPage({ title, description, category }: CategoryPageProps) {
   const filtered = products.filter((p) => p.category === category);
 
-  // ✅ Build dynamic brand + vitola lists (safe for missing fields)
   const brandsInCategory = Array.from(
     new Set(filtered.map((p: any) => p.brand || null))
   ).filter(Boolean);
@@ -33,38 +31,36 @@ export default function CategoryPage({ title, description, category }: CategoryP
       ? Array.from(new Set(filtered.map((p: any) => p.vitola || null))).filter(Boolean)
       : [];
 
-  // ✅ State for filters
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedVitolas, setSelectedVitolas] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState([0, 100]); // default £0–100
+  const [priceRange, setPriceRange] = useState([0, 100]);
   const [applyFilters, setApplyFilters] = useState(false);
+  const [sortOption, setSortOption] = useState("Default Sorting");
 
-  // ✅ Toggle brand filter
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
   };
 
-  // ✅ Toggle vitola filter
   const toggleVitola = (vitola: string) => {
     setSelectedVitolas((prev) =>
       prev.includes(vitola) ? prev.filter((v) => v !== vitola) : [...prev, vitola]
     );
   };
 
-  // ✅ Reset everything
   const clearFilters = () => {
     setSearchTerm("");
     setSelectedBrands([]);
     setSelectedVitolas([]);
     setPriceRange([0, 100]);
     setApplyFilters(false);
+    setSortOption("Default Sorting");
   };
 
-  // ✅ Apply all filters
-  const displayedProducts = filtered.filter((p: any) => {
+  // ✅ Apply filters
+  let displayedProducts = filtered.filter((p: any) => {
     if (!applyFilters) {
       return p.name.toLowerCase().includes(searchTerm.toLowerCase());
     }
@@ -74,10 +70,29 @@ export default function CategoryPage({ title, description, category }: CategoryP
       selectedBrands.length === 0 || (p.brand && selectedBrands.includes(p.brand));
     const matchesVitola =
       selectedVitolas.length === 0 || (p.vitola && selectedVitolas.includes(p.vitola));
-    const matchesPrice =
-      p.price >= priceRange[0] && p.price <= priceRange[1];
+    const matchesPrice = p.price >= priceRange[0] && p.price <= priceRange[1];
 
     return matchesSearch && matchesBrand && matchesVitola && matchesPrice;
+  });
+
+  // ✅ Apply sorting
+  displayedProducts = [...displayedProducts].sort((a: any, b: any) => {
+    switch (sortOption) {
+      case "Alphabetical":
+        return a.name.localeCompare(b.name);
+      case "Price Low to High":
+        return a.price - b.price;
+      case "Price High to Low":
+        return b.price - a.price;
+      case "Newest Additions":
+        return (b.dateAdded || 0) - (a.dateAdded || 0); // needs dateAdded field
+      case "Top 5 Sellers":
+        return (b.sales || 0) - (a.sales || 0); // needs sales field
+      case "Average Rating":
+        return (b.rating || 0) - (a.rating || 0); // needs rating field
+      default:
+        return 0; // Default Sorting (no change)
+    }
   });
 
   return (
@@ -87,7 +102,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
         <aside className="bg-white shadow-lg p-6 rounded-2xl space-y-6">
           <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
-          {/* Search box */}
           <input
             type="text"
             placeholder={`Search ${title}...`}
@@ -96,7 +110,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
             className="w-full border px-3 py-2 rounded-lg mb-4"
           />
 
-          {/* Filter / Clear buttons */}
           <div className="flex space-x-4">
             <button
               onClick={() => setApplyFilters(true)}
@@ -112,7 +125,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
             </button>
           </div>
 
-          {/* Price Filter */}
           <div>
             <h3 className="font-semibold mb-2">Price</h3>
             <input
@@ -129,7 +141,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
             </div>
           </div>
 
-          {/* Brands Filter */}
           {brandsInCategory.length > 0 && (
             <details className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
@@ -149,7 +160,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
             </details>
           )}
 
-          {/* Vitola Filter */}
           {vitolasInCategory.length > 0 && (
             <details className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
@@ -172,7 +182,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
         {/* Main Content */}
         <main className="md:col-span-3 space-y-6">
-          {/* Intro Section */}
           <section className="bg-white shadow-lg p-6 rounded-2xl">
             <h1 className="text-2xl font-bold mb-2">{title}</h1>
             <p className="text-gray-700">{description}</p>
@@ -180,7 +189,11 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
           {/* Sorting */}
           <div className="flex justify-end">
-            <select className="border rounded-lg px-3 py-2 shadow-sm">
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="border rounded-lg px-3 py-2 shadow-sm"
+            >
               <option>Default Sorting</option>
               <option>Alphabetical</option>
               <option>Average Rating</option>
