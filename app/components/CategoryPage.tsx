@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "../data/products";
@@ -35,20 +35,28 @@ export default function CategoryPage({ title, description, category }: CategoryP
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedVitolas, setSelectedVitolas] = useState<string[]>([]);
   const [priceMin, setPriceMin] = useState(0);
-  const [priceMax, setPriceMax] = useState(100);
+  const [priceMax, setPriceMax] = useState(1000); // widened range
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
+
+  // refs for auto-closing <details>
+  const brandDetailsRef = useRef<HTMLDetailsElement>(null);
+  const vitolaDetailsRef = useRef<HTMLDetailsElement>(null);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
+    // auto-close
+    if (brandDetailsRef.current) brandDetailsRef.current.open = false;
   };
 
   const toggleVitola = (vitola: string) => {
     setSelectedVitolas((prev) =>
       prev.includes(vitola) ? prev.filter((v) => v !== vitola) : [...prev, vitola]
     );
+    // auto-close
+    if (vitolaDetailsRef.current) vitolaDetailsRef.current.open = false;
   };
 
   const clearFilters = () => {
@@ -56,7 +64,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setSelectedBrands([]);
     setSelectedVitolas([]);
     setPriceMin(0);
-    setPriceMax(100);
+    setPriceMax(1000);
     setApplyFilters(false);
     setSortOption("Default Sorting");
   };
@@ -87,7 +95,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
       case "Price High to Low":
         return b.price - a.price;
       case "Newest Additions":
-        return (b.dateAdded || 0) - (a.dateAdded || 0);
+        return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
       case "Top 5 Sellers":
         return (b.sales || 0) - (a.sales || 0);
       case "Average Rating":
@@ -151,7 +159,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
           {/* Brands */}
           {brandsInCategory.length > 0 && (
-            <details className="border rounded-lg">
+            <details ref={brandDetailsRef} className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
               <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
                 {brandsInCategory.map((brand) => (
@@ -171,7 +179,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
           {/* Vitolas */}
           {vitolasInCategory.length > 0 && (
-            <details className="border rounded-lg">
+            <details ref={vitolaDetailsRef} className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
               <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
                 {vitolasInCategory.map((vitola) => (
