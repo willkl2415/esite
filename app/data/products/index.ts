@@ -12,6 +12,8 @@ export const products = [
     category: "awarded-cigars",
     featured: true,
     badge: "Award Winner",
+    brand: "Bolívar",
+    vitola: "Belicoso Fino",
   },
   {
     id: "montecristo-brillantes",
@@ -23,6 +25,8 @@ export const products = [
     category: "awarded-cigars",
     featured: false,
     badge: "Limited Edition",
+    brand: "Montecristo",
+    vitola: "Brillantes",
   },
   {
     id: "partagas-maestro",
@@ -34,6 +38,8 @@ export const products = [
     category: "awarded-cigars",
     featured: true,
     badge: "Award Winner",
+    brand: "Partagás",
+    vitola: "Maestro",
   },
 
   // === New World Cigars ===
@@ -47,6 +53,8 @@ export const products = [
     category: "new-world-cigars",
     featured: true,
     badge: "Top 25",
+    brand: "AJ Fernández",
+    vitola: "Toro",
   },
   {
     id: "newworld-2",
@@ -57,6 +65,8 @@ export const products = [
     category: "new-world-cigars",
     featured: false,
     badge: "",
+    brand: "Casa Turrent",
+    vitola: "Robusto",
   },
   {
     id: "newworld-3",
@@ -67,6 +77,8 @@ export const products = [
     category: "new-world-cigars",
     featured: false,
     badge: "New",
+    brand: "Highclere Castle",
+    vitola: "Toro",
   },
 
   // === Machine-Made Cigars ===
@@ -80,6 +92,8 @@ export const products = [
     category: "machine-made-cigars",
     featured: false,
     badge: "",
+    brand: "Villiger",
+    vitola: "Cigarillo",
   },
   {
     id: "machine-2",
@@ -90,6 +104,8 @@ export const products = [
     category: "machine-made-cigars",
     featured: false,
     badge: "Popular",
+    brand: "Panter",
+    vitola: "Cigarillo",
   },
   {
     id: "machine-3",
@@ -100,6 +116,8 @@ export const products = [
     category: "machine-made-cigars",
     featured: true,
     badge: "",
+    brand: "Café Crème",
+    vitola: "Cigarillo",
   },
 
   // === Flavoured Cigars ===
@@ -112,6 +130,8 @@ export const products = [
     category: "flavoured-cigars",
     featured: false,
     badge: "Popular",
+    brand: "Tatiana",
+    vitola: "Corona",
   },
   {
     id: "flavoured-2",
@@ -122,6 +142,8 @@ export const products = [
     category: "flavoured-cigars",
     featured: true,
     badge: "Best Seller",
+    brand: "CAO",
+    vitola: "Robusto",
   },
   {
     id: "flavoured-3",
@@ -132,6 +154,8 @@ export const products = [
     category: "flavoured-cigars",
     featured: false,
     badge: "",
+    brand: "Java",
+    vitola: "Toro",
   },
 
   // === Samplers ===
@@ -144,16 +168,21 @@ export const products = [
     category: "samplers",
     featured: true,
     badge: "Exclusive",
+    brand: "Various Cuban Brands",
+    vitola: "Mixed",
   },
   {
     id: "sampler-2",
     name: "New World Explorer Pack",
     price: 80.0,
     image: "/cigar-2.png",
-    description: "Explore the best of Nicaragua, Honduras, and the Dominican Republic.",
+    description:
+      "Explore the best of Nicaragua, Honduras, and the Dominican Republic.",
     category: "samplers",
     featured: false,
     badge: "",
+    brand: "Mixed New World Brands",
+    vitola: "Mixed",
   },
   {
     id: "sampler-3",
@@ -164,6 +193,8 @@ export const products = [
     category: "samplers",
     featured: false,
     badge: "Popular",
+    brand: "Mixed Flavoured Brands",
+    vitola: "Mixed",
   },
 
   // === Accessories ===
@@ -176,6 +207,8 @@ export const products = [
     category: "accessories",
     featured: true,
     badge: "",
+    brand: "Xikar",
+    vitola: "",
   },
   {
     id: "accessory-2",
@@ -186,6 +219,8 @@ export const products = [
     category: "accessories",
     featured: false,
     badge: "Bestseller",
+    brand: "Colibri",
+    vitola: "",
   },
   {
     id: "accessory-3",
@@ -196,6 +231,8 @@ export const products = [
     category: "accessories",
     featured: false,
     badge: "",
+    brand: "Boveda",
+    vitola: "",
   },
 
   // === Gifts ===
@@ -208,6 +245,8 @@ export const products = [
     category: "gifts",
     featured: true,
     badge: "Gift",
+    brand: "Cigar Manor",
+    vitola: "",
   },
   {
     id: "gift-2",
@@ -218,6 +257,8 @@ export const products = [
     category: "gifts",
     featured: false,
     badge: "Limited Edition",
+    brand: "Cigar Manor",
+    vitola: "",
   },
   {
     id: "gift-3",
@@ -228,6 +269,8 @@ export const products = [
     category: "gifts",
     featured: false,
     badge: "",
+    brand: "Cigar Manor",
+    vitola: "",
   },
 
   // === Promotions ===
@@ -240,6 +283,8 @@ export const products = [
     category: "promotions",
     featured: true,
     badge: "Hot Deal",
+    brand: "Cigar Manor",
+    vitola: "",
   },
   {
     id: "promo-2",
@@ -250,6 +295,8 @@ export const products = [
     category: "promotions",
     featured: false,
     badge: "Bestseller",
+    brand: "Cigar Manor",
+    vitola: "",
   },
   {
     id: "promo-3",
@@ -260,5 +307,7 @@ export const products = [
     category: "promotions",
     featured: false,
     badge: "Flash Sale",
+    brand: "Cigar Manor",
+    vitola: "",
   },
 ];
