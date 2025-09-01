@@ -14,7 +14,7 @@ export default function LexiconPage() {
           <a
             key={letter}
             href={`#${letter}`}
-            className="mx-2 text-[#ff9800] font-bold hover:underline"
+            className="mx-2 text-black font-bold hover:text-[#ff9800]"
           >
             {letter}
           </a>
