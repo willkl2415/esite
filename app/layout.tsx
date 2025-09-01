@@ -129,7 +129,7 @@ export default function RootLayout({
         <div className="flex justify-center my-6">
           <Link
             href="/"
-            className="bg-purple-600 text-white px-6 py-2 rounded-full font-medium shadow hover:bg-purple-700 transition-colors"
+            className="bg-purple-600 text-black px-6 py-2 rounded-full font-bold shadow hover:bg-purple-700 transition-colors"
           >
             Back Home
           </Link>
