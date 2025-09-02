@@ -50,13 +50,15 @@ export default function HomePage() {
             featured.map((product) => (
               <div key={product.id} className="text-center">
                 <Link href={`/${product.category}/${product.id}?lang=${lang}`}>
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={300}
-                    height={300}
-                    className="w-full h-64 object-cover rounded-lg shadow-lg bg-white hover:scale-105 transition"
-                  />
+                  <div className="w-full h-64 flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transition">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width={300}
+                      height={600}
+                      className="object-contain"
+                    />
+                  </div>
                 </Link>
                 <p className="mt-4 text-lg font-medium">{product.name}</p>
                 <p className="text-sm text-gray-600">
