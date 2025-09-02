@@ -25,12 +25,12 @@ export default function BlogPage() {
     },
     {
       id: 3,
-      title: "Pairing Cigars with Whiskey",
+      title: "The Beauty and Sophistication of Cigars",
       date: "August 15, 2025",
       excerpt:
-        "Discover the timeless harmony between a well-aged cigar and a fine whiskey. Here’s how to create the perfect pairing experience...",
+        "The beauty of cigars is in the drama they bring - smooth, bold, unapologetically sophisticated. Every draw is layered with craftsmanship and mystery, a ritual that feels both indulgent and magnetic. A strong cigar can fuel late-night conversations, while a lighter one sets the mood for quiet intimacy. The real thrill is experimenting with moments and moods - but remember, it’s about harmony. A cigar should seduce the senses, not steal the spotlight.",
       image: "/f-27.png",
-      slug: "cigars-and-whiskey",
+      slug: "beauty-and-sophistication",
     },
   ];
 
