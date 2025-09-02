@@ -1,18 +1,15 @@
 // inflate.js
-// Simple script to inflate products dataset for stress testing
-// Run: node --max-old-space-size=8192 inflate.js
+// Stream-writing version (safe for 60k+ products)
+// Run: node inflate.js
 
-const fs = require("fs");  // ✅ no warnings
+const fs = require("fs");
 
-// === CONFIG ===
-const filePath = "app/data/products/index.ts";  // this will be overwritten
-const multiplier = 1250; // locked to ~59,000 products
+const filePath = "app/data/products/index.ts";  // will be overwritten
+const multiplier = 1250; // ~59,000 products
 
-// === SCRIPT ===
 const content = fs.readFileSync(filePath, "utf-8");
-
-// Grab everything between export const products = [ ... ];
 const match = content.match(/export const products = \[(.*)\];/s);
+
 if (!match) {
   console.error("❌ Could not find products array in index.ts");
   process.exit(1);
@@ -22,25 +19,24 @@ const productBlock = match[1].trim();
 const objects = productBlock.split("},").map(o => o.trim()).filter(Boolean);
 const products = objects.map(o => (o.endsWith("}") ? o : o + "}"));
 
-let inflated = [];
-let counter = 1;
+const stream = fs.createWriteStream(filePath, { flags: "w" });
 
+stream.write("// AUTO-GENERATED DATASET (~59,000 products)\n");
+stream.write("export const products = [\n");
+
+let counter = 1;
 for (const obj of products) {
-  inflated.push(obj); // keep the original
+  stream.write(obj + ",\n"); // original
   for (let i = 0; i < multiplier; i++) {
     let copy = obj
       .replace(/id:\s*"([^"]+)"/, (m, id) => `id: "${id}-copy${counter}"`)
       .replace(/name:\s*"([^"]+)"/, (m, name) => `name: "${name} Copy ${counter}"`);
-    inflated.push(copy);
+    stream.write(copy + ",\n");
     counter++;
   }
 }
 
-const finalContent = `// AUTO-GENERATED DATASET (~59,000 products)
-export const products = [
-${inflated.join(",\n")}
-];`;
+stream.write("];\n");
+stream.end();
 
-fs.writeFileSync(filePath, finalContent, "utf-8");
-
-console.log(`✅ index.ts updated with ${inflated.length} products (multiplier locked at ${multiplier})`);
+console.log(`✅ index.ts updated with ~${products.length * (multiplier + 1)} products`);
