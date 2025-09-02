@@ -35,13 +35,15 @@ export default function ProductDetailPage() {
           </Link>
         </div>
         <div className="grid md:grid-cols-2 gap-10 items-start">
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={600}
-            height={400}
-            className="rounded-lg shadow-lg object-cover w-full h-[400px]"
-          />
+          <div className="flex justify-center items-center bg-white rounded-lg shadow-lg overflow-hidden h-[600px]">
+            <Image
+              src={product.image}
+              alt={product.name}
+              width={400}
+              height={800}
+              className="object-contain"
+            />
+          </div>
           <div>
             <h1 className="text-4xl font-bold text-black mb-6">{product.name}</h1>
             <p className="text-2xl text-[#ff9800] font-bold mb-6">

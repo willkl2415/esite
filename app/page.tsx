@@ -50,7 +50,7 @@ export default function HomePage() {
             featured.map((product) => (
               <div key={product.id} className="text-center">
                 <Link href={`/${product.category}/${product.id}?lang=${lang}`}>
-                  <div className="w-full h-64 flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transition">
+                  <div className="w-full h-[500px] flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transition">
                     <Image
                       src={product.image}
                       alt={product.name}
