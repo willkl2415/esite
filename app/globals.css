@@ -121,8 +121,8 @@ html {
   scroll-padding-top: 100px;
 }
 
-/* ✅ Universal fix for product images */
-.product-card img,
-.product-image img {
+/* ✅ Universal fix for Next.js product images */
+.product-card span > img,
+.product-image span > img {
   object-fit: contain !important; /* always show full cigar */
 }
