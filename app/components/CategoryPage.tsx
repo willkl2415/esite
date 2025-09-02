@@ -39,6 +39,10 @@ export default function CategoryPage({ title, description, category }: CategoryP
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
 
+  // ✅ Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
+
   // refs for auto-closing <details>
   const brandDetailsRef = useRef<HTMLDetailsElement>(null);
   const vitolaDetailsRef = useRef<HTMLDetailsElement>(null);
@@ -47,7 +51,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
-    // auto-close
     if (brandDetailsRef.current) brandDetailsRef.current.open = false;
   };
 
@@ -55,7 +58,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setSelectedVitolas((prev) =>
       prev.includes(vitola) ? prev.filter((v) => v !== vitola) : [...prev, vitola]
     );
-    // auto-close
     if (vitolaDetailsRef.current) vitolaDetailsRef.current.open = false;
   };
 
@@ -67,6 +69,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setPriceMax(1000);
     setApplyFilters(false);
     setSortOption("Default Sorting");
+    setCurrentPage(1); // reset to page 1
   };
 
   // ✅ Apply filters
@@ -104,6 +107,13 @@ export default function CategoryPage({ title, description, category }: CategoryP
         return 0;
     }
   });
+
+  // ✅ Pagination logic
+  const totalPages = Math.ceil(displayedProducts.length / productsPerPage);
+  const paginatedProducts = displayedProducts.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
 
   return (
     <div className="min-h-screen bg-[#ff9800] p-6">
@@ -224,8 +234,8 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
           {/* Product Grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayedProducts.length > 0 ? (
-              displayedProducts.map((product: any) => (
+            {paginatedProducts.length > 0 ? (
+              paginatedProducts.map((product: any) => (
                 <div
                   key={product.id}
                   className="relative bg-[#3E2723] border border-[#CFAE70] p-6 rounded-2xl shadow-xl hover:scale-105 hover:shadow-2xl transition transform duration-300"
@@ -260,6 +270,29 @@ export default function CategoryPage({ title, description, category }: CategoryP
               <p className="text-center text-lg text-white">No products found in {title}.</p>
             )}
           </section>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center space-x-4 mt-8">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 bg-[#000100] text-[#ff9800] rounded-full disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <span className="font-semibold">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 bg-[#000100] text-[#ff9800] rounded-full disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </main>
       </div>
     </div>
