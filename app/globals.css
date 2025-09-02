@@ -120,3 +120,9 @@ footer {
 html {
   scroll-padding-top: 100px;
 }
+
+/* ✅ Universal fix for product images */
+.product-card img,
+.product-image img {
+  object-fit: contain !important; /* always show full cigar */
+}
