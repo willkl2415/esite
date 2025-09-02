@@ -1,12 +1,12 @@
 // inflate.js
 // Simple script to inflate products dataset for stress testing
-// Run: node inflate.js
+// Run: node --max-old-space-size=8192 inflate.js
 
-const fs = require("fs");  // ✅ no more Node warnings
+const fs = require("fs");  // ✅ no warnings
 
 // === CONFIG ===
 const filePath = "app/data/products/index.ts";  // this will be overwritten
-const multiplier = 1000; // adjust duplicates per product (e.g., 100 = 10k, 1000 = 100k)
+const multiplier = 1250; // locked to ~59,000 products
 
 // === SCRIPT ===
 const content = fs.readFileSync(filePath, "utf-8");
@@ -36,11 +36,11 @@ for (const obj of products) {
   }
 }
 
-const finalContent = `// AUTO-GENERATED DATASET
+const finalContent = `// AUTO-GENERATED DATASET (~59,000 products)
 export const products = [
 ${inflated.join(",\n")}
 ];`;
 
 fs.writeFileSync(filePath, finalContent, "utf-8");
 
-console.log(`✅ index.ts updated with ${inflated.length} products (multiplier: ${multiplier})`);
+console.log(`✅ index.ts updated with ${inflated.length} products (multiplier locked at ${multiplier})`);
