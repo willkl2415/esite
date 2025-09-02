@@ -27,12 +27,12 @@ const posts: Record<
     content:
       "The legend of the Cuban handroller maidens has fascinated cigar lovers for decades. While largely romanticised, it reflects the deep respect held for Cuba’s tobacco traditions. In reality, both men and women are part of Cuba’s expert torcedor (roller) community — each trained through years of apprenticeship. The myth may add a playful air of mystery, but the real mastery lies in the precision and pride that Cuban rollers bring to every cigar.",
   },
-  "cigars-and-whiskey": {
-    title: "Pairing Cigars with Whiskey",
+  "beauty-and-sophistication": {
+    title: "The Beauty and Sophistication of Cigars",
     date: "August 15, 2025",
     image: "/f-27.png",
     content:
-      "Pairing cigars with whiskey is a timeless indulgence. Both are crafted with patience and expertise, and when matched well, they elevate each other. Full-bodied cigars often pair beautifully with smoky Scotch, while a milder cigar might shine with a smooth bourbon or Irish whiskey. Experimenting with pairings is part of the pleasure — but remember, balance is key. Neither should overpower the other.",
+      "The beauty of cigars is in the drama they bring - smooth, bold, unapologetically sophisticated. Every draw is layered with craftsmanship and mystery, a ritual that feels both indulgent and magnetic. A strong cigar can fuel late-night conversations, while a lighter one sets the mood for quiet intimacy. The real thrill is experimenting with moments and moods - but remember, it’s about harmony. A cigar should seduce the senses, not steal the spotlight.",
   },
 };
 
