@@ -26,6 +26,7 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen bg-[#ff9800] p-10">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-12">
+        {/* Back Button */}
         <div className="flex justify-end mb-6">
           <Link
             href="/awarded-cigars"
@@ -34,16 +35,22 @@ export default function ProductDetailPage() {
             ← Back to awarded cigars
           </Link>
         </div>
-        <div className="flex justify-center items-center bg-white rounded-lg shadow-lg overflow-hidden h-[600px]">
-          <Image
-           src={product.image}
-           alt={product.name}
-           width={400}
-           height={800}
-           className="object-contain"
-        />
-        </div>
 
+        {/* Product Grid */}
+        <div className="grid md:grid-cols-2 gap-10 items-start">
+          {/* Product Image */}
+          <div className="flex justify-center items-center bg-white rounded-lg shadow-lg overflow-hidden h-[600px]">
+            <Image
+              src={product.image}
+              alt={product.name}
+              width={400}
+              height={800}
+              className="object-contain"
+            />
+          </div>
+
+          {/* Product Info */}
+          <div>
             <h1 className="text-4xl font-bold text-black mb-6">{product.name}</h1>
             <p className="text-2xl text-[#ff9800] font-bold mb-6">
               £{Number(product.price).toFixed(2)}
