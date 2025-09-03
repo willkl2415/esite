@@ -209,6 +209,43 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* === Crafted for Connoisseurs Section === */}
+      <section className="w-full bg-white py-24">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+          {/* Headline */}
+          <div>
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+              Crafted for <br /> Connoisseurs
+            </h2>
+          </div>
+
+          {/* Brand statement */}
+          <div>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              Cigar Manor caters to both novices and seasoned aficionados by
+              providing a vast array of cigars, including renowned Cuban and New
+              World varieties.
+            </p>
+          </div>
+
+          {/* Mission + Image */}
+          <div className="flex flex-col gap-8">
+            <p className="text-lg text-gray-700 leading-relaxed">
+              Our mission is to cultivate a vibrant community and challenge
+              outdated perceptions about cigar culture.
+            </p>
+            <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
+              <Image
+                src="/cigar-drink.png"
+                alt="Cigar in ashtray"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
