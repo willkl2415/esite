@@ -25,8 +25,7 @@ export default function HomePage() {
             Where Cigars Come Alive
           </h1>
           <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
-            Embark on a flavorful journey of discovery with Cigar Manor, a
-            premier platform designed for cigar enthusiasts of all levels.
+            Cigar Manor is your gateway to the world of cigars - discover and enjoy the flavours, and then make it your own.
           </p>
           <Link
             href={`/awarded-cigars?lang=${lang}`}
