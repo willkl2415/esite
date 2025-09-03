@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { cigarBrands, CigarBrand } from "../data/cigarBrands";
 
-export default function CategoryPage(): JSX.Element {
+export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
 
   const toggleBrand = (brand: string) => {
