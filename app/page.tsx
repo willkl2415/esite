@@ -25,8 +25,8 @@ export default function HomePage() {
             Where Cigars Come Alive
           </h1>
           <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
-            Embark on a flavorful journey of dicovery with Cigar Manor, a premier platform
-            designed for cigar enthusiasts of all levels.
+            Embark on a flavorful journey of discovery with Cigar Manor, a
+            premier platform designed for cigar enthusiasts of all levels.
           </p>
           <Link
             href={`/awarded-cigars?lang=${lang}`}
@@ -36,9 +36,9 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Side-by-side images */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full h-[500px]">
-          <div className="relative w-full h-full">
+        {/* Side-by-side images (constrained width) */}
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-0">
+          <div className="relative w-full h-[400px] md:h-[500px]">
             <Image
               src="/hero-1.png"
               alt="Cigar close-up"
@@ -47,7 +47,7 @@ export default function HomePage() {
               priority
             />
           </div>
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-[400px] md:h-[500px]">
             <Image
               src="/hero-2.png"
               alt="Cigar lifestyle"
