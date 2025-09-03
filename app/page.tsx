@@ -218,6 +218,16 @@ export default function HomePage() {
             <h2 className="text-4xl md:text-5xl font-bold leading-tight">
               Crafted for <br /> Connoisseurs
             </h2>
+            <p className="mt-6 text-lg text-gray-700">
+              Explore our complete <span className="font-semibold">A–Z of cigar brands</span> 
+              — from Cuban icons to New World discoveries.
+            </p>
+            <Link
+              href="/category"
+              className="mt-6 inline-block border border-black px-6 py-2 rounded-full font-medium hover:bg-black hover:text-white transition"
+            >
+              Browse A–Z Cigars →
+            </Link>
           </div>
 
           {/* Brand statement */}
