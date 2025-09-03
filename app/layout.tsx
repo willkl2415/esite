@@ -2,16 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import products from "./data/products";
+import { products } from "./data/products";
 
 export default function HomePage() {
   return (
     <main className="flex flex-col items-center justify-center w-full">
       {/* === Hero Section === */}
       <section className="relative w-full h-[90vh] flex items-center justify-center text-center bg-gradient-to-b from-black via-[#000100] to-[#1a1a1a] text-white">
-        {/* Background overlay smoke effect (placeholder gradient now) */}
         <div className="absolute inset-0 opacity-30 bg-[url('/cigar-smoke-bg.jpg')] bg-cover bg-center" />
-
         <div className="relative z-10 max-w-3xl px-4">
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight drop-shadow-lg">
             Cigar Manor
@@ -90,7 +88,9 @@ export default function HomePage() {
               </div>
               <div className="p-6 text-center">
                 <h3 className="text-lg font-semibold">{product.name}</h3>
-                <p className="text-gray-500 mb-4">£{product.price.toFixed(2)}</p>
+                <p className="text-gray-500 mb-4">
+                  £{product.price.toFixed(2)}
+                </p>
                 <Link
                   href={`/${product.category}/${product.id}`}
                   className="inline-block px-5 py-2 rounded-full bg-[#ff9800] text-black font-semibold hover:bg-black hover:text-[#ff9800] transition-colors"
@@ -131,27 +131,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* === Community / Social === */}
-      <section className="w-full py-20 bg-gray-50 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">
-          Join the Manor
-        </h2>
-        <p className="text-gray-600 mb-8">
-          Follow us for pairings, culture, and behind-the-scenes moments.
-        </p>
-        <div className="flex justify-center gap-6 text-3xl">
-          <Link href="https://x.com" target="_blank" className="hover:text-[#ff9800]">
-            <i className="fa-brands fa-x-twitter"></i>
-          </Link>
-          <Link href="https://instagram.com" target="_blank" className="hover:text-[#ff9800]">
-            <i className="fa-brands fa-instagram"></i>
-          </Link>
-          <Link href="https://tiktok.com" target="_blank" className="hover:text-[#ff9800]">
-            <i className="fa-brands fa-tiktok"></i>
-          </Link>
-          <Link href="https://linkedin.com" target="_blank" className="hover:text-[#ff9800]">
-            <i className="fa-brands fa-linkedin"></i>
-          </Link>
+      {/* === Footer Image Section === */}
+      <section className="relative w-full h-[300px] mt-20">
+        <Image
+          src="/footer-bg.png" // update with your chosen image
+          alt="Cigar bundles"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-40" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <p className="text-white text-xl md:text-2xl font-semibold text-center px-4">
+            Follow us for pairings, culture, and behind-the-scenes moments.
+          </p>
         </div>
       </section>
     </main>
