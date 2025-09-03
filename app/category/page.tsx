@@ -21,19 +21,20 @@ export default function CategoryPage() {
           </h1>
           <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
             From Cuban classics to New World gems, discover our full portfolio
-            of cigars. Browse by brand and explore their vitolas.
+            of cigars. Browse by brand and expand to see their vitolas.
           </p>
         </div>
       </section>
 
       {/* Main Content Layout */}
       <section className="flex-1 max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar: Brands A–Z */}
+        {/* Sidebar: Accordion A–Z */}
         <aside className="md:col-span-1 sticky top-28 self-start h-fit">
           <h2 className="text-xl font-semibold mb-4">Brands A–Z</h2>
           <ul className="space-y-2 text-gray-700">
             {cigarBrands.map((brandObj, i) => (
               <li key={i} className="border-b pb-2">
+                {/* Brand Toggle */}
                 <button
                   onClick={() => toggleBrand(brandObj.brand)}
                   className="w-full flex justify-between items-center text-left font-semibold hover:text-[#ff9800] transition"
@@ -49,10 +50,7 @@ export default function CategoryPage() {
                   <ul className="mt-2 ml-4 space-y-1 text-sm text-gray-600 list-disc">
                     {brandObj.vitolas.map((vitola, idx) => (
                       <li key={idx}>
-                        <Link
-                          href="#"
-                          className="hover:text-black transition"
-                        >
+                        <Link href="#" className="hover:text-black transition">
                           {vitola}
                         </Link>
                       </li>
