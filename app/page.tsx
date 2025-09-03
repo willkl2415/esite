@@ -16,7 +16,6 @@ export default function HomePage() {
 
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
-  // scroll by fixed width
   const scroll = (direction: "left" | "right") => {
     if (carouselRef.current) {
       const { clientWidth } = carouselRef.current;
@@ -24,6 +23,68 @@ export default function HomePage() {
       carouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
+
+  // List of images provided
+  const carouselImages = [
+    "new-10.png",
+    "new-9.png",
+    "new-8.png",
+    "new-7.png",
+    "new-6.png",
+    "new-5.png",
+    "new-4.png",
+    "new-3.png",
+    "new-2.png",
+    "new-1.png",
+    "hero-2.png",
+    "hero-1.png",
+    "cigar-guide-8.png",
+    "cigar-guide-5.png",
+    "cigar-guide-1.png",
+    "cigar-guide-4.png",
+    "cigar-guide-6.png",
+    "cigar-drink.png",
+    "f-24.png",
+    "f-25.png",
+    "partagas-maestro.png",
+    "romeo-wide-churchill.png",
+    "cigar-guide-9.png",
+    "f-29.png",
+    "f-28.png",
+    "f-26.png",
+    "f-23.png",
+    "f-22.png",
+    "cohiba-robusto.png",
+    "bolivar.png",
+    "cigar-couple.png",
+    "cigar-13.png",
+    "cigar-14.png",
+    "cigar-guide-2.png",
+    "Cohiba-Connecticut-Robusto-cigar.png",
+    "cigar-11.png",
+    "cigar-5.png",
+    "cigar-6.png",
+    "history-F2.png",
+    "history-F1.png",
+    "history-F4.png",
+    "history-F3.png",
+    "cigar-4.png",
+    "history-1.png",
+    "history-8.png",
+    "history-2.png",
+    "cigar-9.png",
+    "history-6.png",
+    "cigar-7.png",
+    "history-4.png",
+    "cigar-8.png",
+    "history-5.png",
+    "history-3.png",
+    "cigar-10.png",
+    "cigar-2.png",
+    "cigar-3.png",
+    "cigar-1.png",
+    "f-27.png",
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
@@ -66,7 +127,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* === Product Carousel Placeholder === */}
+      {/* === Product Carousel === */}
       <section className="py-16 bg-white relative">
         <h2 className="text-3xl font-bold mb-10 text-center">
           {t.finestSelection}
@@ -86,14 +147,39 @@ export default function HomePage() {
             ref={carouselRef}
             className="flex space-x-6 overflow-x-hidden scroll-smooth"
           >
-            {Array.from({ length: 50 }, (_, i) => (
-              <div
-                key={i}
-                className="flex-none w-64 h-64 bg-gray-200 rounded-lg shadow-md flex items-center justify-center text-gray-500 text-xl font-semibold"
-              >
-                Placeholder {i + 1}
-              </div>
-            ))}
+            {carouselImages.map((img, i) => {
+              // Try to find a matching product
+              const product = products.find((p) =>
+                p.image.toLowerCase().includes(img.toLowerCase())
+              );
+
+              return (
+                <div
+                  key={i}
+                  className="flex-none w-64 h-64 bg-gray-100 rounded-lg shadow-md overflow-hidden relative"
+                >
+                  {product ? (
+                    <Link
+                      href={`/${product.category}/${product.id}?lang=${lang}`}
+                    >
+                      <Image
+                        src={`/${img}`}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </Link>
+                  ) : (
+                    <Image
+                      src={`/${img}`}
+                      alt={`Placeholder ${i + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Right Arrow */}
@@ -103,6 +189,16 @@ export default function HomePage() {
           >
             ›
           </button>
+        </div>
+
+        {/* Return button */}
+        <div className="text-center mt-8">
+          <Link
+            href="/"
+            className="inline-block border border-black px-6 py-2 rounded-full font-medium hover:bg-black hover:text-white transition"
+          >
+            ⟵ Return
+          </Link>
         </div>
       </section>
     </div>
