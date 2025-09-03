@@ -5,6 +5,13 @@ import Link from "next/link";
 import { useRef } from "react";
 import { products } from "./data/products";
 import { labels } from "./dictionary";
+import { Fahkwang } from "next/font/google";
+
+// Load Fahkwang font
+const fahkwang = Fahkwang({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export default function HomePage() {
   const lang =
@@ -87,7 +94,9 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black">
+    <div
+      className={`flex flex-col min-h-screen bg-white text-black ${fahkwang.className}`}
+    >
       {/* === Hero Section === */}
       <section className="w-full bg-white">
         <div className="max-w-6xl mx-auto px-6 py-16 text-left">
@@ -148,7 +157,6 @@ export default function HomePage() {
             className="flex space-x-6 overflow-x-hidden scroll-smooth"
           >
             {carouselImages.map((img, i) => {
-              // Try to find a matching product
               const product = products.find((p) =>
                 p.image.toLowerCase().includes(img.toLowerCase())
               );
