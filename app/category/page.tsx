@@ -3,13 +3,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { products } from "../data/products";
+import { Fahkwang } from "next/font/google";
+
+// Load Fahkwang font
+const fahkwang = Fahkwang({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export default function CategoryPage() {
   // Extract unique brand names from product data
   const brands = Array.from(new Set(products.map((p) => p.brand))).sort();
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black">
+    <div
+      className={`flex flex-col min-h-screen bg-white text-black ${fahkwang.className}`}
+    >
       {/* Page Header */}
       <section className="w-full bg-white border-b">
         <div className="max-w-6xl mx-auto px-6 py-12 text-left">
@@ -50,9 +59,7 @@ export default function CategoryPage() {
               id={brand.toLowerCase().replace(/\s+/g, "-")}
               className="mb-12"
             >
-              <h3 className="text-2xl font-bold mb-6 border-b pb-2">
-                {brand}
-              </h3>
+              <h3 className="text-2xl font-bold mb-6 border-b pb-2">{brand}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {products
                   .filter((p) => p.brand === brand)
@@ -86,6 +93,16 @@ export default function CategoryPage() {
           ))}
         </div>
       </section>
+
+      {/* Return Button */}
+      <div className="text-center my-8">
+        <Link
+          href="/"
+          className="inline-block border border-black px-6 py-2 rounded-full font-medium hover:bg-black hover:text-white transition"
+        >
+          ⟵ Return Home
+        </Link>
+      </div>
     </div>
   );
 }
