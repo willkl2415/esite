@@ -1,53 +1,117 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { products } from "../data/products";
 
 export default function ConnoisseursPage() {
+  // Extract unique brand names from product data
+  const brands = Array.from(new Set(products.map((p) => p.brand))).sort();
+
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
-      <section className="w-full bg-white py-20">
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
-          {/* Left: Title */}
-          <h1 className="text-5xl font-bold md:col-span-1">
-            Crafted for Connoisseurs
-          </h1>
-
-          {/* Middle: Text */}
-          <div className="space-y-6 md:col-span-1 text-lg text-gray-700">
-            <p>
+      {/* Intro Section */}
+      <section className="w-full bg-white border-b">
+        <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+          <div className="md:col-span-2">
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+              Crafted for Connoisseurs
+            </h1>
+            <p className="text-lg text-gray-700 mb-6 leading-relaxed">
               Cigar Manor caters to both novices and seasoned aficionados by
-              providing a vast array of cigars, including renowned Cuban and
-              New World varieties.
+              providing a vast array of cigars, including renowned Cuban and New
+              World varieties.
             </p>
-            <p>
+            <p className="text-lg text-gray-700 leading-relaxed">
               Our mission is to cultivate a vibrant community and challenge
               outdated perceptions about cigar culture.
             </p>
           </div>
-
-          {/* Right: Image */}
-          <div className="md:col-span-1 flex justify-center">
+          <div className="flex justify-center">
             <Image
               src="/cigar-drink.png"
-              alt="Cigar and drink"
-              width={350}
+              alt="Cigar and Whiskey"
+              width={400}
               height={400}
-              className="rounded-lg shadow-lg object-cover"
+              className="rounded-lg shadow-md object-cover"
             />
           </div>
         </div>
+      </section>
 
-        {/* Return Button */}
-        <div className="text-center mt-12">
-          <Link
-            href="/"
-            className="inline-block border border-black px-8 py-3 rounded-full font-medium hover:bg-black hover:text-white transition"
-          >
-            ⟵ Return Home
-          </Link>
+      {/* A–Z Cigar Catalogue */}
+      <section className="flex-1 max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Sidebar: Brands A–Z (sticky) */}
+        <aside className="md:col-span-1">
+          <h2 className="text-xl font-semibold mb-4">Brands A–Z</h2>
+          <ul className="space-y-2 text-gray-700 sticky top-24">
+            {brands.map((brand, i) => (
+              <li key={i}>
+                <Link
+                  href={`#${brand.toLowerCase().replace(/\s+/g, "-")}`}
+                  className="hover:text-[#ff9800] transition-colors"
+                >
+                  {brand}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        {/* Product Grid by Brand */}
+        <div className="md:col-span-3">
+          {brands.map((brand) => (
+            <div
+              key={brand}
+              id={brand.toLowerCase().replace(/\s+/g, "-")}
+              className="mb-12"
+            >
+              <h3 className="text-2xl font-bold mb-6 border-b pb-2">
+                {brand}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {products
+                  .filter((p) => p.brand === brand)
+                  .map((product) => (
+                    <div
+                      key={product.id}
+                      className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
+                    >
+                      <Link href={`/${product.category}/${product.id}`}>
+                        <div className="relative w-full h-64 bg-gray-100">
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-contain p-4"
+                          />
+                        </div>
+                        <div className="p-4 text-center">
+                          <h4 className="font-semibold text-lg">
+                            {product.name}
+                          </h4>
+                          <p className="text-gray-500">
+                            £{Number(product.price).toFixed(2)}
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
+
+      {/* Back Home Button */}
+      <div className="text-center my-8">
+        <Link
+          href="/"
+          className="inline-block border border-black px-6 py-2 rounded-full font-medium hover:bg-black hover:text-white transition"
+        >
+          ⟵ Return Home
+        </Link>
+      </div>
     </div>
   );
 }
