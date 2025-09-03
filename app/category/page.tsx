@@ -2,10 +2,41 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { products } from "../data/products";
 
 export default function CategoryPage() {
   const brands = Array.from(new Set(products.map((p) => p.brand))).sort();
+  const [openBrand, setOpenBrand] = useState<string | null>(null);
+
+  const toggleBrand = (brand: string) => {
+    setOpenBrand(openBrand === brand ? null : brand);
+  };
+
+  // Special Releases list (from your provided data)
+  const specialReleases = [
+    "Bolívar Belgravia",
+    "Bolívar Libertador",
+    "Cohiba Talisman",
+    "Cuaba Distinguidos",
+    "Cuaba Divinos",
+    "Cuaba Salomones",
+    "Cuaba Tradicionales",
+    "H. Upmann Royal Robusto",
+    "Hoyo de Monterrey Elegantes",
+    "Hoyo de Monterrey Epicure de Luxe",
+    "Juan Lopez Selección Superba",
+    "Montecristo Churchills (limited runs)",
+    "Partagás Culebras",
+    "Partagás Serie D No.5 (limited editions)",
+    "Partagás Serie D No.6 (special release)",
+    "Punch Punch 48",
+    "Quai d’Orsay No.50 (initially special)",
+    "Ramón Allones Allones Superiores",
+    "Romeo y Julieta Cedros de Luxe",
+    "Romeo y Julieta Piramides (specials and LE)",
+    "Trinidad La Trova",
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
@@ -38,51 +69,95 @@ export default function CategoryPage() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href="#special-releases"
+                className="hover:text-[#ff9800] transition-colors"
+              >
+                Special Releases
+              </Link>
+            </li>
           </ul>
         </aside>
 
-        {/* Product Grid */}
+        {/* Accordion: Brands */}
         <div className="md:col-span-3">
           {brands.map((brand) => (
             <div
               key={brand}
               id={brand.toLowerCase().replace(/\s+/g, "-")}
-              className="mb-12"
+              className="mb-6 border rounded-lg shadow-sm"
             >
-              <h3 className="text-2xl font-bold mb-6 border-b pb-2">
-                {brand}
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {products
-                  .filter((p) => p.brand === brand)
-                  .map((product) => (
-                    <div
-                      key={product.id}
-                      className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
-                    >
-                      <Link href={`/${product.category}/${product.id}`}>
-                        <div className="relative w-full h-64 bg-gray-100">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            className="object-contain p-4"
-                          />
+              {/* Accordion Header */}
+              <button
+                onClick={() => toggleBrand(brand)}
+                className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 transition"
+              >
+                <span className="text-lg font-semibold">{brand}</span>
+                <span className="text-xl">
+                  {openBrand === brand ? "−" : "+"}
+                </span>
+              </button>
+
+              {/* Accordion Body */}
+              {openBrand === brand && (
+                <div className="p-4 border-t">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {products
+                      .filter((p) => p.brand === brand)
+                      .map((product) => (
+                        <div
+                          key={product.id}
+                          className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
+                        >
+                          <Link href={`/${product.category}/${product.id}`}>
+                            <div className="relative w-full h-64 bg-gray-100">
+                              <Image
+                                src={product.image}
+                                alt={product.name}
+                                fill
+                                className="object-contain p-4"
+                              />
+                            </div>
+                            <div className="p-4 text-center">
+                              <h4 className="font-semibold text-lg">
+                                {product.name}
+                              </h4>
+                              <p className="text-gray-500">
+                                £{Number(product.price).toFixed(2)}
+                              </p>
+                            </div>
+                          </Link>
                         </div>
-                        <div className="p-4 text-center">
-                          <h4 className="font-semibold text-lg">
-                            {product.name}
-                          </h4>
-                          <p className="text-gray-500">
-                            £{Number(product.price).toFixed(2)}
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-                  ))}
-              </div>
+                      ))}
+                  </div>
+                </div>
+              )}
             </div>
           ))}
+
+          {/* Special Releases Section */}
+          <div id="special-releases" className="mb-6 border rounded-lg shadow-sm">
+            <button
+              onClick={() => toggleBrand("Special Releases")}
+              className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 transition"
+            >
+              <span className="text-lg font-semibold">Special Releases</span>
+              <span className="text-xl">
+                {openBrand === "Special Releases" ? "−" : "+"}
+              </span>
+            </button>
+
+            {openBrand === "Special Releases" && (
+              <div className="p-4 border-t">
+                <ul className="space-y-2 list-disc list-inside text-gray-700">
+                  {specialReleases.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </div>
