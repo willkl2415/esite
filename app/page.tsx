@@ -17,10 +17,10 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
-      {/* === Hero Section (Luxury Split Layout) === */}
-      <section className="grid grid-cols-1 md:grid-cols-2 w-full min-h-[80vh]">
-        {/* Left: Text */}
-        <div className="flex flex-col justify-center items-start p-10 md:p-20">
+      {/* === Hero Section (Luxury Layout with Side-by-Side Images) === */}
+      <section className="w-full bg-white">
+        {/* Text block */}
+        <div className="max-w-6xl mx-auto px-6 py-16 text-left">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
             Where Cigars Come Alive
           </h1>
@@ -36,8 +36,8 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Right: Split Imagery */}
-        <div className="grid grid-rows-2 gap-2 h-full">
+        {/* Side-by-side images */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full h-[500px]">
           <div className="relative w-full h-full">
             <Image
               src="/hero-1.png"
