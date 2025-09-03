@@ -25,7 +25,7 @@ export default function HomePage() {
             Where Cigars Come Alive
           </h1>
           <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
-            Embark on a flavorful journey with Cigar Manor, a premier platform
+            Embark on a flavorful journey of dicovery with Cigar Manor, a premier platform
             designed for cigar enthusiasts of all levels.
           </p>
           <Link
