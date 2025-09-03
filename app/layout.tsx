@@ -108,6 +108,7 @@ export default function RootLayout({
             <ul className="flex justify-center space-x-6 py-3 text-sm font-medium text-black">
               <li><Link href="/">Home</Link></li>
               <li><Link href="/about-us">About Us</Link></li>
+              <li><Link href="/connoisseurs">Connoisseurs</Link></li>
               <li><Link href="/history">History</Link></li>
               <li><Link href="/category">Cigars</Link></li> {/* ✅ NEW MENU LINK */}
               <li><Link href="/awarded-cigars">Awarded Cigars</Link></li>
