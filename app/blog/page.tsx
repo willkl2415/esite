@@ -47,7 +47,7 @@ export default function BlogPage() {
       </p>
 
       {/* Blog Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
           <div
             key={post.id}
@@ -75,16 +75,6 @@ export default function BlogPage() {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* ✅ Single Back Home button */}
-      <div className="flex justify-center mt-10">
-        <Link
-          href="/"
-          className="bg-black text-[#ff9800] font-semibold px-6 py-3 rounded-full shadow-md hover:bg-white hover:text-black transition"
-        >
-          Back Home
-        </Link>
       </div>
     </div>
   );
