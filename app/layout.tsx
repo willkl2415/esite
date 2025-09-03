@@ -109,6 +109,7 @@ export default function RootLayout({
               <li><Link href="/">Home</Link></li>
               <li><Link href="/about-us">About Us</Link></li>
               <li><Link href="/history">History</Link></li>
+              <li><Link href="/category">Cigars</Link></li> {/* ✅ NEW MENU LINK */}
               <li><Link href="/awarded-cigars">Awarded Cigars</Link></li>
               <li><Link href="/new-world-cigars">New World Cigars</Link></li>
               <li><Link href="/machine-made-cigars">Machine-Made Cigars</Link></li>
@@ -125,14 +126,14 @@ export default function RootLayout({
         {/* MAIN */}
         <main>{children}</main>
 
-      {/* UNIVERSAL BACK HOME BUTTON */}
+        {/* UNIVERSAL BACK HOME BUTTON */}
         <div className="flex justify-center my-6">
-        <Link
-        href="/"
-        className="bg-[#000100] text-[#ff9800] px-6 py-2 rounded-full font-bold shadow hover:bg-gray-900 transition-colors"
-        >
-        Back Home
-        </Link>
+          <Link
+            href="/"
+            className="bg-[#000100] text-[#ff9800] px-6 py-2 rounded-full font-bold shadow hover:bg-gray-900 transition-colors"
+          >
+            Back Home
+          </Link>
         </div>
 
         {/* FOOTER */}
@@ -178,5 +179,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-
