@@ -13,6 +13,7 @@ export default function HomePage() {
 
   const t = labels[lang] || labels.en;
 
+  // keeping this for later when we wire products into the carousel
   const featured = products.filter((p) => p.featured).slice(0, 3);
 
   return (
@@ -25,7 +26,8 @@ export default function HomePage() {
             Where Cigars Come Alive
           </h1>
           <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
-            Cigar Manor is your gateway to the world of cigars - discover and enjoy the flavours, and then make it your own.
+            Cigar Manor is your gateway to the world of cigars - discover and
+            enjoy the flavours, and then make it your own.
           </p>
           <Link
             href={`/awarded-cigars?lang=${lang}`}
@@ -57,35 +59,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* === Product Highlights (unchanged for now) === */}
+      {/* === Product Carousel Placeholder === */}
       <section className="py-16 bg-white">
         <h2 className="text-3xl font-bold mb-10 text-center">
           {t.finestSelection}
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
-          {featured.length > 0 ? (
-            featured.map((product) => (
-              <div key={product.id} className="text-center">
-                <Link href={`/${product.category}/${product.id}?lang=${lang}`}>
-                  <div className="w-full h-[500px] flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transition">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={300}
-                      height={600}
-                      className="object-contain"
-                    />
-                  </div>
-                </Link>
-                <p className="mt-4 text-lg font-medium">{product.name}</p>
-                <p className="text-sm text-gray-600">
-                  £{Number(product.price).toFixed(2)}
-                </p>
+
+        {/* Carousel container */}
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div
+                key={i}
+                className="flex-none w-64 h-96 bg-gray-200 rounded-lg shadow-md flex items-center justify-center text-gray-500 text-xl font-semibold"
+              >
+                Placeholder {i}
               </div>
-            ))
-          ) : (
-            <p>No products available.</p>
-          )}
+            ))}
+          </div>
         </div>
       </section>
     </div>
