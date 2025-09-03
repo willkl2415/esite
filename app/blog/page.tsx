@@ -28,61 +28,63 @@ export default function BlogPage() {
       title: "The Beauty and Sophistication of Cigars",
       date: "August 15, 2025",
       excerpt:
-        "The beauty of cigars is in the drama they bring - smooth, bold, unapologetically sophisticated. Every draw is layered with craftsmanship and mystery, a ritual that feels both indulgent and magnetic. A strong cigar can fuel late-night conversations, while a lighter one sets the mood for quiet intimacy. The real thrill is experimenting with moments and moods - but remember, it’s about harmony. A cigar should seduce the senses, not steal the spotlight.",
+        "The beauty of cigars is in the drama they bring - smooth, bold, unapologetically sophisticated. Every draw is layered with craftsmanship and mystery...",
       image: "/f-27.png",
       slug: "beauty-and-sophistication",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#ff9800] text-black p-10">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <h1 className="text-4xl font-bold mb-6">Blog</h1>
-        <p className="mb-10 text-lg text-gray-800">
-          Stories, traditions, and insights from the world of cigars — past,
-          present, and future. Here you’ll find articles, guides, and news
-          crafted for the cigar enthusiast.
-        </p>
+    <div className="p-10 max-w-6xl mx-auto">
+      {/* Header */}
+      <h1 className="text-3xl font-bold mb-6 text-[#ff9800]">
+        The Cigar Manor Blog
+      </h1>
+      <p className="mb-10 text-gray-700">
+        Stories, traditions, and insights from the world of cigars — past,
+        present, and future. Here you’ll find articles, guides, and news crafted
+        for the cigar enthusiast.
+      </p>
 
-        {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition"
-            >
-              <Image
-                src={post.image}
-                alt={post.title}
-                width={500}
-                height={300}
-                className="object-cover w-full h-48"
-              />
-              <div className="p-6">
-                <p className="text-sm text-gray-500 mb-2">{post.date}</p>
-                <h2 className="text-xl font-bold mb-4">{post.title}</h2>
-                <p className="text-gray-700 mb-4">{post.excerpt}</p>
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="text-[#ff9800] font-semibold hover:text-black"
-                >
-                  Read More →
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Back button */}
-        <div className="mt-12 text-center">
-          <Link
-            href="/"
-            className="bg-[#000100] text-[#ff9800] font-bold px-6 py-3 rounded-full shadow-md hover:bg-gray-900 hover:text-white transition"
+      {/* Blog Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition"
           >
-            Back Home
-          </Link>
-        </div>
+            {/* Image */}
+            <Image
+              src={post.image}
+              alt={post.title}
+              width={500}
+              height={300}
+              className="object-cover w-full h-48"
+            />
+            {/* Content */}
+            <div className="p-6">
+              <p className="text-xs text-gray-500">{post.date}</p>
+              <h2 className="text-xl font-semibold mt-2">{post.title}</h2>
+              <p className="text-gray-600 mt-2">{post.excerpt}</p>
+              <Link
+                href={`/blog/${post.slug}`}
+                className="inline-block mt-4 text-[#ff9800] hover:text-black font-medium"
+              >
+                Read More →
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ✅ Single Back Home button */}
+      <div className="flex justify-center mt-10">
+        <Link
+          href="/"
+          className="bg-black text-[#ff9800] font-semibold px-6 py-3 rounded-full shadow-md hover:bg-white hover:text-black transition"
+        >
+          Back Home
+        </Link>
       </div>
     </div>
   );
