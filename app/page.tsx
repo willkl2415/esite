@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRef, useEffect } from "react";
 import { products } from "./data/products";
 import { labels } from "./dictionary";
 
@@ -13,8 +14,43 @@ export default function HomePage() {
 
   const t = labels[lang] || labels.en;
 
-  // keeping this for later when we wire products into the carousel
-  const featured = products.filter((p) => p.featured).slice(0, 3);
+  // carousel ref
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  // auto-scroll on hover
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    let scrollInterval: NodeJS.Timeout | null = null;
+
+    const startScroll = () => {
+      scrollInterval = setInterval(() => {
+        if (carousel) {
+          carousel.scrollLeft += 2; // adjust speed
+          if (
+            carousel.scrollLeft + carousel.clientWidth >=
+            carousel.scrollWidth
+          ) {
+            carousel.scrollLeft = 0; // loop back to start
+          }
+        }
+      }, 20); // adjust smoothness
+    };
+
+    const stopScroll = () => {
+      if (scrollInterval) clearInterval(scrollInterval);
+    };
+
+    carousel.addEventListener("mouseenter", startScroll);
+    carousel.addEventListener("mouseleave", stopScroll);
+
+    return () => {
+      carousel.removeEventListener("mouseenter", startScroll);
+      carousel.removeEventListener("mouseleave", stopScroll);
+      if (scrollInterval) clearInterval(scrollInterval);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
@@ -67,13 +103,16 @@ export default function HomePage() {
 
         {/* Carousel container */}
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
-            {[1, 2, 3, 4, 5].map((i) => (
+          <div
+            ref={carouselRef}
+            className="flex space-x-6 overflow-x-auto scrollbar-hide"
+          >
+            {Array.from({ length: 50 }, (_, i) => (
               <div
                 key={i}
                 className="flex-none w-64 h-96 bg-gray-200 rounded-lg shadow-md flex items-center justify-center text-gray-500 text-xl font-semibold"
               >
-                Placeholder {i}
+                Placeholder {i + 1}
               </div>
             ))}
           </div>
