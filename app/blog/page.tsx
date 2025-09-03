@@ -35,19 +35,21 @@ export default function BlogPage() {
   ];
 
   return (
-    <div className="p-10 max-w-6xl mx-auto">
-      {/* Header */}
-      <h1 className="text-3xl font-bold mb-6 text-[#ff9800]">
-        The Cigar Manor Blog
-      </h1>
-      <p className="mb-10 text-gray-700">
-        Stories, traditions, and insights from the world of cigars — past,
-        present, and future. Here you’ll find articles, guides, and news crafted
-        for the cigar enthusiast.
-      </p>
+    <div className="min-h-screen bg-[#ff9800] text-black p-10">
+      {/* ✅ Wrapped intro text in white container */}
+      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-10 text-center">
+        <h1 className="text-3xl font-bold mb-4 text-[#ff9800]">
+          The Cigar Manor Blog
+        </h1>
+        <p className="text-gray-700">
+          Stories, traditions, and insights from the world of cigars — past,
+          present, and future. Here you’ll find articles, guides, and news
+          crafted for the cigar enthusiast.
+        </p>
+      </div>
 
       {/* Blog Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {posts.map((post) => (
           <div
             key={post.id}
@@ -75,6 +77,16 @@ export default function BlogPage() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Back Home Button */}
+      <div className="flex justify-center mt-12">
+        <Link
+          href="/"
+          className="bg-black text-[#ff9800] font-bold px-6 py-3 rounded-full shadow-md hover:bg-white hover:text-black transition"
+        >
+          Back Home
+        </Link>
       </div>
     </div>
   );
