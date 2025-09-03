@@ -36,8 +36,8 @@ export default function BlogPage() {
 
   return (
     <div className="p-10 max-w-6xl mx-auto">
-      {/* Header */}
-      <div className="bg-white rounded-2xl shadow-md p-8 mb-10 text-center">
+      {/* Intro Container */}
+      <div className="bg-white rounded-2xl shadow-md p-6 mb-10 text-center">
         <h1 className="text-3xl font-bold mb-4 text-[#ff9800]">
           The Cigar Manor Blog
         </h1>
@@ -77,16 +77,6 @@ export default function BlogPage() {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* ✅ Single Back Home button only */}
-      <div className="flex justify-center mt-12">
-        <Link
-          href="/"
-          className="bg-black text-[#ff9800] px-6 py-3 rounded-full font-bold hover:bg-gray-800 transition"
-        >
-          Back Home
-        </Link>
       </div>
     </div>
   );
