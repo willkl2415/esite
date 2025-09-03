@@ -110,7 +110,7 @@ export default function RootLayout({
               <li><Link href="/about-us">About Us</Link></li>
               <li><Link href="/connoisseurs">Connoisseurs</Link></li>
               <li><Link href="/history">History</Link></li>
-              <li><Link href="/category">Cigars</Link></li> {/* ✅ NEW MENU LINK */}
+              <li><Link href="/category">Cigars</Link></li>
               <li><Link href="/awarded-cigars">Awarded Cigars</Link></li>
               <li><Link href="/new-world-cigars">New World Cigars</Link></li>
               <li><Link href="/machine-made-cigars">Machine-Made Cigars</Link></li>

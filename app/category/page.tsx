@@ -3,22 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { products } from "../data/products";
-import { Fahkwang } from "next/font/google";
-
-// Load Fahkwang font
-const fahkwang = Fahkwang({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
 
 export default function CategoryPage() {
-  // Extract unique brand names from product data
   const brands = Array.from(new Set(products.map((p) => p.brand))).sort();
 
   return (
-    <div
-      className={`flex flex-col min-h-screen bg-white text-black ${fahkwang.className}`}
-    >
+    <div className="flex flex-col min-h-screen bg-white text-black">
       {/* Page Header */}
       <section className="w-full bg-white border-b">
         <div className="max-w-6xl mx-auto px-6 py-12 text-left">
@@ -34,8 +24,8 @@ export default function CategoryPage() {
 
       {/* Main Content Layout */}
       <section className="flex-1 max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar: Brands A–Z */}
-        <aside className="md:col-span-1">
+        {/* Sidebar: Sticky Brands A–Z */}
+        <aside className="md:col-span-1 sticky top-28 self-start h-fit">
           <h2 className="text-xl font-semibold mb-4">Brands A–Z</h2>
           <ul className="space-y-2 text-gray-700">
             {brands.map((brand, i) => (
@@ -59,7 +49,9 @@ export default function CategoryPage() {
               id={brand.toLowerCase().replace(/\s+/g, "-")}
               className="mb-12"
             >
-              <h3 className="text-2xl font-bold mb-6 border-b pb-2">{brand}</h3>
+              <h3 className="text-2xl font-bold mb-6 border-b pb-2">
+                {brand}
+              </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {products
                   .filter((p) => p.brand === brand)
@@ -93,16 +85,6 @@ export default function CategoryPage() {
           ))}
         </div>
       </section>
-
-      {/* Return Button */}
-      <div className="text-center my-8">
-        <Link
-          href="/"
-          className="inline-block border border-black px-6 py-2 rounded-full font-medium hover:bg-black hover:text-white transition"
-        >
-          ⟵ Return Home
-        </Link>
-      </div>
     </div>
   );
 }
