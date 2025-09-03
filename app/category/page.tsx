@@ -1,3 +1,4 @@
+// app/data/cigarBrands.ts
 export interface CigarBrand {
   brand: string;
   vitolas: string[];
@@ -180,7 +181,13 @@ export const cigarBrands: CigarBrand[] = [
   },
   {
     brand: "Trinidad",
-    vitolas: ["Coloniales", "Fundadores", "La Trova (special release)", "Reyes", "Vigia"],
+    vitolas: [
+      "Coloniales",
+      "Fundadores",
+      "La Trova (special release)",
+      "Reyes",
+      "Vigia",
+    ],
   },
   {
     brand: "Vegas Robaina",
