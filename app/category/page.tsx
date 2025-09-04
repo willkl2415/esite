@@ -54,13 +54,29 @@ export default function CategoryPage() {
                 {/* Vitolas Accordion */}
                 {openBrand === brandObj.brand && (
                   <ul className="mt-2 ml-4 space-y-1 text-sm text-gray-600 list-disc">
-                    {brandObj.vitolas.map((vitola: string, idx: number) => (
-                      <li key={idx}>
-                        <Link href="#" className="hover:text-black transition">
-                          {vitola}
-                        </Link>
-                      </li>
-                    ))}
+                    {brandObj.vitolas.map((vitola: string, idx: number) => {
+                      // Try to find a product matching this brand + vitola
+                      const matchedProduct = products.find(
+                        (p) =>
+                          p.brand === brandObj.brand &&
+                          p.vitola?.toLowerCase() === vitola.toLowerCase()
+                      );
+
+                      return (
+                        <li key={idx}>
+                          {matchedProduct ? (
+                            <Link
+                              href={`/product/${matchedProduct.id}`}
+                              className="hover:text-black transition"
+                            >
+                              {vitola}
+                            </Link>
+                          ) : (
+                            <span>{vitola}</span>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </li>
