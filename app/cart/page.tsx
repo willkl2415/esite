@@ -14,11 +14,22 @@ export default function CartPage() {
       <h1 className="text-4xl font-bold mb-8">Your Basket</h1>
 
       {cart.length === 0 ? (
-        <p className="text-gray-600">Your basket is empty.</p>
+        <div className="text-center py-12">
+          <p className="text-gray-600 text-lg mb-6">Your basket is empty.</p>
+          <Link
+            href="/category"
+            className="bg-[#ff9800] text-white px-6 py-3 rounded-lg font-semibold hover:bg-black hover:text-[#ff9800] transition"
+          >
+            Browse Products
+          </Link>
+        </div>
       ) : (
         <div className="space-y-6">
           {cart.map((item) => (
-            <div key={item.id} className="flex items-center gap-6 border-b pb-4">
+            <div
+              key={item.id}
+              className="flex items-center gap-6 border-b pb-4"
+            >
               <Image
                 src={item.image}
                 alt={item.name}
@@ -28,12 +39,19 @@ export default function CartPage() {
               />
               <div className="flex-1">
                 <h2 className="text-xl font-semibold">{item.name}</h2>
-                <p className="text-[#ff9800] font-semibold">£{item.price.toFixed(2)}</p>
+                <p className="text-[#ff9800] font-semibold">
+                  £{item.price.toFixed(2)}
+                </p>
                 <div className="flex items-center gap-2 mt-2">
-                  <label>Qty:</label>
+                  <label htmlFor={`qty-${item.id}`} className="font-medium">
+                    Qty:
+                  </label>
                   <select
+                    id={`qty-${item.id}`}
                     value={item.quantity}
-                    onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
+                    onChange={(e) =>
+                      updateQuantity(item.id, Number(e.target.value))
+                    }
                     className="border rounded px-2 py-1"
                   >
                     {[...Array(10).keys()].map((n) => (
@@ -53,14 +71,25 @@ export default function CartPage() {
             </div>
           ))}
 
+          {/* Summary */}
           <div className="flex justify-between items-center pt-6">
-            <h2 className="text-2xl font-bold">Total: £{total.toFixed(2)}</h2>
-            <Link
-              href="/checkout"
-              className="bg-[#ff9800] text-white px-6 py-3 rounded-lg font-semibold hover:bg-black hover:text-[#ff9800] transition"
-            >
-              Checkout
-            </Link>
+            <h2 className="text-2xl font-bold">
+              Total: £{total.toFixed(2)}
+            </h2>
+            <div className="flex gap-4">
+              <Link
+                href="/category"
+                className="bg-gray-200 text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
+              >
+                Continue Shopping
+              </Link>
+              <Link
+                href="/checkout"
+                className="bg-[#ff9800] text-white px-6 py-3 rounded-lg font-semibold hover:bg-black hover:text-[#ff9800] transition"
+              >
+                Checkout
+              </Link>
+            </div>
           </div>
         </div>
       )}

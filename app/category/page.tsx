@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cigarBrands, CigarBrand } from "../data/cigarBrands";
-import { placeholderImages } from "../data/products";
+import { products } from "../data/products"; // ✅ use real products
 
 export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
@@ -13,10 +13,10 @@ export default function CategoryPage() {
     setOpenBrand(openBrand === brand ? null : brand);
   };
 
-  // Filter images based on selected brand
-  const filteredImages = openBrand
-    ? placeholderImages.filter((img) => img.brand === openBrand)
-    : placeholderImages;
+  // Filter products based on selected brand
+  const filteredProducts = openBrand
+    ? products.filter((p) => p.brand === openBrand)
+    : products;
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
@@ -68,31 +68,30 @@ export default function CategoryPage() {
           </ul>
         </aside>
 
-        {/* Main panel with filtered image grid */}
+        {/* Main panel with product grid */}
         <div className="md:col-span-3">
-          {filteredImages.length > 0 ? (
+          {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredImages.map((img) => {
-                // Generate a simple id from filename (strip slashes and extension)
-                const productId = img.src.replace("/", "").replace(".png", "");
-                return (
-                  <Link key={img.src} href={`/product/${productId}`}>
-                    <div className="flex justify-center cursor-pointer">
-                      <Image
-                        src={img.src}
-                        alt={img.brand || "Cigar placeholder"}
-                        width={300}
-                        height={300}
-                        className="rounded-lg shadow-md object-cover"
-                      />
-                    </div>
-                  </Link>
-                );
-              })}
+              {filteredProducts.map((product) => (
+                <Link key={product.id} href={`/product/${product.id}`}>
+                  <div className="flex flex-col items-center cursor-pointer">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width={300}
+                      height={300}
+                      className="rounded-lg shadow-md object-cover"
+                    />
+                    <p className="mt-2 text-sm font-medium text-gray-700">
+                      {product.name}
+                    </p>
+                  </div>
+                </Link>
+              ))}
             </div>
           ) : (
             <p className="text-gray-500 italic">
-              No images available for this brand.
+              No products available for this brand.
             </p>
           )}
         </div>

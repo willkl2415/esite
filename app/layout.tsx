@@ -62,14 +62,22 @@ function Header() {
             <UserIcon className="w-[18px] h-[18px]" />
             <span className="hidden md:inline">My Account</span>
           </Link>
-          <Link href="/cart" className="flex items-center space-x-1">
-            <ShoppingCartIcon className="w-[18px] h-[18px]" />
-            <span className="hidden md:inline">
-              {itemCount > 0
-                ? `(${itemCount}) £${total.toFixed(2)}`
-                : "£0.00"}
+
+          {/* ✅ Cart with badge */}
+          <Link href="/cart" className="relative flex items-center space-x-1">
+            <div className="relative">
+              <ShoppingCartIcon className="w-[20px] h-[20px]" />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-[#ff9800] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
+            </div>
+            <span className="hidden md:inline font-medium">
+              {itemCount > 0 ? `£${total.toFixed(2)}` : "£0.00"}
             </span>
           </Link>
+
           <div id="google_translate_element" />
         </div>
       </div>
