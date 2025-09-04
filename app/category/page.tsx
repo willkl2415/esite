@@ -11,9 +11,9 @@ import { useSearch } from "../context/SearchContext";
 const normalize = (str: string) =>
   str
     .toLowerCase()
-    .normalize("NFD") // split accents
-    .replace(/[\u0300-\u036f]/g, "") // remove accents
-    .replace(/s$/, ""); // strip plural "s"
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/s$/, "");
 
 export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
@@ -33,6 +33,14 @@ export default function CategoryPage() {
       p.vitola?.toLowerCase().includes(query.toLowerCase());
     return matchesBrand && matchesQuery;
   });
+
+  // ✅ Helper: label stock status
+  const getStockLabel = (stock: number | "preorder" | undefined) => {
+    if (stock === 0) return "Out of Stock";
+    if (stock === "preorder") return "Pre-order";
+    if (typeof stock === "number" && stock > 0) return "In Stock";
+    return "";
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
@@ -71,25 +79,55 @@ export default function CategoryPage() {
                 {openBrand === brandObj.brand && (
                   <ul className="mt-2 ml-4 space-y-1 text-sm text-gray-600 list-disc">
                     {brandObj.vitolas.map((vitola: string, idx: number) => {
-                      // ✅ Match product by normalized brand + vitola
                       const matchedProduct = products.find(
                         (p) =>
                           p.brand === brandObj.brand &&
                           normalize(p.vitola || "") === normalize(vitola)
                       );
 
-                      return (
-                        <li key={idx}>
-                          {matchedProduct ? (
+                      if (!matchedProduct) {
+                        return (
+                          <li key={idx}>
+                            <span className="text-gray-400">{vitola}</span>
+                          </li>
+                        );
+                      }
+
+                      if (matchedProduct.stock === 0) {
+                        return (
+                          <li key={idx}>
+                            <span
+                              className="text-gray-400 cursor-not-allowed"
+                              title="Out of Stock"
+                            >
+                              {vitola} (Out of Stock)
+                            </span>
+                          </li>
+                        );
+                      }
+
+                      if (matchedProduct.stock === "preorder") {
+                        return (
+                          <li key={idx}>
                             <Link
                               href={`/product/${matchedProduct.id}`}
                               className="hover:text-black transition"
+                              title="Available for Pre-order"
                             >
-                              {vitola}
+                              {vitola} (Pre-order)
                             </Link>
-                          ) : (
-                            <span>{vitola}</span>
-                          )}
+                          </li>
+                        );
+                      }
+
+                      return (
+                        <li key={idx}>
+                          <Link
+                            href={`/product/${matchedProduct.id}`}
+                            className="hover:text-black transition"
+                          >
+                            {vitola}
+                          </Link>
                         </li>
                       );
                     })}
@@ -116,6 +154,9 @@ export default function CategoryPage() {
                     />
                     <p className="mt-2 text-sm font-medium text-gray-700">
                       {product.name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {getStockLabel(product.stock)}
                     </p>
                   </div>
                 </Link>

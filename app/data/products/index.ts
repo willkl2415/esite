@@ -17,6 +17,7 @@ export const products = [
     dateAdded: "2024-03-15",
     sales: 1200,
     rating: 4.7,
+    stock: 23, // in stock
   },
   {
     id: "cohiba-robusto",
@@ -33,6 +34,7 @@ export const products = [
     dateAdded: "2024-07-22",
     sales: 2100,
     rating: 4.9,
+    stock: 0, // out of stock
   },
   {
     id: "cuaba-salomon",
@@ -49,6 +51,7 @@ export const products = [
     dateAdded: "2024-01-10",
     sales: 500,
     rating: 4.6,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "montecristo-brillantes",
@@ -65,6 +68,7 @@ export const products = [
     dateAdded: "2024-02-05",
     sales: 750,
     rating: 4.8,
+    stock: 0, // out of stock
   },
   {
     id: "partagas-maestro",
@@ -81,6 +85,7 @@ export const products = [
     dateAdded: "2024-04-18",
     sales: 1800,
     rating: 4.7,
+    stock: 12, // in stock
   },
   {
     id: "romeo-churchill",
@@ -97,6 +102,7 @@ export const products = [
     dateAdded: "2024-05-25",
     sales: 2000,
     rating: 4.8,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "hupmann-magnum46",
@@ -113,6 +119,7 @@ export const products = [
     dateAdded: "2023-12-12",
     sales: 950,
     rating: 4.5,
+    stock: 11, // in stock
   },
   {
     id: "hoyo-epicure2",
@@ -129,6 +136,7 @@ export const products = [
     dateAdded: "2024-06-08",
     sales: 1400,
     rating: 4.6,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "trinidad-vigia",
@@ -145,6 +153,7 @@ export const products = [
     dateAdded: "2024-03-02",
     sales: 1100,
     rating: 4.9,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "quai-dorsay-no50",
@@ -161,6 +170,7 @@ export const products = [
     dateAdded: "2024-07-12",
     sales: 650,
     rating: 4.3,
+    stock: 6, // in stock
   },
   {
     id: "ramon-allones-specially",
@@ -177,6 +187,7 @@ export const products = [
     dateAdded: "2024-08-01",
     sales: 1750,
     rating: 4.7,
+    stock: 6, // in stock
   },
 
   // === New World Cigars ===
@@ -195,6 +206,7 @@ export const products = [
     dateAdded: "2024-07-05",
     sales: 1600,
     rating: 4.8,
+    stock: 0, // out of stock
   },
   {
     id: "kiskeya-1",
@@ -211,6 +223,7 @@ export const products = [
     dateAdded: "2024-01-20",
     sales: 300,
     rating: 4.2,
+    stock: 0, // out of stock
   },
   {
     id: "camacho-1",
@@ -227,6 +240,7 @@ export const products = [
     dateAdded: "2024-02-25",
     sales: 1300,
     rating: 4.6,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "rocky-patel-1",
@@ -243,6 +257,7 @@ export const products = [
     dateAdded: "2024-04-03",
     sales: 800,
     rating: 4.4,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "aj-fernandez-1",
@@ -259,6 +274,7 @@ export const products = [
     dateAdded: "2024-03-30",
     sales: 1000,
     rating: 4.7,
+    stock: 0, // out of stock
   },
   {
     id: "alec-bradley-1",
@@ -275,6 +291,7 @@ export const products = [
     dateAdded: "2024-08-05",
     sales: 900,
     rating: 4.6,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "drew-estate-1",
@@ -291,6 +308,7 @@ export const products = [
     dateAdded: "2024-05-10",
     sales: 1100,
     rating: 4.8,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "perdomo-1",
@@ -307,6 +325,7 @@ export const products = [
     dateAdded: "2024-06-15",
     sales: 700,
     rating: 4.5,
+    stock: "preorder", // available for pre-order
   },
 
   // === Machine-Made Cigars ===
@@ -325,6 +344,7 @@ export const products = [
     dateAdded: "2024-01-15",
     sales: 2500,
     rating: 4.2,
+    stock: 34, // in stock
   },
   {
     id: "machine-2",
@@ -340,6 +360,7 @@ export const products = [
     dateAdded: "2024-02-11",
     sales: 3200,
     rating: 4.1,
+    stock: 28, // in stock
   },
   {
     id: "machine-3",
@@ -356,6 +377,7 @@ export const products = [
     dateAdded: "2024-03-01",
     sales: 5000,
     rating: 4.3,
+    stock: "preorder", // available for pre-order
   },
 
   // === Flavoured Cigars ===
@@ -374,6 +396,7 @@ export const products = [
     dateAdded: "2024-01-08",
     sales: 900,
     rating: 4.4,
+    stock: 0, // out of stock
   },
   {
     id: "flavoured-2",
@@ -389,6 +412,7 @@ export const products = [
     dateAdded: "2024-05-17",
     sales: 1350,
     rating: 4.6,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "flavoured-3",
@@ -405,6 +429,7 @@ export const products = [
     dateAdded: "2024-06-09",
     sales: 800,
     rating: 4.5,
+    stock: 24, // in stock
   },
 
   // === Samplers ===
@@ -422,6 +447,7 @@ export const products = [
     dateAdded: "2024-03-11",
     sales: 600,
     rating: 4.7,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "sampler-2",
@@ -438,6 +464,7 @@ export const products = [
     dateAdded: "2024-04-22",
     sales: 750,
     rating: 4.6,
+    stock: 0, // out of stock
   },
   {
     id: "sampler-3",
@@ -453,6 +480,7 @@ export const products = [
     dateAdded: "2024-02-19",
     sales: 1000,
     rating: 4.5,
+    stock: 41, // in stock
   },
 
   // === Accessories ===
@@ -470,6 +498,7 @@ export const products = [
     dateAdded: "2024-05-12",
     sales: 400,
     rating: 4.8,
+    stock: 0, // out of stock
   },
   {
     id: "accessory-2",
@@ -485,6 +514,7 @@ export const products = [
     dateAdded: "2024-01-29",
     sales: 550,
     rating: 4.7,
+    stock: 0, // out of stock
   },
   {
     id: "accessory-3",
@@ -501,6 +531,7 @@ export const products = [
     dateAdded: "2024-03-14",
     sales: 1500,
     rating: 4.9,
+    stock: 0, // out of stock
   },
   {
     id: "accessory-4",
@@ -517,6 +548,7 @@ export const products = [
     dateAdded: "2024-04-25",
     sales: 300,
     rating: 4.7,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "accessory-5",
@@ -533,6 +565,7 @@ export const products = [
     dateAdded: "2024-07-21",
     sales: 450,
     rating: 4.6,
+    stock: 12, // in stock
   },
   {
     id: "accessory-6",
@@ -549,6 +582,7 @@ export const products = [
     dateAdded: "2024-06-02",
     sales: 200,
     rating: 4.9,
+    stock: 0, // out of stock
   },
 
   // === Gifts ===
@@ -566,6 +600,7 @@ export const products = [
     dateAdded: "2024-02-07",
     sales: 350,
     rating: 4.8,
+    stock: 0, // out of stock
   },
   {
     id: "gift-2",
@@ -582,6 +617,7 @@ export const products = [
     dateAdded: "2024-03-28",
     sales: 270,
     rating: 4.7,
+    stock: 0, // out of stock
   },
   {
     id: "gift-3",
@@ -598,6 +634,7 @@ export const products = [
     dateAdded: "2024-05-30",
     sales: 180,
     rating: 4.8,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "pipe-1",
@@ -614,6 +651,7 @@ export const products = [
     dateAdded: "2024-06-18",
     sales: 500,
     rating: 4.7,
+    stock: 0, // out of stock
   },
   {
     id: "pipe-2",
@@ -630,6 +668,7 @@ export const products = [
     dateAdded: "2024-01-19",
     sales: 300,
     rating: 4.6,
+    stock: 0, // out of stock
   },
   {
     id: "pipe-tobacco-1",
@@ -646,6 +685,7 @@ export const products = [
     dateAdded: "2024-02-23",
     sales: 400,
     rating: 4.5,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "pipe-tobacco-2",
@@ -662,6 +702,7 @@ export const products = [
     dateAdded: "2024-04-14",
     sales: 370,
     rating: 4.4,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "pipe-tobacco-3",
@@ -678,6 +719,7 @@ export const products = [
     dateAdded: "2024-05-08",
     sales: 250,
     rating: 4.7,
+    stock: "preorder", // available for pre-order
   },
   {
     id: "handrolling-1",
@@ -694,6 +736,7 @@ export const products = [
     dateAdded: "2024-03-21",
     sales: 450,
     rating: 4.3,
+    stock: 0, // out of stock
   },
   {
     id: "prepack-1",
@@ -710,6 +753,7 @@ export const products = [
     dateAdded: "2024-07-15",
     sales: 300,
     rating: 4.4,
+    stock: 0, // out of stock
   },
 
   // === Promotions ===
@@ -727,6 +771,7 @@ export const products = [
     dateAdded: "2024-06-20",
     sales: 600,
     rating: 4.5,
+    stock: 0, // out of stock
   },
   {
     id: "promo-2",
@@ -742,6 +787,7 @@ export const products = [
     dateAdded: "2024-07-01",
     sales: 900,
     rating: 4.6,
+    stock: 0, // out of stock
   },
   {
     id: "promo-3",
@@ -757,6 +803,7 @@ export const products = [
     dateAdded: "2024-08-10",
     sales: 500,
     rating: 4.4,
+    stock: 8, // in stock
   },
 ];
 
