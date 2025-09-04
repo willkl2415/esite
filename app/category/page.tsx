@@ -5,18 +5,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { cigarBrands, CigarBrand } from "../data/products/cigarBrands";
 import { products } from "../data/products";
+import { useSearch } from "../context/SearchContext"; // ✅ import search
 
 export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
+  const { query } = useSearch(); // ✅ get global search query
 
   const toggleBrand = (brand: string) => {
     setOpenBrand(openBrand === brand ? null : brand);
   };
 
-  // Filter products based on selected brand
-  const filteredProducts = openBrand
-    ? products.filter((p) => p.brand === openBrand)
-    : products;
+  // ✅ Filter products by brand + search query
+  const filteredProducts = products.filter((p) => {
+    const matchesBrand = openBrand ? p.brand === openBrand : true;
+    const matchesQuery =
+      query === "" ||
+      p.name.toLowerCase().includes(query.toLowerCase()) ||
+      p.brand.toLowerCase().includes(query.toLowerCase()) ||
+      p.vitola?.toLowerCase().includes(query.toLowerCase());
+    return matchesBrand && matchesQuery;
+  });
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
@@ -28,7 +36,7 @@ export default function CategoryPage() {
           </h1>
           <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
             From Cuban classics to New World gems, discover our full portfolio
-            of cigars. Browse by brand and expand to see their vitolas.
+            of cigars. Browse by brand, search by name, or explore by vitola.
           </p>
         </div>
       </section>
@@ -107,7 +115,7 @@ export default function CategoryPage() {
             </div>
           ) : (
             <p className="text-gray-500 italic">
-              No products available for this brand.
+              No products match your search.
             </p>
           )}
         </div>

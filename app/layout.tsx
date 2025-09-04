@@ -10,8 +10,9 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect } from "react";
-import { siteMetadata } from "./metadata"; // ✅ import server-safe metadata
-import { CartProvider, useCart } from "./context/CartContext"; // ✅ NEW
+import { siteMetadata } from "./metadata"; 
+import { CartProvider, useCart } from "./context/CartContext"; 
+import { SearchProvider, useSearch } from "./context/SearchContext"; // ✅ added
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,9 +24,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// ✅ Separate Header component so we can use useCart()
+// ✅ Header now uses useSearch for query
 function Header() {
   const { cart } = useCart();
+  const { query, setQuery } = useSearch(); // ✅ connected to SearchContext
+
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -38,6 +41,8 @@ function Header() {
             <MagnifyingGlassIcon className="absolute left-3 top-2 w-5 h-5 text-gray-400" />
             <input
               type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)} // ✅ live updates SearchContext
               placeholder="Search for products..."
               className="w-full pl-10 pr-4 py-2 border rounded-lg"
             />
@@ -148,39 +153,41 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <CartProvider>
-          <Header />
-          <main>{children}</main>
+          <SearchProvider>
+            <Header />
+            <main>{children}</main>
 
-          {/* UNIVERSAL BACK HOME BUTTON */}
-          <div className="flex justify-center my-6">
-            <Link
-              href="/"
-              className="bg-[#000100] text-[#ff9800] px-6 py-2 rounded-full font-bold shadow hover:bg-gray-900 transition-colors"
-            >
-              Back Home
-            </Link>
-          </div>
-
-          {/* FOOTER */}
-          <footer className="bg-[#ff9800] text-black mt-6">
-            <div className="max-w-7xl mx-auto px-4 py-1 grid md:grid-cols-3 gap-2 items-center">
-              <div className="flex justify-start space-x-2">
-                <Link href="#"><Image src="/icons/x.svg" alt="X" width={24} height={24} /></Link>
-                <Link href="#"><Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} /></Link>
-                <Link href="#"><Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} /></Link>
-                <Link href="#"><Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} /></Link>
-                <Link href="#"><Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} /></Link>
-              </div>
-              <div className="text-center text-xs">
-                <p>© 2025 Cigar Manor</p>
-                <p className="italic">"Where Connoisseurs of Cool Meet Pleasure"</p>
-              </div>
-              <div className="flex justify-end space-x-3 text-xs">
-                <Link href="/help">Help</Link>
-                <Link href="/contact">Contact</Link>
-              </div>
+            {/* UNIVERSAL BACK HOME BUTTON */}
+            <div className="flex justify-center my-6">
+              <Link
+                href="/"
+                className="bg-[#000100] text-[#ff9800] px-6 py-2 rounded-full font-bold shadow hover:bg-gray-900 transition-colors"
+              >
+                Back Home
+              </Link>
             </div>
-          </footer>
+
+            {/* FOOTER */}
+            <footer className="bg-[#ff9800] text-black mt-6">
+              <div className="max-w-7xl mx-auto px-4 py-1 grid md:grid-cols-3 gap-2 items-center">
+                <div className="flex justify-start space-x-2">
+                  <Link href="#"><Image src="/icons/x.svg" alt="X" width={24} height={24} /></Link>
+                  <Link href="#"><Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} /></Link>
+                  <Link href="#"><Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} /></Link>
+                  <Link href="#"><Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} /></Link>
+                  <Link href="#"><Image src="/icons/tiktok.svg" alt="TikTok" width={24} height={24} /></Link>
+                </div>
+                <div className="text-center text-xs">
+                  <p>© 2025 Cigar Manor</p>
+                  <p className="italic">"Where Connoisseurs of Cool Meet Pleasure"</p>
+                </div>
+                <div className="flex justify-end space-x-3 text-xs">
+                  <Link href="/help">Help</Link>
+                  <Link href="/contact">Contact</Link>
+                </div>
+              </div>
+            </footer>
+          </SearchProvider>
         </CartProvider>
 
         {/* GOOGLE TRANSLATE SCRIPT */}
