@@ -1,6 +1,27 @@
+
 // app/data/products/index.ts
 
-export const products = [
+export type StockStatus = number | 0 | "preorder";
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  featured: boolean;
+  badge: string;
+  brand: string;
+  vitola: string;
+  dateAdded: string;
+  sales: number;
+  rating: number;
+  stock: StockStatus;
+}
+
+
+export const products: Product[] = [
   // === Awarded Cigars ===
   {
     id: "bolivar-1",
