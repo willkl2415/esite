@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { cigarBrands, CigarBrand } from "../data/cigarBrands";
+import { placeholderImages } from "../data/products";
 
 export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
@@ -61,11 +63,21 @@ export default function CategoryPage() {
           </ul>
         </aside>
 
-        {/* Main panel */}
+        {/* Main panel with image grid */}
         <div className="md:col-span-3">
-          <p className="text-gray-600 italic">
-            Select a brand from the left to expand and see its vitolas.
-          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {placeholderImages.map((src) => (
+              <div key={src} className="flex justify-center">
+                <Image
+                  src={src}
+                  alt="Cigar placeholder"
+                  width={300}
+                  height={300}
+                  className="rounded-lg shadow-md object-cover"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
