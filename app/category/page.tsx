@@ -13,6 +13,11 @@ export default function CategoryPage() {
     setOpenBrand(openBrand === brand ? null : brand);
   };
 
+  // Filter images based on selected brand
+  const filteredImages = openBrand
+    ? placeholderImages.filter((img) => img.brand === openBrand)
+    : placeholderImages;
+
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
       {/* Page Header */}
@@ -63,21 +68,27 @@ export default function CategoryPage() {
           </ul>
         </aside>
 
-        {/* Main panel with image grid */}
+        {/* Main panel with filtered image grid */}
         <div className="md:col-span-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {placeholderImages.map((src) => (
-              <div key={src} className="flex justify-center">
-                <Image
-                  src={src}
-                  alt="Cigar placeholder"
-                  width={300}
-                  height={300}
-                  className="rounded-lg shadow-md object-cover"
-                />
-              </div>
-            ))}
-          </div>
+          {filteredImages.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredImages.map((img) => (
+                <div key={img.src} className="flex justify-center">
+                  <Image
+                    src={img.src}
+                    alt={img.brand || "Cigar placeholder"}
+                    width={300}
+                    height={300}
+                    className="rounded-lg shadow-md object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 italic">
+              No images available for this brand.
+            </p>
+          )}
         </div>
       </section>
     </div>
