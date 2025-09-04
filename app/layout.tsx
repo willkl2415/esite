@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation"; // ✅ for search redirect
 import { siteMetadata } from "./metadata"; 
 import { CartProvider, useCart } from "./context/CartContext"; 
 import { SearchProvider, useSearch } from "./context/SearchContext"; // ✅ added
@@ -28,9 +29,16 @@ const geistMono = Geist_Mono({
 function Header() {
   const { cart } = useCart();
   const { query, setQuery } = useSearch(); // ✅ connected to SearchContext
+  const router = useRouter(); // ✅ redirect
 
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      router.push("/category"); // ✅ send user to category page
+    }
+  };
 
   return (
     <header className="bg-white border-b sticky top-0 z-50 shadow">
@@ -43,6 +51,7 @@ function Header() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)} // ✅ live updates SearchContext
+              onKeyDown={handleKeyDown} // ✅ press Enter to search
               placeholder="Search for products..."
               className="w-full pl-10 pr-4 py-2 border rounded-lg"
             />
