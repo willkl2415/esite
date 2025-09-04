@@ -5,11 +5,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { cigarBrands, CigarBrand } from "../data/products/cigarBrands";
 import { products } from "../data/products";
-import { useSearch } from "../context/SearchContext"; // ✅ import search
+import { useSearch } from "../context/SearchContext";
+
+// ✅ helper: normalize strings (lowercase, strip accents, strip trailing "s")
+const normalize = (str: string) =>
+  str
+    .toLowerCase()
+    .normalize("NFD") // split accents
+    .replace(/[\u0300-\u036f]/g, "") // remove accents
+    .replace(/s$/, ""); // strip plural "s"
 
 export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
-  const { query } = useSearch(); // ✅ get global search query
+  const { query } = useSearch();
 
   const toggleBrand = (brand: string) => {
     setOpenBrand(openBrand === brand ? null : brand);
@@ -63,11 +71,11 @@ export default function CategoryPage() {
                 {openBrand === brandObj.brand && (
                   <ul className="mt-2 ml-4 space-y-1 text-sm text-gray-600 list-disc">
                     {brandObj.vitolas.map((vitola: string, idx: number) => {
-                      // Find product by brand + vitola
+                      // ✅ Match product by normalized brand + vitola
                       const matchedProduct = products.find(
                         (p) =>
                           p.brand === brandObj.brand &&
-                          p.vitola?.toLowerCase() === vitola.toLowerCase()
+                          normalize(p.vitola || "") === normalize(vitola)
                       );
 
                       return (
