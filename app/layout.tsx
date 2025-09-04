@@ -11,8 +11,8 @@ import {
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation"; // ✅ for search redirect
-import { siteMetadata } from "./metadata"; 
-import { CartProvider, useCart } from "./context/CartContext"; 
+import { siteMetadata } from "./metadata";
+import { CartProvider, useCart } from "./context/CartContext";
 import { SearchProvider, useSearch } from "./context/SearchContext"; // ✅ added
 
 const geistSans = Geist({
@@ -101,14 +101,8 @@ function Header() {
         <ul className="flex justify-center space-x-6 py-3 text-sm font-medium text-black">
           <li><Link href="/">Home</Link></li>
           <li><Link href="/about-us">About Us</Link></li>
-          <li><Link href="/connoisseurs">Connoisseurs</Link></li>
           <li><Link href="/history">History</Link></li>
-          <li><Link href="/category">Cigars</Link></li>
-          <li><Link href="/awarded-cigars">Awarded Cigars</Link></li>
-          <li><Link href="/new-world-cigars">New World Cigars</Link></li>
-          <li><Link href="/machine-made-cigars">Machine-Made Cigars</Link></li>
-          <li><Link href="/flavoured-cigars">Flavoured Cigars</Link></li>
-          <li><Link href="/samplers">Samplers</Link></li>
+          <li><Link href="/category">Cigars A–Z</Link></li>
           <li><Link href="/accessories">Accessories</Link></li>
           <li><Link href="/gifts">Gifts</Link></li>
           <li><Link href="/promotions">Promotions</Link></li>
