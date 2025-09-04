@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cigarBrands, CigarBrand } from "../data/cigarBrands";
-import { products } from "../data/products"; // ✅ use real products
+import { products } from "../data/products";
 
 export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
@@ -55,7 +55,7 @@ export default function CategoryPage() {
                 {openBrand === brandObj.brand && (
                   <ul className="mt-2 ml-4 space-y-1 text-sm text-gray-600 list-disc">
                     {brandObj.vitolas.map((vitola: string, idx: number) => {
-                      // Try to find a product matching this brand + vitola
+                      // Find product by brand + vitola
                       const matchedProduct = products.find(
                         (p) =>
                           p.brand === brandObj.brand &&
