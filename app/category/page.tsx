@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { cigarBrands, CigarBrand } from "../data/cigarBrands";
-import { products } from "../data/product";
+import { cigarBrands, CigarBrand } from "../data/products/cigarBrands";
+import { products } from "../data/products";
 
 export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);

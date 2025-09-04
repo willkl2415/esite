@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/app/data/product";
+import { products } from "@/app/data/products";
 import { useCart } from "@/app/context/CartContext"; // ✅ import cart hook
 
 export default function ProductPage() {

@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "../data/product";
+import { products } from "../data/products";
 
 type CategoryPageProps = {
   title: string;

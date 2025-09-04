@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { products } from "./data/product";
+import { products } from "./data/products";
 import { labels } from "./dictionary";
 import { Fahkwang } from "next/font/google";
 

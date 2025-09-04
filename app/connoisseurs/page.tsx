@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "../data/product";
+import { products } from "../data/products";
 
 export default function ConnoisseursPage() {
   // Extract unique brand names from product data
