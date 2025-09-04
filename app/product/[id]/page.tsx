@@ -1,18 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { products } from "@/app/data/products";
-import { useCart } from "@/app/context/CartContext"; // ✅ import cart hook
+import { useCart } from "@/app/context/CartContext";
+import { useSearch } from "@/app/context/SearchContext"; // ✅ import search
 
 export default function ProductPage() {
-  const { id } = useParams(); // dynamic route param
+  const { id } = useParams();
   const product = products.find((p) => p.id === id);
 
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useCart(); // ✅ cart action
+  const { addToCart } = useCart();
+  const { setQuery } = useSearch(); // ✅ access search
+
+  // ✅ Clear search on load
+  useEffect(() => {
+    setQuery("");
+  }, [setQuery]);
 
   if (!product) {
     return (
@@ -67,7 +74,7 @@ export default function ProductPage() {
             ))}
           </select>
           <button
-            onClick={() => addToCart(product.id, quantity)} // ✅ adds to cart
+            onClick={() => addToCart(product.id, quantity)}
             className="bg-[#ff9800] text-white px-6 py-3 rounded-lg font-semibold hover:bg-black hover:text-[#ff9800] transition"
           >
             Add to Basket
