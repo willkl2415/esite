@@ -72,17 +72,23 @@ export default function CategoryPage() {
         <div className="md:col-span-3">
           {filteredImages.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredImages.map((img) => (
-                <div key={img.src} className="flex justify-center">
-                  <Image
-                    src={img.src}
-                    alt={img.brand || "Cigar placeholder"}
-                    width={300}
-                    height={300}
-                    className="rounded-lg shadow-md object-cover"
-                  />
-                </div>
-              ))}
+              {filteredImages.map((img) => {
+                // Generate a simple id from filename (strip slashes and extension)
+                const productId = img.src.replace("/", "").replace(".png", "");
+                return (
+                  <Link key={img.src} href={`/product/${productId}`}>
+                    <div className="flex justify-center cursor-pointer">
+                      <Image
+                        src={img.src}
+                        alt={img.brand || "Cigar placeholder"}
+                        width={300}
+                        height={300}
+                        className="rounded-lg shadow-md object-cover"
+                      />
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           ) : (
             <p className="text-gray-500 italic">
