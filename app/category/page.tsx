@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cigarBrands, CigarBrand } from "../data/cigarBrands";
-import { products } from "../data/products";
+import { products } from "../data/product";
 
 export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);

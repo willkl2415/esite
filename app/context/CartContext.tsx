@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { products } from "@/app/data/products";
+import { products } from "@/app/data/product";
 
 type CartItem = {
   id: string;
