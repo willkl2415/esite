@@ -115,10 +115,10 @@ export default function CategoryPage({ title, description, category }: CategoryP
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-[#000100] to-[#1a1a1a] text-white p-6">
+    <div className="min-h-screen bg-white text-black p-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Sidebar */}
-        <aside className="bg-white text-black shadow-lg p-6 rounded-2xl space-y-6">
+        <aside className="bg-white border rounded-lg p-6 space-y-6">
           <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
           <input
@@ -209,7 +209,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
         {/* Main Content */}
         <main className="md:col-span-3 space-y-6">
-          <section className="bg-white text-black shadow-lg p-6 rounded-2xl">
+          <section className="bg-white border rounded-lg p-6">
             <h1 className="text-2xl font-bold mb-2">{title}</h1>
             <p className="text-gray-700">{description}</p>
           </section>
@@ -219,7 +219,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
             <select
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
-              className="border rounded-lg px-3 py-2 shadow-sm text-black"
+              className="border rounded-lg px-3 py-2 shadow-sm"
             >
               <option>Default Sorting</option>
               <option>Alphabetical</option>
@@ -237,15 +237,15 @@ export default function CategoryPage({ title, description, category }: CategoryP
               paginatedProducts.map((product: any) => (
                 <div
                   key={product.id}
-                  className="relative bg-white text-black p-6 rounded-2xl shadow-md hover:shadow-xl transition transform duration-300"
+                  className="relative bg-white border rounded-lg p-6 hover:shadow-md transition"
                 >
                   {product.badge && (
-                    <span className="absolute top-3 left-3 bg-[#ff9800] text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+                    <span className="absolute top-3 left-3 bg-gray-100 text-black text-xs font-semibold px-3 py-1 rounded-full border">
                       {product.badge}
                     </span>
                   )}
 
-                  <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+                  <div className="bg-gray-50 p-4 rounded-md">
                     <Link href={`/${category}/${product.id}`}>
                       <Image
                         src={product.image}
