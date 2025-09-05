@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "../data/products";
@@ -22,7 +22,7 @@ export default function CategoryPage({
     return products.filter((p: any) => p.category === category);
   }, [category]);
 
-  // === Build list of brands for sidebar ===
+  // === Build list of brands with vitolas ===
   const brands = useMemo(() => {
     const map: Record<string, string[]> = {};
     productsInCategory.forEach((p: any) => {
@@ -179,7 +179,7 @@ export default function CategoryPage({
             </div>
           </div>
 
-          {/* Brand filters */}
+          {/* Brands A–Z accordion */}
           <div>
             <h3 className="font-semibold mb-2">Brands A–Z</h3>
             <ul className="space-y-2">
@@ -187,9 +187,7 @@ export default function CategoryPage({
                 <li key={brand}>
                   <button
                     onClick={() =>
-                      setSelectedBrand(
-                        selectedBrand === brand ? null : brand
-                      )
+                      setSelectedBrand(selectedBrand === brand ? null : brand)
                     }
                     className="w-full flex justify-between items-center font-medium"
                   >
