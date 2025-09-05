@@ -32,11 +32,13 @@ export default function CategoryPage({
   description = "From Cuban classics to New World gems, discover our full portfolio of cigars. Browse by brand, search by name, or explore by vitola.",
   category,
 }: CategoryPageProps) {
+  // === Filter products by category (or all if none passed) ===
   const productsInScope = useMemo<Product[]>(() => {
     const all = products as Product[];
     return category ? all.filter((p) => p.category === category) : all;
   }, [category]);
 
+  // === Build brand → vitola map ===
   const brands = useMemo(() => {
     const map = new Map<string, Set<string>>();
     productsInScope.forEach((p) => {
@@ -51,6 +53,7 @@ export default function CategoryPage({
       }));
   }, [productsInScope]);
 
+  // === Accordion + filters state ===
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
 
@@ -60,6 +63,19 @@ export default function CategoryPage({
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
 
+  // === Clear all filters ===
+  const clearFilters = () => {
+    setSearchTerm("");
+    setPriceMin(0);
+    setPriceMax(1000);
+    setApplyFilters(false);
+    setSortOption("Default Sorting");
+    setOpenBrand(null);
+    setSelectedVitola(null);
+    setCurrentPage(1);
+  };
+
+  // === Apply filters + sorting ===
   const filtered = useMemo(() => {
     let list = [...productsInScope];
     if (openBrand) list = list.filter((p) => p.brand === openBrand);
@@ -114,20 +130,14 @@ export default function CategoryPage({
     sortOption,
   ]);
 
+  // === Pagination ===
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 12;
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-  const pageItems = filtered.slice((currentPage - 1) * perPage, currentPage * perPage);
-
-  const clearFilters = () => {
-    setSearchTerm("");
-    setPriceMin(0);
-    setPriceMax(1000);
-    setApplyFilters(false);
-    setSortOption("Default Sorting");
-    setSelectedVitola(null);
-    setCurrentPage(1);
-  };
+  const pageItems = filtered.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
 
   const stock = (p: Product) => p.stockStatus || p.status || "";
 
@@ -138,6 +148,7 @@ export default function CategoryPage({
         <aside className="bg-white border border-[#000100] rounded-2xl p-6 space-y-6 shadow-sm">
           <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
+          {/* Search */}
           <input
             type="text"
             placeholder={`Search ${title}...`}
@@ -146,6 +157,7 @@ export default function CategoryPage({
             className="w-full border px-3 py-2 rounded-lg"
           />
 
+          {/* Filter buttons */}
           <div className="flex gap-3">
             <button
               onClick={() => {
@@ -164,6 +176,7 @@ export default function CategoryPage({
             </button>
           </div>
 
+          {/* Price filter */}
           <div>
             <h3 className="font-semibold mb-2">Price Range (£)</h3>
             <div className="flex items-center gap-2">
@@ -185,51 +198,44 @@ export default function CategoryPage({
             </div>
           </div>
 
-          {/* Accordion */}
+          {/* Accordion A–Z */}
           <div>
             <h3 className="font-semibold mb-2">Brands A–Z</h3>
             <ul className="space-y-2">
               {brands.map(({ brand, vitolas }) => (
                 <li key={brand}>
-                  <details
-                    open={openBrand === brand}
-                    onToggle={(e) => {
-                      if ((e.target as HTMLDetailsElement).open) {
-                        setOpenBrand(brand);
-                        setSelectedVitola(null);
-                      } else {
-                        setOpenBrand(null);
-                        setSelectedVitola(null);
-                      }
+                  <button
+                    onClick={() => {
+                      setOpenBrand(openBrand === brand ? null : brand);
+                      setSelectedVitola(null);
                       setCurrentPage(1);
                     }}
+                    className="w-full flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 font-medium"
                   >
-                    <summary className="cursor-pointer flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 font-medium">
-                      {brand}
-                      <span>{openBrand === brand ? "−" : "+"}</span>
-                    </summary>
-                    {vitolas.length > 0 && (
-                      <ul className="ml-4 mt-1 mb-2 space-y-1 text-sm text-gray-700">
-                        {vitolas.map((v) => (
-                          <li key={v}>
-                            <button
-                              onClick={() => {
-                                setSelectedVitola(
-                                  selectedVitola === v ? null : v
-                                );
-                                setCurrentPage(1);
-                              }}
-                              className={`hover:underline ${
-                                selectedVitola === v ? "font-bold" : ""
-                              }`}
-                            >
-                              {v}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </details>
+                    {brand}
+                    <span>{openBrand === brand ? "−" : "+"}</span>
+                  </button>
+                  {openBrand === brand && vitolas.length > 0 && (
+                    <ul className="ml-4 mt-1 mb-2 space-y-1 text-sm text-gray-700">
+                      {vitolas.map((v) => (
+                        <li key={v}>
+                          <button
+                            onClick={() => {
+                              setSelectedVitola(
+                                selectedVitola === v ? null : v
+                              );
+                              setCurrentPage(1);
+                            }}
+                            className={`hover:underline ${
+                              selectedVitola === v ? "font-bold" : ""
+                            }`}
+                          >
+                            {v}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
@@ -243,6 +249,7 @@ export default function CategoryPage({
             <p className="text-gray-700">{description}</p>
           </section>
 
+          {/* Sorting */}
           <div className="flex justify-end">
             <select
               value={sortOption}
@@ -262,6 +269,7 @@ export default function CategoryPage({
             </select>
           </div>
 
+          {/* Product grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {pageItems.length > 0 ? (
               pageItems.map((p) => (
@@ -311,6 +319,7 @@ export default function CategoryPage({
             )}
           </section>
 
+          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-4 pt-4">
               <button
