@@ -115,8 +115,9 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-0">
-          <div className="relative w-full h-[400px] md:h-[500px]">
+        {/* Two Lifestyle Images */}
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-6 mt-8">
+          <div className="relative w-full md:w-2/5 h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-md">
             <Image
               src="/cigar-15.png"
               alt="Cigar close-up"
@@ -125,7 +126,7 @@ export default function HomePage() {
               priority
             />
           </div>
-          <div className="relative w-full h-[400px] md:h-[500px]">
+          <div className="relative w-full md:w-2/5 h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-md">
             <Image
               src="/f-30.png"
               alt="Cigar lifestyle"
