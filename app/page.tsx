@@ -118,7 +118,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-0">
           <div className="relative w-full h-[400px] md:h-[500px]">
             <Image
-              src="/hero-1.png"
+              src="/cigar-15.png"
               alt="Cigar close-up"
               fill
               className="object-cover"
@@ -127,7 +127,7 @@ export default function HomePage() {
           </div>
           <div className="relative w-full h-[400px] md:h-[500px]">
             <Image
-              src="/hero-2.png"
+              src="/f-30.png"
               alt="Cigar lifestyle"
               fill
               className="object-cover"
@@ -219,8 +219,9 @@ export default function HomePage() {
               Crafted for <br /> Connoisseurs
             </h2>
             <p className="mt-6 text-lg text-gray-700">
-              Explore our complete <span className="font-semibold">A–Z of cigar brands</span> 
-              — from Cuban icons to New World discoveries.
+              Explore our complete{" "}
+              <span className="font-semibold">A–Z of cigar brands</span> — from
+              Cuban icons to New World discoveries.
             </p>
             <Link
               href="/category"
