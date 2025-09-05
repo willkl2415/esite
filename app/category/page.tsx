@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "../data/products";
-import { cigarBrands } from "../data/cigarBrands";
+import { cigarBrands } from "../data/products/cigarBrands";  // ✅ fixed path
 
 // --- Types that match your dataset ---
 type Product = {
