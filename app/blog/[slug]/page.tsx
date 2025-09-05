@@ -44,10 +44,7 @@ export default function BlogPostPage() {
     return (
       <div className="p-10 max-w-4xl mx-auto text-center">
         <h1 className="text-2xl font-bold text-red-600">Post Not Found</h1>
-        <Link
-          href="/blog"
-          className="text-[#ff9800] hover:text-black mt-4 block"
-        >
+        <Link href="/blog" className="text-[#ff9800] hover:text-black mt-4 block">
           ← Back to Blog
         </Link>
       </div>
@@ -55,8 +52,8 @@ export default function BlogPostPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#ff9800] text-black p-10">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-10">
+    <div className="min-h-screen bg-white text-black p-6">
+      <div className="max-w-4xl mx-auto bg-white border rounded-2xl shadow-md p-10">
         <Link
           href="/blog"
           className="text-sm text-[#ff9800] hover:text-black mb-6 inline-block"

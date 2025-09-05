@@ -35,12 +35,10 @@ export default function BlogPage() {
   ];
 
   return (
-    <div className="p-10 max-w-6xl mx-auto">
+    <div className="p-10 max-w-6xl mx-auto bg-white min-h-screen">
       {/* Intro Container */}
-      <div className="bg-white rounded-2xl shadow-md p-6 mb-10 text-center">
-        <h1 className="text-3xl font-bold mb-4 text-[#ff9800]">
-          The Cigar Manor Blog
-        </h1>
+      <div className="bg-white rounded-2xl border p-6 mb-10 text-center shadow-sm">
+        <h1 className="text-3xl font-bold mb-4">The Cigar Manor Blog</h1>
         <p className="text-gray-700">
           Stories, traditions, and insights from the world of cigars — past,
           present, and future. Here you’ll find articles, guides, and news
@@ -53,7 +51,7 @@ export default function BlogPage() {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition"
+            className="bg-white border rounded-xl overflow-hidden hover:shadow-md transition"
           >
             {/* Image */}
             <Image
