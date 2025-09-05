@@ -132,7 +132,8 @@ export default function CategoryPage() {
                   )}
 
                   <div className="bg-white p-4 rounded-lg shadow-inner">
-                    <Link href={`/${p.category}/${p.id}`}>
+                    {/* ✅ Force product links to /product/[id] */}
+                    <Link href={`/product/${p.id}`}>
                       <Image
                         src={p.image}
                         alt={p.name}
