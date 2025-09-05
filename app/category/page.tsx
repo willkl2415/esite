@@ -4,7 +4,9 @@ import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "../data/products";
+import { cigarBrands } from "../data/cigarBrands";
 
+// --- Types that match your dataset ---
 type Product = {
   id: string;
   name: string;
@@ -12,225 +14,88 @@ type Product = {
   vitola?: string;
   price: number;
   image: string;
-  category: string;
+  category: string; // "product" for cigars data
   badge?: string;
-  status?: string;
-  stockStatus?: string;
-  dateAdded?: string;
-  rating?: number;
-  sales?: number;
+  status?: string;       // e.g. "In Stock" | "Out of Stock" | "Pre-order"
+  stockStatus?: string;  // some items use this instead of status
 };
 
-type CategoryPageProps = {
-  title?: string;
-  description?: string;
-  category?: string;
-};
-
-export default function CategoryPage({
-  title = "Explore Our Cigars",
-  description = "From Cuban classics to New World gems, discover our full portfolio of cigars. Browse by brand, search by name, or explore by vitola.",
-  category,
-}: CategoryPageProps) {
-  const productsInScope = useMemo<Product[]>(() => {
-    const all = products as Product[];
-    return category ? all.filter((p) => p.category === category) : all;
-  }, [category]);
-
-  // Build brands + vitolas map
-  const brands = useMemo(() => {
-    const map = new Map<string, Set<string>>();
-    productsInScope.forEach((p) => {
-      if (!map.has(p.brand)) map.set(p.brand, new Set());
-      if (p.vitola) map.get(p.brand)!.add(p.vitola);
-    });
-    return Array.from(map.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([brand, vitolas]) => ({
-        brand,
-        vitolas: Array.from(vitolas).sort(),
-      }));
-  }, [productsInScope]);
-
-  // Accordion state
+export default function CategoryPage() {
+  // Sidebar accordion state
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
 
-  // Filters
-  const [searchTerm, setSearchTerm] = useState("");
-  const [priceMin, setPriceMin] = useState(0);
-  const [priceMax, setPriceMax] = useState(1000);
-  const [applyFilters, setApplyFilters] = useState(false);
-  const [sortOption, setSortOption] = useState("Default Sorting");
-
-  // Filtering + sorting logic
-  const filtered = useMemo(() => {
-    let list = [...productsInScope];
-
-    if (openBrand) list = list.filter((p) => p.brand === openBrand);
-    if (selectedVitola) list = list.filter((p) => p.vitola === selectedVitola);
-
-    if (applyFilters) {
-      if (searchTerm.trim()) {
-        const q = searchTerm.toLowerCase();
-        list = list.filter(
-          (p) =>
-            p.name.toLowerCase().includes(q) ||
-            p.brand.toLowerCase().includes(q) ||
-            (p.vitola || "").toLowerCase().includes(q)
-        );
-      }
-      list = list.filter((p) => p.price >= priceMin && p.price <= priceMax);
-    }
-
-    switch (sortOption) {
-      case "Alphabetical":
-        list.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case "Price Low to High":
-        list.sort((a, b) => a.price - b.price);
-        break;
-      case "Price High to Low":
-        list.sort((a, b) => b.price - a.price);
-        break;
-      case "Newest Additions":
-        list.sort(
-          (a, b) =>
-            new Date(b.dateAdded || 0).getTime() -
-            new Date(a.dateAdded || 0).getTime()
-        );
-        break;
-      case "Top 5 Sellers":
-        list.sort((a, b) => (b.sales || 0) - (a.sales || 0));
-        break;
-      case "Average Rating":
-        list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-        break;
-    }
-
-    return list;
-  }, [
-    productsInScope,
-    openBrand,
-    selectedVitola,
-    applyFilters,
-    searchTerm,
-    priceMin,
-    priceMax,
-    sortOption,
-  ]);
-
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const perPage = 12;
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-  const pageItems = filtered.slice(
-    (currentPage - 1) * perPage,
-    currentPage * perPage
+  // All cigars (this page is for A–Z cigars)
+  const allCigars = useMemo<Product[]>(
+    () => (products as Product[]).filter((p) => p.category === "product"),
+    []
   );
 
-  const clearFilters = () => {
-    setSearchTerm("");
-    setPriceMin(0);
-    setPriceMax(1000);
-    setApplyFilters(false);
-    setSortOption("Default Sorting");
-    setOpenBrand(null);
-    setSelectedVitola(null);
-    setCurrentPage(1);
-  };
+  // Apply brand/vitola filtering (no other filters, to match screen 1)
+  const filtered = useMemo(() => {
+    let list = [...allCigars];
+    if (openBrand) list = list.filter((p) => p.brand === openBrand);
+    if (selectedVitola) list = list.filter((p) => p.vitola === selectedVitola);
+    return list;
+  }, [allCigars, openBrand, selectedVitola]);
 
-  const stock = (p: Product) => p.stockStatus || p.status || "";
+  // Small helper for unified stock text + colour
+  const stockText = (p: Product) => p.stockStatus || p.status || "";
+  const stockClass = (txt: string) =>
+    txt === "In Stock"
+      ? "text-green-600"
+      : txt === "Out of Stock"
+      ? "text-red-600"
+      : "text-blue-600";
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar */}
-        <aside className="bg-white border border-[#000100] rounded-2xl p-6 space-y-6 shadow-sm">
-          <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
+      {/* Page header */}
+      <section className="max-w-7xl mx-auto px-6 pt-10 pb-4">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2">
+          Explore Our Cigars
+        </h1>
+        <p className="text-gray-700 text-base md:text-lg">
+          From Cuban classics to New World gems, discover our full portfolio of cigars.
+          Browse by brand, search by name, or explore by vitola.
+        </p>
+      </section>
 
-          {/* Search */}
-          <input
-            type="text"
-            placeholder={`Search ${title}...`}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full border px-3 py-2 rounded-lg"
-          />
-
-          <div className="flex gap-3">
-            <button
-              onClick={() => {
-                setApplyFilters(true);
-                setCurrentPage(1);
-              }}
-              className="border border-black text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition"
-            >
-              FILTER
-            </button>
-            <button
-              onClick={clearFilters}
-              className="border border-black text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition"
-            >
-              CLEAR
-            </button>
-          </div>
-
-          {/* Price filter */}
-          <div>
-            <h3 className="font-semibold mb-2">Price Range (£)</h3>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                min={0}
-                value={priceMin}
-                onChange={(e) => setPriceMin(Number(e.target.value))}
-                className="w-1/2 border rounded-lg px-2 py-1 text-sm"
-              />
-              <span>-</span>
-              <input
-                type="number"
-                min={0}
-                value={priceMax}
-                onChange={(e) => setPriceMax(Number(e.target.value))}
-                className="w-1/2 border rounded-lg px-2 py-1 text-sm"
-              />
-            </div>
-          </div>
-
-          {/* Accordion */}
-          <div>
-            <h3 className="font-semibold mb-2">Brands A–Z</h3>
-            <ul className="space-y-2">
-              {brands.map(({ brand, vitolas }) => (
-                <li key={brand} className="border-b pb-2">
+      <div className="max-w-7xl mx-auto px-6 pb-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Sidebar — Brands A–Z only (no extra filter widgets) */}
+        <aside className="md:col-span-1">
+          <h2 className="text-lg font-semibold mb-3">Brands A–Z</h2>
+          <ul className="space-y-2">
+            {cigarBrands.map(({ brand, vitolas }) => {
+              const isOpen = openBrand === brand;
+              return (
+                <li key={brand} className="border-b">
                   <button
                     onClick={() => {
-                      setOpenBrand(openBrand === brand ? null : brand);
-                      setSelectedVitola(null);
-                      setCurrentPage(1);
+                      if (isOpen) {
+                        setOpenBrand(null);
+                        setSelectedVitola(null);
+                      } else {
+                        setOpenBrand(brand);
+                        setSelectedVitola(null);
+                      }
                     }}
-                    className="w-full flex justify-between items-center text-left font-medium hover:text-[#ff9800] transition"
+                    className="w-full flex items-center justify-between py-2 text-left font-medium hover:text-black/80"
                   >
                     <span>{brand}</span>
-                    <span className="text-xl">
-                      {openBrand === brand ? "−" : "+"}
-                    </span>
+                    <span className="text-xl leading-none">{isOpen ? "−" : "+"}</span>
                   </button>
 
-                  {openBrand === brand && vitolas.length > 0 && (
-                    <ul className="ml-4 mt-2 space-y-1 text-sm text-gray-700 list-disc">
+                  {isOpen && vitolas?.length > 0 && (
+                    <ul className="ml-4 mb-3 space-y-1 list-disc text-sm text-gray-700">
                       {vitolas.map((v) => (
                         <li key={v}>
                           <button
-                            onClick={() => {
-                              setSelectedVitola(
-                                selectedVitola === v ? null : v
-                              );
-                              setCurrentPage(1);
-                            }}
+                            onClick={() =>
+                              setSelectedVitola((cur) => (cur === v ? null : v))
+                            }
                             className={`hover:underline ${
-                              selectedVitola === v ? "font-bold" : ""
+                              selectedVitola === v ? "font-semibold text-black" : ""
                             }`}
                           >
                             {v}
@@ -240,43 +105,16 @@ export default function CategoryPage({
                     </ul>
                   )}
                 </li>
-              ))}
-            </ul>
-          </div>
+              );
+            })}
+          </ul>
         </aside>
 
-        {/* Main */}
+        {/* Main grid */}
         <main className="md:col-span-3 space-y-6">
-          {/* Header */}
-          <section className="bg-white border border-[#000100] rounded-2xl p-6 shadow-sm">
-            <h1 className="text-2xl font-bold mb-2">{title}</h1>
-            <p className="text-gray-700">{description}</p>
-          </section>
-
-          {/* Sorting */}
-          <div className="flex justify-end">
-            <select
-              value={sortOption}
-              onChange={(e) => {
-                setSortOption(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="border rounded-lg px-3 py-2 shadow-sm"
-            >
-              <option>Default Sorting</option>
-              <option>Alphabetical</option>
-              <option>Average Rating</option>
-              <option>Newest Additions</option>
-              <option>Price High to Low</option>
-              <option>Price Low to High</option>
-              <option>Top 5 Sellers</option>
-            </select>
-          </div>
-
-          {/* Products grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pageItems.length > 0 ? (
-              pageItems.map((p) => (
+            {filtered.length > 0 ? (
+              filtered.map((p) => (
                 <div
                   key={p.id}
                   className="relative bg-white border border-[#000100] rounded-2xl overflow-hidden p-4 shadow-sm hover:shadow-lg transition"
@@ -286,34 +124,29 @@ export default function CategoryPage({
                       {p.badge}
                     </span>
                   )}
+
                   <div className="bg-white p-4 rounded-lg shadow-inner">
-                    <Link href={`/${p.category}/${p.id}`}>
+                    <Link href={`/product/${p.id}`}>
                       <Image
                         src={p.image}
                         alt={p.name}
-                        width={180}
-                        height={180}
-                        className="mx-auto h-40 w-auto object-contain"
+                        width={220}
+                        height={220}
+                        className="mx-auto h-44 w-auto object-contain"
                       />
                     </Link>
                   </div>
-                  <h3 className="mt-4 text-center text-[#000100] font-serif text-lg font-bold tracking-wide">
+
+                  <h3 className="mt-3 text-center text-[#000100] font-serif text-lg font-bold tracking-wide">
                     {p.name}
                   </h3>
                   <p className="text-center text-sm text-gray-700">
                     £{Number(p.price).toFixed(2)}
                   </p>
-                  {stock(p) && (
-                    <p
-                      className={`text-center text-sm font-semibold mt-1 ${
-                        stock(p) === "In Stock"
-                          ? "text-green-600"
-                          : stock(p) === "Out of Stock"
-                          ? "text-red-600"
-                          : "text-blue-600"
-                      }`}
-                    >
-                      {stock(p)}
+
+                  {stockText(p) && (
+                    <p className={`text-center text-sm font-semibold mt-1 ${stockClass(stockText(p))}`}>
+                      {stockText(p)}
                     </p>
                   )}
                 </div>
@@ -322,31 +155,6 @@ export default function CategoryPage({
               <p className="text-gray-600">No products found.</p>
             )}
           </section>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-4 pt-4">
-              <button
-                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                disabled={currentPage === 1}
-                className="border border-black text-black px-4 py-2 rounded-full disabled:opacity-50 hover:bg-black hover:text-white transition"
-              >
-                Prev
-              </button>
-              <span className="text-sm">
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(p + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="border border-black text-black px-4 py-2 rounded-full disabled:opacity-50 hover:bg-black hover:text-white transition"
-              >
-                Next
-              </button>
-            </div>
-          )}
         </main>
       </div>
     </div>
