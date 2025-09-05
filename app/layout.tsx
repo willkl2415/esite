@@ -162,10 +162,7 @@ export default function RootLayout({
 
             {/* UNIVERSAL BACK HOME BUTTON */}
             <div className="flex justify-center my-6">
-              <Link
-                href="/"
-                className="bg-black text-white px-6 py-2 rounded-full font-bold shadow hover:bg-gray-800 transition-colors"
-              >
+              <Link href="/" className="primary">
                 Back Home
               </Link>
             </div>

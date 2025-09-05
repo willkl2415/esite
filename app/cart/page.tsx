@@ -16,10 +16,7 @@ export default function CartPage() {
       {cart.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-600 text-lg mb-6">Your basket is empty.</p>
-          <Link
-            href="/category"
-            className="bg-[#ff9800] text-white px-6 py-3 rounded-lg font-semibold hover:bg-black hover:text-[#ff9800] transition"
-          >
+          <Link href="/category" className="primary">
             Browse Products
           </Link>
         </div>
@@ -39,9 +36,7 @@ export default function CartPage() {
               />
               <div className="flex-1">
                 <h2 className="text-xl font-semibold">{item.name}</h2>
-                <p className="text-[#ff9800] font-semibold">
-                  £{item.price.toFixed(2)}
-                </p>
+                <p className="font-semibold">£{item.price.toFixed(2)}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <label htmlFor={`qty-${item.id}`} className="font-medium">
                     Qty:
@@ -62,10 +57,7 @@ export default function CartPage() {
                   </select>
                 </div>
               </div>
-              <button
-                onClick={() => removeFromCart(item.id)}
-                className="text-red-500 font-medium hover:underline"
-              >
+              <button onClick={() => removeFromCart(item.id)} className="danger">
                 Remove
               </button>
             </div>
@@ -73,20 +65,12 @@ export default function CartPage() {
 
           {/* Summary */}
           <div className="flex justify-between items-center pt-6">
-            <h2 className="text-2xl font-bold">
-              Total: £{total.toFixed(2)}
-            </h2>
+            <h2 className="text-2xl font-bold">Total: £{total.toFixed(2)}</h2>
             <div className="flex gap-4">
-              <Link
-                href="/category"
-                className="bg-gray-200 text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
-              >
+              <Link href="/category" className="secondary">
                 Continue Shopping
               </Link>
-              <Link
-                href="/checkout"
-                className="bg-[#ff9800] text-white px-6 py-3 rounded-lg font-semibold hover:bg-black hover:text-[#ff9800] transition"
-              >
+              <Link href="/checkout" className="primary">
                 Checkout
               </Link>
             </div>

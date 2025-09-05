@@ -25,10 +25,7 @@ export default function ProductPage() {
     return (
       <div className="max-w-4xl mx-auto px-6 py-20 text-center">
         <h1 className="text-3xl font-bold mb-4">Product Not Found</h1>
-        <Link
-          href="/category"
-          className="text-[#ff9800] font-semibold hover:underline"
-        >
+        <Link href="/category" className="secondary">
           ← Back to A–Z
         </Link>
       </div>
@@ -51,9 +48,7 @@ export default function ProductPage() {
       {/* Product Info */}
       <div className="flex flex-col justify-start">
         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-        <p className="text-2xl text-[#ff9800] font-semibold mb-6">
-          £{product.price.toFixed(2)}
-        </p>
+        <p className="text-2xl font-semibold mb-6">£{product.price.toFixed(2)}</p>
         <p className="text-gray-700 mb-8">{product.description}</p>
 
         {/* Quantity + Add to Basket */}
@@ -75,17 +70,14 @@ export default function ProductPage() {
           </select>
           <button
             onClick={() => addToCart(product.id, quantity)}
-            className="bg-[#ff9800] text-white px-6 py-3 rounded-lg font-semibold hover:bg-black hover:text-[#ff9800] transition"
+            className="primary"
           >
             Add to Basket
           </button>
         </div>
 
         {/* Back Link */}
-        <Link
-          href="/category"
-          className="text-sm font-medium text-black hover:text-[#ff9800] transition"
-        >
+        <Link href="/category" className="secondary">
           ← Back to A–Z
         </Link>
       </div>
