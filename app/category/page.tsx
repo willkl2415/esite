@@ -2,203 +2,153 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { products } from "../data/products";
 
-type Prod = {
+type Product = {
   id: string;
   name: string;
   brand?: string;
   category?: string;
+  vitola?: string;
   price?: number;
+  status?: "In Stock" | "Out of Stock" | "Pre-order";
+  image: string;
 };
 
-const NON_CIGAR_CATEGORIES = new Set(["accessories", "gifts", "promotions"]);
-
-function slugifyLetter(ch: string) {
-  return `letter-${ch.toUpperCase()}`;
-}
-
 export default function CategoryPage() {
-  // Keep only cigar products (exclude accessories/gifts/promotions)
-  const cigars: Prod[] = useMemo(
-    () =>
-      products.filter(
-        (p: any) => p.category && !NON_CIGAR_CATEGORIES.has(p.category)
-      ),
-    []
-  );
+  const [openBrand, setOpenBrand] = useState<string | null>(null);
 
-  // Build Brand -> Products map
-  const brandMap = useMemo(() => {
-    const map = new Map<string, Prod[]>();
-    cigars.forEach((p) => {
-      const brand = (p.brand || "Unknown").trim();
-      if (!map.has(brand)) map.set(brand, []);
-      map.get(brand)!.push(p);
-    });
-    // Sort products within each brand
-    for (const [_b, arr] of map) {
-      arr.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-    }
-    return map;
-  }, [cigars]);
-
-  // Create Letter -> [Brand] map (A–Z, # for symbols/numbers)
-  const letterMap = useMemo(() => {
-    const lmap = new Map<string, string[]>();
-    const add = (L: string, brand: string) => {
-      if (!lmap.has(L)) lmap.set(L, []);
-      lmap.get(L)!.push(brand);
-    };
-
-    for (const brand of Array.from(brandMap.keys())) {
-      const first = brand.charAt(0).toUpperCase();
-      const letter = first >= "A" && first <= "Z" ? first : "#";
-      add(letter, brand);
-    }
-
-    // Sort brands under each letter A–Z
-    for (const [L, arr] of lmap) {
-      arr.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
-    }
-
-    return lmap;
-  }, [brandMap]);
-
-  const letters = useMemo(() => {
-    const AtoZ = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
-    const present = AtoZ.filter((L) => letterMap.has(L));
-    if (letterMap.has("#")) present.push("#");
-    return present;
-  }, [letterMap]);
-
-  // Search by brand or product
-  const [q, setQ] = useState("");
-
-  const filteredLetterMap = useMemo(() => {
-    if (!q.trim()) return letterMap;
-    const query = q.toLowerCase();
-    const lmap = new Map<string, string[]>();
-
-    for (const [brand, prods] of brandMap) {
-      const brandMatch = brand.toLowerCase().includes(query);
-      const productMatch = prods.some((p) => p.name.toLowerCase().includes(query));
-      if (brandMatch || productMatch) {
-        const first = brand.charAt(0).toUpperCase();
-        const L = first >= "A" && first <= "Z" ? first : "#";
-        if (!lmap.has(L)) lmap.set(L, []);
-        lmap.get(L)!.push(brand);
+  // Collect all cigar brands (exclude accessories/gifts/promotions)
+  const brands = useMemo(() => {
+    const brandMap = new Map<string, Product[]>();
+    products.forEach((p: Product) => {
+      if (
+        p.category !== "accessories" &&
+        p.category !== "gifts" &&
+        p.category !== "promotions"
+      ) {
+        const brand = p.brand || "Unknown";
+        if (!brandMap.has(brand)) brandMap.set(brand, []);
+        brandMap.get(brand)!.push(p);
       }
+    });
+    // Sort products under each brand
+    for (const [b, arr] of brandMap) {
+      arr.sort((a, b) =>
+        a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+      );
     }
-    // Sort per letter
-    for (const [L, arr] of lmap) {
-      arr.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
-    }
-    return lmap;
-  }, [q, brandMap, letterMap]);
+    // Sort brands alphabetically
+    return Array.from(brandMap.entries()).sort(([a], [b]) =>
+      a.localeCompare(b, undefined, { sensitivity: "base" })
+    );
+  }, []);
+
+  const currentProducts = useMemo(() => {
+    if (!openBrand) return [];
+    const brand = brands.find(([b]) => b === openBrand);
+    return brand ? brand[1] : [];
+  }, [openBrand, brands]);
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-10">
+      <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
-        <section className="bg-white border border-[#000100] rounded-2xl p-6 shadow-sm mb-6">
-          <h1 className="text-3xl font-bold mb-2">Cigars A–Z</h1>
-          <p className="text-gray-700">
-            Explore our complete A–Z of cigar brands — Cuban icons to New World discoveries.
+        <section className="mb-10 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Explore Our Cigars
+          </h1>
+          <p className="text-gray-700 max-w-2xl mx-auto">
+            From Cuban classics to New World gems, discover our full portfolio
+            of cigars. Browse by brand, search by name, or explore by vitola.
           </p>
         </section>
 
-        {/* Top controls */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-          {/* Jump bar */}
-          <div className="flex flex-wrap gap-2">
-            {letters.map((L) => (
-              <a
-                key={L}
-                href={`#${slugifyLetter(L)}`}
-                className="border border-black px-3 py-1 rounded-full text-sm hover:bg-black hover:text-white transition"
-              >
-                {L}
-              </a>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <aside className="bg-white border border-black rounded-2xl p-6 shadow-sm">
+            <h2 className="font-bold text-lg mb-4">Brands A–Z</h2>
+            <ul className="space-y-2">
+              {brands.map(([brand]) => (
+                <li key={brand}>
+                  <button
+                    onClick={() =>
+                      setOpenBrand(openBrand === brand ? null : brand)
+                    }
+                    className="w-full flex justify-between items-center text-left font-medium border-b py-2 hover:text-black"
+                  >
+                    <span>{brand}</span>
+                    <span>{openBrand === brand ? "−" : "+"}</span>
+                  </button>
+                  {openBrand === brand && (
+                    <ul className="pl-4 mt-2 space-y-1 text-sm text-gray-700">
+                      {brands
+                        .find(([b]) => b === brand)?.[1]
+                        .map((p) => (
+                          <li key={p.id} className="list-disc ml-4">
+                            {p.vitola ? (
+                              <span className="font-normal">{p.vitola}</span>
+                            ) : (
+                              <span className="font-normal">{p.name}</span>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </aside>
 
-          {/* Search */}
-          <div className="flex gap-2">
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search brands or cigars…"
-              className="border rounded-lg px-3 py-2 w-72"
-            />
-            <button
-              onClick={() => setQ("")}
-              className="border border-black px-3 py-2 rounded-full hover:bg-black hover:text-white transition"
-            >
-              CLEAR
-            </button>
-          </div>
-        </div>
-
-        {/* A–Z Accordion by Letter */}
-        <div className="space-y-4">
-          {letters
-            .filter((L) => filteredLetterMap.has(L))
-            .map((L) => (
-              <section key={L} id={slugifyLetter(L)} className="border border-[#000100] rounded-2xl">
-                <details open className="group">
-                  <summary className="cursor-pointer select-none list-none px-5 py-4 flex items-center justify-between">
-                    <span className="text-xl font-bold">{L}</span>
-                    <span className="text-sm text-gray-600 group-open:hidden">Show</span>
-                    <span className="text-sm text-gray-600 hidden group-open:inline">Hide</span>
-                  </summary>
-
-                  {/* Brands under this letter */}
-                  <div className="px-5 pb-5 space-y-6">
-                    {filteredLetterMap
-                      .get(L)!
-                      .map((brand) => (
-                        <div key={brand} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                          <h3 className="text-lg font-semibold mb-3">{brand}</h3>
-
-                          {/* Brand’s cigars */}
-                          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                            {brandMap.get(brand)!.map((p) => (
-                              <li key={p.id} className="flex items-center justify-between gap-3">
-                                <Link
-                                  href={`/product/${p.id}`}
-                                  className="hover:underline"
-                                >
-                                  {p.name}
-                                </Link>
-                                {typeof p.price === "number" && (
-                                  <span className="text-sm text-gray-700">
-                                    £{Number(p.price).toFixed(2)}
-                                  </span>
-                                )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                  </div>
-                </details>
-              </section>
-            ))}
-        </div>
-
-        {/* Back to top */}
-        <div className="text-center mt-8">
-          <a
-            href="#top"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className="inline-block border border-black px-6 py-2 rounded-full hover:bg-black hover:text-white transition"
-          >
-            Back to top
-          </a>
+          {/* Main panel */}
+          <main className="md:col-span-3">
+            {openBrand ? (
+              <>
+                <h2 className="text-2xl font-bold mb-6">{openBrand}</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {currentProducts.map((p) => (
+                    <div
+                      key={p.id}
+                      className="bg-white border border-black rounded-2xl shadow-sm hover:shadow-lg transition p-4 flex flex-col"
+                    >
+                      <div className="relative w-full h-48 mb-4">
+                        <Link href={`/product/${p.id}`}>
+                          <Image
+                            src={p.image}
+                            alt={p.name}
+                            fill
+                            className="object-contain rounded-lg"
+                          />
+                        </Link>
+                      </div>
+                      <h3 className="text-lg font-semibold text-center mb-2">
+                        {p.name}
+                      </h3>
+                      <p className="text-center text-sm text-gray-600 mb-1">
+                        £{p.price?.toFixed(2)}
+                      </p>
+                      <p className="text-center text-xs font-medium">
+                        {p.status === "Out of Stock" && (
+                          <span className="text-red-600">Out of Stock</span>
+                        )}
+                        {p.status === "Pre-order" && (
+                          <span className="text-yellow-600">Pre-order</span>
+                        )}
+                        {(!p.status || p.status === "In Stock") && (
+                          <span className="text-green-600">In Stock</span>
+                        )}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p className="text-gray-600">
+                Select a brand on the left to explore its cigars.
+              </p>
+            )}
+          </main>
         </div>
       </div>
     </div>
