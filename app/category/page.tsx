@@ -1,174 +1,111 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import React, { useState, useMemo } from "react";
 import Image from "next/image";
-import { cigarBrands, CigarBrand } from "../data/products/cigarBrands";
+import Link from "next/link";
 import { products } from "../data/products";
-import { useSearch } from "../context/SearchContext";
-
-// ✅ helper: normalize strings (lowercase, strip accents, strip trailing "s")
-const normalize = (str: string) =>
-  str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/s$/, "");
 
 export default function CategoryPage() {
-  const [openBrand, setOpenBrand] = useState<string | null>(null);
-  const { query } = useSearch();
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
 
-  const toggleBrand = (brand: string) => {
-    setOpenBrand(openBrand === brand ? null : brand);
-  };
+  // Group products by brand
+  const brands = useMemo(() => {
+    const grouped: { [brand: string]: any[] } = {};
+    products.forEach((p) => {
+      if (!grouped[p.brand]) grouped[p.brand] = [];
+      grouped[p.brand].push(p);
+    });
 
-  // ✅ Filter products by brand + search query
-  const filteredProducts = products.filter((p) => {
-    const matchesBrand = openBrand ? p.brand === openBrand : true;
-    const matchesQuery =
-      query === "" ||
-      p.name.toLowerCase().includes(query.toLowerCase()) ||
-      p.brand.toLowerCase().includes(query.toLowerCase()) ||
-      p.vitola?.toLowerCase().includes(query.toLowerCase());
-    return matchesBrand && matchesQuery;
-  });
+    // Sort brands alphabetically
+    return Object.keys(grouped)
+      .sort((a, b) => a.localeCompare(b))
+      .map((brand) => ({ brand, items: grouped[brand] }));
+  }, []);
 
-  // ✅ Helper: label stock status
-  const getStockLabel = (stock: number | "preorder" | undefined) => {
-    if (stock === 0) return "Out of Stock";
-    if (stock === "preorder") return "Pre-order";
-    if (typeof stock === "number" && stock > 0) return "In Stock";
-    return "";
-  };
+  // Products to display
+  const visibleProducts = useMemo(() => {
+    if (!selectedBrand) return products; // show all products by default
+    return products.filter((p) => p.brand === selectedBrand);
+  }, [selectedBrand]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black">
-      {/* Page Header */}
-      <section className="w-full bg-white border-b">
-        <div className="max-w-6xl mx-auto px-6 py-12 text-left">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
-            Explore Our Cigars
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-            From Cuban classics to New World gems, discover our full portfolio
-            of cigars. Browse by brand, search by name, or explore by vitola.
-          </p>
-        </div>
-      </section>
-
-      {/* Main Content Layout */}
-      <section className="flex-1 max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar: Accordion A–Z */}
-        <aside className="md:col-span-1 sticky top-28 self-start h-fit">
-          <h2 className="text-xl font-semibold mb-4">Brands A–Z</h2>
-          <ul className="space-y-2 text-gray-700">
-            {cigarBrands.map((brandObj: CigarBrand, i: number) => (
-              <li key={i} className="border-b pb-2">
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* === Sidebar === */}
+        <aside className="bg-white border border-black rounded-2xl shadow-sm p-6 h-fit">
+          <h2 className="text-lg font-bold mb-4">Brands A–Z</h2>
+          <ul className="space-y-2">
+            {brands.map(({ brand }) => (
+              <li key={brand}>
                 <button
-                  onClick={() => toggleBrand(brandObj.brand)}
-                  className="w-full flex justify-between items-center text-left font-semibold hover:text-[#ff9800] transition"
+                  onClick={() =>
+                    setSelectedBrand(
+                      selectedBrand === brand ? null : brand
+                    )
+                  }
+                  className={`flex justify-between items-center w-full px-3 py-2 rounded-lg border transition ${
+                    selectedBrand === brand
+                      ? "bg-black text-white border-black"
+                      : "bg-white text-black border-gray-300 hover:bg-gray-100"
+                  }`}
                 >
-                  <span>{brandObj.brand}</span>
-                  <span className="text-xl">
-                    {openBrand === brandObj.brand ? "−" : "+"}
-                  </span>
+                  <span>{brand}</span>
+                  <span>{selectedBrand === brand ? "–" : "+"}</span>
                 </button>
-
-                {/* Vitolas Accordion */}
-                {openBrand === brandObj.brand && (
-                  <ul className="mt-2 ml-4 space-y-1 text-sm text-gray-600 list-disc">
-                    {brandObj.vitolas.map((vitola: string, idx: number) => {
-                      const matchedProduct = products.find(
-                        (p) =>
-                          p.brand === brandObj.brand &&
-                          normalize(p.vitola || "") === normalize(vitola)
-                      );
-
-                      if (!matchedProduct) {
-                        return (
-                          <li key={idx}>
-                            <span className="text-gray-400">{vitola}</span>
-                          </li>
-                        );
-                      }
-
-                      if (matchedProduct.stock === 0) {
-                        return (
-                          <li key={idx}>
-                            <span
-                              className="text-gray-400 cursor-not-allowed"
-                              title="Out of Stock"
-                            >
-                              {vitola} (Out of Stock)
-                            </span>
-                          </li>
-                        );
-                      }
-
-                      if (matchedProduct.stock === "preorder") {
-                        return (
-                          <li key={idx}>
-                            <Link
-                              href={`/product/${matchedProduct.id}`}
-                              className="hover:text-black transition"
-                              title="Available for Pre-order"
-                            >
-                              {vitola} (Pre-order)
-                            </Link>
-                          </li>
-                        );
-                      }
-
-                      return (
-                        <li key={idx}>
-                          <Link
-                            href={`/product/${matchedProduct.id}`}
-                            className="hover:text-black transition"
-                          >
-                            {vitola}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
               </li>
             ))}
           </ul>
         </aside>
 
-        {/* Main panel with product grid */}
-        <div className="md:col-span-3">
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <Link key={product.id} href={`/product/${product.id}`}>
-                  <div className="flex flex-col items-center cursor-pointer">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={300}
-                      height={300}
-                      className="rounded-lg shadow-md object-cover"
-                    />
-                    <p className="mt-2 text-sm font-medium text-gray-700">
-                      {product.name}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {getStockLabel(product.stock)}
+        {/* === Main content === */}
+        <main className="md:col-span-3">
+          <h1 className="text-4xl font-bold mb-3">Explore Our Cigars</h1>
+          <p className="text-gray-700 mb-8">
+            From Cuban classics to New World gems, discover our full portfolio
+            of cigars. Browse by brand, search by name, or explore by vitola.
+          </p>
+
+          {/* Product grid */}
+          {visibleProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {visibleProducts.map((p) => (
+                <div
+                  key={p.id}
+                  className="border border-gray-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition bg-white"
+                >
+                  <Link href={`/product/${p.id}`}>
+                    <div className="relative w-full h-48">
+                      <Image
+                        src={p.image}
+                        alt={p.name}
+                        fill
+                        className="object-contain p-4"
+                      />
+                    </div>
+                  </Link>
+                  <div className="p-4 text-center">
+                    <h3 className="font-bold text-lg">{p.name}</h3>
+                    <p className="text-gray-700">£{p.price.toFixed(2)}</p>
+                    <p
+                      className={`text-sm font-semibold mt-2 ${
+                        p.stockStatus === "In Stock"
+                          ? "text-green-600"
+                          : p.stockStatus === "Out of Stock"
+                          ? "text-red-600"
+                          : "text-yellow-600"
+                      }`}
+                    >
+                      {p.stockStatus || "Available"}
                     </p>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 italic">
-              No products match your search.
-            </p>
+            <p className="text-gray-600">No products found.</p>
           )}
-        </div>
-      </section>
+        </main>
+      </div>
     </div>
   );
 }
