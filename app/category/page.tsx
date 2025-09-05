@@ -32,13 +32,12 @@ export default function CategoryPage({
   description = "From Cuban classics to New World gems, discover our full portfolio of cigars. Browse by brand, search by name, or explore by vitola.",
   category,
 }: CategoryPageProps) {
-  // === Filter products by category (or all if none passed) ===
   const productsInScope = useMemo<Product[]>(() => {
     const all = products as Product[];
     return category ? all.filter((p) => p.category === category) : all;
   }, [category]);
 
-  // === Build brand → vitola map ===
+  // Build accordion dataset
   const brands = useMemo(() => {
     const map = new Map<string, Set<string>>();
     productsInScope.forEach((p) => {
@@ -53,29 +52,17 @@ export default function CategoryPage({
       }));
   }, [productsInScope]);
 
-  // === Accordion + filters state ===
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
 
+  // Filters
   const [searchTerm, setSearchTerm] = useState("");
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(1000);
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
 
-  // === Clear all filters ===
-  const clearFilters = () => {
-    setSearchTerm("");
-    setPriceMin(0);
-    setPriceMax(1000);
-    setApplyFilters(false);
-    setSortOption("Default Sorting");
-    setOpenBrand(null);
-    setSelectedVitola(null);
-    setCurrentPage(1);
-  };
-
-  // === Apply filters + sorting ===
+  // Filter + sort logic
   const filtered = useMemo(() => {
     let list = [...productsInScope];
     if (openBrand) list = list.filter((p) => p.brand === openBrand);
@@ -130,7 +117,7 @@ export default function CategoryPage({
     sortOption,
   ]);
 
-  // === Pagination ===
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 12;
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
@@ -139,16 +126,25 @@ export default function CategoryPage({
     currentPage * perPage
   );
 
+  const clearFilters = () => {
+    setSearchTerm("");
+    setPriceMin(0);
+    setPriceMax(1000);
+    setApplyFilters(false);
+    setSortOption("Default Sorting");
+    setSelectedVitola(null);
+    setCurrentPage(1);
+  };
+
   const stock = (p: Product) => p.stockStatus || p.status || "";
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar */}
+        {/* Sidebar: Accordion */}
         <aside className="bg-white border border-[#000100] rounded-2xl p-6 space-y-6 shadow-sm">
           <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
-          {/* Search */}
           <input
             type="text"
             placeholder={`Search ${title}...`}
@@ -157,7 +153,6 @@ export default function CategoryPage({
             className="w-full border px-3 py-2 rounded-lg"
           />
 
-          {/* Filter buttons */}
           <div className="flex gap-3">
             <button
               onClick={() => {
@@ -176,7 +171,6 @@ export default function CategoryPage({
             </button>
           </div>
 
-          {/* Price filter */}
           <div>
             <h3 className="font-semibold mb-2">Price Range (£)</h3>
             <div className="flex items-center gap-2">
@@ -198,7 +192,6 @@ export default function CategoryPage({
             </div>
           </div>
 
-          {/* Accordion A–Z */}
           <div>
             <h3 className="font-semibold mb-2">Brands A–Z</h3>
             <ul className="space-y-2">
@@ -210,13 +203,13 @@ export default function CategoryPage({
                       setSelectedVitola(null);
                       setCurrentPage(1);
                     }}
-                    className="w-full flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 font-medium"
+                    className="w-full flex justify-between items-center font-medium py-1"
                   >
                     {brand}
                     <span>{openBrand === brand ? "−" : "+"}</span>
                   </button>
                   {openBrand === brand && vitolas.length > 0 && (
-                    <ul className="ml-4 mt-1 mb-2 space-y-1 text-sm text-gray-700">
+                    <ul className="ml-4 mt-1 space-y-1 text-sm text-gray-700">
                       {vitolas.map((v) => (
                         <li key={v}>
                           <button
@@ -249,7 +242,6 @@ export default function CategoryPage({
             <p className="text-gray-700">{description}</p>
           </section>
 
-          {/* Sorting */}
           <div className="flex justify-end">
             <select
               value={sortOption}
@@ -269,7 +261,6 @@ export default function CategoryPage({
             </select>
           </div>
 
-          {/* Product grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {pageItems.length > 0 ? (
               pageItems.map((p) => (
@@ -319,7 +310,6 @@ export default function CategoryPage({
             )}
           </section>
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-4 pt-4">
               <button
@@ -333,7 +323,9 @@ export default function CategoryPage({
                 Page {currentPage} of {totalPages}
               </span>
               <button
-                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(p + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
                 className="border border-black text-black px-4 py-2 rounded-full disabled:opacity-50 hover:bg-black hover:text-white transition"
               >
