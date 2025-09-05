@@ -6,65 +6,50 @@ import Link from "next/link";
 import { products } from "../data/products";
 
 type CategoryPageProps = {
-  title: string;
-  description: string;
-  category: string; // accessories | gifts | promotions | etc.
+  title?: string;
+  description?: string;
+  category?: string; // accessories | gifts | promotions | awarded-cigars | etc.
 };
 
 export default function CategoryPage({
-  title,
-  description,
+  title = "Explore Our Cigars",
+  description = "From Cuban classics to New World gems, discover our full portfolio of cigars. Browse by brand, search by name, or explore by vitola.",
   category,
 }: CategoryPageProps) {
-  // Products in this category
-  const productsInCategory = useMemo(
-    () => products.filter((p: any) => p.category === category),
-    [category]
-  );
+  // === Filter products by category (or show all if no category is passed) ===
+  const productsInCategory = useMemo(() => {
+    if (!category) return products;
+    return products.filter((p: any) => p.category === category);
+  }, [category]);
 
-  // Facets
+  // === Build list of brands for sidebar ===
   const brands = useMemo(() => {
-    const set = new Set<string>();
-    productsInCategory.forEach((p: any) => p.brand && set.add(p.brand));
-    return Array.from(set).sort();
+    const map: Record<string, string[]> = {};
+    productsInCategory.forEach((p: any) => {
+      if (!map[p.brand]) map[p.brand] = [];
+      if (p.vitola && !map[p.brand].includes(p.vitola)) {
+        map[p.brand].push(p.vitola);
+      }
+    });
+    return Object.keys(map)
+      .sort()
+      .map((brand) => ({ brand, vitolas: map[brand].sort() }));
   }, [productsInCategory]);
 
-  const vitolas = useMemo(() => {
-    const set = new Set<string>();
-    productsInCategory.forEach((p: any) => p.vitola && set.add(p.vitola));
-    return Array.from(set).sort();
-  }, [productsInCategory]);
-
-  // Filters
+  // === Filters & state ===
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [selectedVitolas, setSelectedVitolas] = useState<string[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(1000);
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
 
-  const brandDetailsRef = useRef<HTMLDetailsElement>(null);
-  const vitolaDetailsRef = useRef<HTMLDetailsElement>(null);
-
-  const toggleBrand = (b: string) => {
-    setSelectedBrands((prev) =>
-      prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]
-    );
-    if (brandDetailsRef.current) brandDetailsRef.current.open = false;
-  };
-
-  const toggleVitola = (v: string) => {
-    setSelectedVitolas((prev) =>
-      prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v]
-    );
-    if (vitolaDetailsRef.current) vitolaDetailsRef.current.open = false;
-  };
-
+  // === Clear filters ===
   const clearFilters = () => {
     setSearchTerm("");
-    setSelectedBrands([]);
-    setSelectedVitolas([]);
+    setSelectedBrand(null);
+    setSelectedVitola(null);
     setPriceMin(0);
     setPriceMax(1000);
     setApplyFilters(false);
@@ -72,7 +57,7 @@ export default function CategoryPage({
     setCurrentPage(1);
   };
 
-  // Apply filters & sorting
+  // === Apply filters & sorting ===
   const filtered = useMemo(() => {
     let list = [...productsInCategory];
 
@@ -86,13 +71,13 @@ export default function CategoryPage({
             (p.vitola || "").toLowerCase().includes(q)
         );
       }
-      if (selectedBrands.length)
-        list = list.filter((p: any) => selectedBrands.includes(p.brand));
-      if (selectedVitolas.length)
-        list = list.filter((p: any) => selectedVitolas.includes(p.vitola));
-      list = list.filter(
-        (p: any) => p.price >= priceMin && p.price <= priceMax
-      );
+      if (selectedBrand) {
+        list = list.filter((p: any) => p.brand === selectedBrand);
+      }
+      if (selectedVitola) {
+        list = list.filter((p: any) => p.vitola === selectedVitola);
+      }
+      list = list.filter((p: any) => p.price >= priceMin && p.price <= priceMax);
     }
 
     switch (sortOption) {
@@ -108,8 +93,7 @@ export default function CategoryPage({
       case "Newest Additions":
         list.sort(
           (a: any, b: any) =>
-            new Date(b.dateAdded).getTime() -
-            new Date(a.dateAdded).getTime()
+            new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
         );
         break;
       case "Top 5 Sellers":
@@ -125,20 +109,17 @@ export default function CategoryPage({
     productsInCategory,
     applyFilters,
     searchTerm,
-    selectedBrands,
-    selectedVitolas,
+    selectedBrand,
+    selectedVitola,
     priceMin,
     priceMax,
     sortOption,
   ]);
 
-  // Pagination
+  // === Pagination ===
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filtered.length / productsPerPage)
-  );
+  const totalPages = Math.max(1, Math.ceil(filtered.length / productsPerPage));
   const pageItems = filtered.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
@@ -146,11 +127,12 @@ export default function CategoryPage({
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* Sidebar */}
-        <aside className="bg-white border border-black rounded-2xl p-6 space-y-6 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* === Sidebar === */}
+        <aside className="bg-white border border-[#000100] rounded-2xl p-6 space-y-6 shadow-sm">
           <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
+          {/* Search */}
           <input
             type="text"
             placeholder={`Search ${title}...`}
@@ -159,6 +141,7 @@ export default function CategoryPage({
             className="w-full border px-3 py-2 rounded-lg"
           />
 
+          {/* Filter buttons */}
           <div className="flex gap-3">
             <button
               onClick={() => setApplyFilters(true)}
@@ -174,7 +157,7 @@ export default function CategoryPage({
             </button>
           </div>
 
-          {/* Price */}
+          {/* Price filter */}
           <div>
             <h3 className="font-semibold mb-2">Price Range (£)</h3>
             <div className="flex items-center gap-2">
@@ -196,54 +179,53 @@ export default function CategoryPage({
             </div>
           </div>
 
-          {/* Brands */}
-          {brands.length > 0 && (
-            <details ref={brandDetailsRef} className="border rounded-lg">
-              <summary className="cursor-pointer px-3 py-2 font-medium">
-                Brands
-              </summary>
-              <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
-                {brands.map((b) => (
-                  <label key={b} className="block">
-                    <input
-                      type="checkbox"
-                      className="mr-2"
-                      checked={selectedBrands.includes(b)}
-                      onChange={() => toggleBrand(b)}
-                    />
-                    {b}
-                  </label>
-                ))}
-              </div>
-            </details>
-          )}
-
-          {/* Vitolas */}
-          {vitolas.length > 0 && (
-            <details ref={vitolaDetailsRef} className="border rounded-lg">
-              <summary className="cursor-pointer px-3 py-2 font-medium">
-                Vitola
-              </summary>
-              <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
-                {vitolas.map((v) => (
-                  <label key={v} className="block">
-                    <input
-                      type="checkbox"
-                      className="mr-2"
-                      checked={selectedVitolas.includes(v)}
-                      onChange={() => toggleVitola(v)}
-                    />
-                    {v}
-                  </label>
-                ))}
-              </div>
-            </details>
-          )}
+          {/* Brand filters */}
+          <div>
+            <h3 className="font-semibold mb-2">Brands A–Z</h3>
+            <ul className="space-y-2">
+              {brands.map(({ brand, vitolas }) => (
+                <li key={brand}>
+                  <button
+                    onClick={() =>
+                      setSelectedBrand(
+                        selectedBrand === brand ? null : brand
+                      )
+                    }
+                    className="w-full flex justify-between items-center font-medium"
+                  >
+                    {brand}
+                    <span>{selectedBrand === brand ? "−" : "+"}</span>
+                  </button>
+                  {selectedBrand === brand && vitolas.length > 0 && (
+                    <ul className="ml-4 mt-1 space-y-1 text-sm text-gray-700">
+                      {vitolas.map((v) => (
+                        <li key={v}>
+                          <button
+                            onClick={() =>
+                              setSelectedVitola(
+                                selectedVitola === v ? null : v
+                              )
+                            }
+                            className={`hover:underline ${
+                              selectedVitola === v ? "font-bold" : ""
+                            }`}
+                          >
+                            {v}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </aside>
 
-        {/* Main */}
+        {/* === Main content === */}
         <main className="md:col-span-3 space-y-6">
-          <section className="bg-white border border-black rounded-2xl p-6 shadow-sm">
+          {/* Title + description */}
+          <section className="bg-white border border-[#000100] rounded-2xl p-6 shadow-sm">
             <h1 className="text-2xl font-bold mb-2">{title}</h1>
             <p className="text-gray-700">{description}</p>
           </section>
@@ -265,13 +247,13 @@ export default function CategoryPage({
             </select>
           </div>
 
-          {/* Grid */}
+          {/* Product grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {pageItems.length > 0 ? (
               pageItems.map((p: any) => (
                 <div
                   key={p.id}
-                  className="relative bg-white border border-black rounded-2xl overflow-hidden p-4 shadow-sm hover:shadow-lg transition"
+                  className="relative bg-white border border-[#000100] rounded-2xl overflow-hidden p-4 shadow-sm hover:shadow-lg transition"
                 >
                   {p.badge && (
                     <span className="absolute top-3 left-3 bg-black text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
@@ -280,7 +262,7 @@ export default function CategoryPage({
                   )}
 
                   <div className="bg-white p-4 rounded-lg shadow-inner">
-                    <Link href={`/${category}/${p.id}`}>
+                    <Link href={`/${category || "product"}/${p.id}`}>
                       <Image
                         src={p.image}
                         alt={p.name}
@@ -308,9 +290,7 @@ export default function CategoryPage({
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-4 pt-4">
               <button
-                onClick={() =>
-                  setCurrentPage((prev) => Math.max(prev - 1, 1))
-                }
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
                 className="border border-black text-black px-4 py-2 rounded-full disabled:opacity-50 hover:bg-black hover:text-white transition"
               >
