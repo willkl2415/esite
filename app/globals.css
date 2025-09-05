@@ -7,7 +7,7 @@ body {
 }
 
 a {
-  @apply text-[#000100] hover:text-[#ff9800] transition-colors duration-200;
+  @apply text-[#000100] hover:text-gray-600 transition-colors duration-200;
 }
 
 button {
@@ -15,11 +15,11 @@ button {
 }
 
 button.primary {
-  @apply bg-[#000100] text-[#ff9800] font-semibold px-6 py-3 rounded-full hover:bg-white hover:text-[#000100] hover:scale-105;
+  @apply bg-[#000100] text-white font-semibold px-6 py-3 rounded-full hover:bg-gray-800 hover:text-white hover:scale-105;
 }
 
 button.secondary {
-  @apply border border-[#000100] text-[#000100] font-semibold px-6 py-3 rounded-full hover:bg-white hover:text-[#ff9800];
+  @apply border border-[#000100] text-[#000100] font-semibold px-6 py-3 rounded-full hover:bg-gray-100 hover:text-[#000100];
 }
 
 header {
@@ -27,11 +27,11 @@ header {
 }
 
 nav a {
-  @apply text-[#000100] hover:text-[#ff9800];
+  @apply text-[#000100] hover:text-gray-600;
 }
 
 section.hero {
-  @apply bg-[#ff9800] text-[#000100];
+  @apply bg-gray-100 text-[#000100];
 }
 
 .product-card {
@@ -47,7 +47,7 @@ section.hero {
 }
 
 footer {
-  background-color: #ff9800 !important;
+  background-color: #f5f5f5 !important;
   color: #000100 !important;
   text-align: center;
   font-size: 0.9rem;
@@ -74,7 +74,7 @@ footer {
 }
 
 #google_translate_element .goog-te-gadget-simple {
-  background: #ff9800 !important;
+  background: #f5f5f5 !important;
   color: #000100 !important;
   font-weight: 700 !important;
   border-radius: 10px !important;
@@ -95,7 +95,7 @@ footer {
 }
 
 #google_translate_element .goog-te-combo {
-  background: #ff9800 !important;
+  background: #f5f5f5 !important;
   color: #000100 !important;
   font-weight: 700 !important;
   border: 2px solid #000100 !important;

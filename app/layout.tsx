@@ -82,7 +82,7 @@ function Header() {
             <div className="relative">
               <ShoppingCartIcon className="w-[20px] h-[20px]" />
               {itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#ff9800] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-black text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {itemCount}
                 </span>
               )}
@@ -164,14 +164,14 @@ export default function RootLayout({
             <div className="flex justify-center my-6">
               <Link
                 href="/"
-                className="bg-[#000100] text-[#ff9800] px-6 py-2 rounded-full font-bold shadow hover:bg-gray-900 transition-colors"
+                className="bg-black text-white px-6 py-2 rounded-full font-bold shadow hover:bg-gray-800 transition-colors"
               >
                 Back Home
               </Link>
             </div>
 
             {/* FOOTER */}
-            <footer className="bg-[#ff9800] text-black mt-6">
+            <footer className="bg-gray-100 text-black mt-6">
               <div className="max-w-7xl mx-auto px-4 py-1 grid md:grid-cols-3 gap-2 items-center">
                 <div className="flex justify-start space-x-2">
                   <Link href="#"><Image src="/icons/x.svg" alt="X" width={24} height={24} /></Link>
