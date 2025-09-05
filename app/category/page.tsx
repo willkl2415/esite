@@ -37,7 +37,7 @@ export default function CategoryPage({
     return category ? all.filter((p) => p.category === category) : all;
   }, [category]);
 
-  // Build accordion dataset
+  // Build brands + vitolas map
   const brands = useMemo(() => {
     const map = new Map<string, Set<string>>();
     productsInScope.forEach((p) => {
@@ -52,6 +52,7 @@ export default function CategoryPage({
       }));
   }, [productsInScope]);
 
+  // Accordion state
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
 
@@ -62,9 +63,10 @@ export default function CategoryPage({
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
 
-  // Filter + sort logic
+  // Filtering + sorting logic
   const filtered = useMemo(() => {
     let list = [...productsInScope];
+
     if (openBrand) list = list.filter((p) => p.brand === openBrand);
     if (selectedVitola) list = list.filter((p) => p.vitola === selectedVitola);
 
@@ -105,6 +107,7 @@ export default function CategoryPage({
         list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         break;
     }
+
     return list;
   }, [
     productsInScope,
@@ -132,6 +135,7 @@ export default function CategoryPage({
     setPriceMax(1000);
     setApplyFilters(false);
     setSortOption("Default Sorting");
+    setOpenBrand(null);
     setSelectedVitola(null);
     setCurrentPage(1);
   };
@@ -141,10 +145,11 @@ export default function CategoryPage({
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar: Accordion */}
+        {/* Sidebar */}
         <aside className="bg-white border border-[#000100] rounded-2xl p-6 space-y-6 shadow-sm">
           <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
+          {/* Search */}
           <input
             type="text"
             placeholder={`Search ${title}...`}
@@ -171,6 +176,7 @@ export default function CategoryPage({
             </button>
           </div>
 
+          {/* Price filter */}
           <div>
             <h3 className="font-semibold mb-2">Price Range (£)</h3>
             <div className="flex items-center gap-2">
@@ -192,24 +198,28 @@ export default function CategoryPage({
             </div>
           </div>
 
+          {/* Accordion */}
           <div>
             <h3 className="font-semibold mb-2">Brands A–Z</h3>
             <ul className="space-y-2">
               {brands.map(({ brand, vitolas }) => (
-                <li key={brand}>
+                <li key={brand} className="border-b pb-2">
                   <button
                     onClick={() => {
                       setOpenBrand(openBrand === brand ? null : brand);
                       setSelectedVitola(null);
                       setCurrentPage(1);
                     }}
-                    className="w-full flex justify-between items-center font-medium py-1"
+                    className="w-full flex justify-between items-center text-left font-medium hover:text-[#ff9800] transition"
                   >
-                    {brand}
-                    <span>{openBrand === brand ? "−" : "+"}</span>
+                    <span>{brand}</span>
+                    <span className="text-xl">
+                      {openBrand === brand ? "−" : "+"}
+                    </span>
                   </button>
+
                   {openBrand === brand && vitolas.length > 0 && (
-                    <ul className="ml-4 mt-1 space-y-1 text-sm text-gray-700">
+                    <ul className="ml-4 mt-2 space-y-1 text-sm text-gray-700 list-disc">
                       {vitolas.map((v) => (
                         <li key={v}>
                           <button
@@ -237,11 +247,13 @@ export default function CategoryPage({
 
         {/* Main */}
         <main className="md:col-span-3 space-y-6">
+          {/* Header */}
           <section className="bg-white border border-[#000100] rounded-2xl p-6 shadow-sm">
             <h1 className="text-2xl font-bold mb-2">{title}</h1>
             <p className="text-gray-700">{description}</p>
           </section>
 
+          {/* Sorting */}
           <div className="flex justify-end">
             <select
               value={sortOption}
@@ -261,6 +273,7 @@ export default function CategoryPage({
             </select>
           </div>
 
+          {/* Products grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {pageItems.length > 0 ? (
               pageItems.map((p) => (
@@ -310,6 +323,7 @@ export default function CategoryPage({
             )}
           </section>
 
+          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-4 pt-4">
               <button
