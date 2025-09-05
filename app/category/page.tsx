@@ -184,36 +184,39 @@ export default function CategoryPage({
             <h3 className="font-semibold mb-2">Brands A–Z</h3>
             <ul className="space-y-2">
               {brands.map(({ brand, vitolas }) => (
-                <li key={brand}>
-                  <button
+                <li key={brand} className="border-b last:border-b-0">
+                  <details
+                    open={selectedBrand === brand}
                     onClick={() =>
-                      setSelectedBrand(selectedBrand === brand ? null : brand)
+                      setSelectedBrand(
+                        selectedBrand === brand ? null : brand
+                      )
                     }
-                    className="w-full flex justify-between items-center font-medium"
                   >
-                    {brand}
-                    <span>{selectedBrand === brand ? "−" : "+"}</span>
-                  </button>
-                  {selectedBrand === brand && vitolas.length > 0 && (
-                    <ul className="ml-4 mt-1 space-y-1 text-sm text-gray-700">
-                      {vitolas.map((v) => (
-                        <li key={v}>
-                          <button
-                            onClick={() =>
-                              setSelectedVitola(
-                                selectedVitola === v ? null : v
-                              )
-                            }
-                            className={`hover:underline ${
-                              selectedVitola === v ? "font-bold" : ""
-                            }`}
-                          >
-                            {v}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                    <summary className="cursor-pointer flex justify-between items-center py-1 font-medium">
+                      {brand}
+                    </summary>
+                    {vitolas.length > 0 && (
+                      <ul className="ml-4 mt-1 space-y-1 text-sm text-gray-700">
+                        {vitolas.map((v) => (
+                          <li key={v}>
+                            <button
+                              onClick={() =>
+                                setSelectedVitola(
+                                  selectedVitola === v ? null : v
+                                )
+                              }
+                              className={`hover:underline ${
+                                selectedVitola === v ? "font-bold" : ""
+                              }`}
+                            >
+                              {v}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </details>
                 </li>
               ))}
             </ul>
