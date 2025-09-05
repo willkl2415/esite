@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "../data/products";
-import { cigarBrands } from "../data/products/cigarBrands";  // ✅ fixed path
+import { cigarBrands } from "../data/products/cigarBrands";
 
 // --- Types that match your dataset ---
 type Product = {
@@ -14,10 +14,10 @@ type Product = {
   vitola?: string;
   price: number;
   image: string;
-  category: string; // "product" for cigars data
+  category: string;
   badge?: string;
-  status?: string;       // e.g. "In Stock" | "Out of Stock" | "Pre-order"
-  stockStatus?: string;  // some items use this instead of status
+  status?: string;
+  stockStatus?: string;
 };
 
 export default function CategoryPage() {
@@ -25,13 +25,15 @@ export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
 
-  // All cigars (this page is for A–Z cigars)
-  const allCigars = useMemo<Product[]>(
-    () => (products as Product[]).filter((p) => p.category === "product"),
-    []
-  );
+  // ✅ Show all cigar-related products, not just "product"
+  const allCigars = useMemo<Product[]>(() => {
+    const all = products as Product[];
+    return all.filter((p) =>
+      ["awarded-cigars", "cigars", "product"].includes(p.category)
+    );
+  }, []);
 
-  // Apply brand/vitola filtering (no other filters, to match screen 1)
+  // Apply brand/vitola filtering
   const filtered = useMemo(() => {
     let list = [...allCigars];
     if (openBrand) list = list.filter((p) => p.brand === openBrand);
@@ -39,7 +41,7 @@ export default function CategoryPage() {
     return list;
   }, [allCigars, openBrand, selectedVitola]);
 
-  // Small helper for unified stock text + colour
+  // Stock helpers
   const stockText = (p: Product) => p.stockStatus || p.status || "";
   const stockClass = (txt: string) =>
     txt === "In Stock"
@@ -56,13 +58,13 @@ export default function CategoryPage() {
           Explore Our Cigars
         </h1>
         <p className="text-gray-700 text-base md:text-lg">
-          From Cuban classics to New World gems, discover our full portfolio of cigars.
-          Browse by brand, search by name, or explore by vitola.
+          From Cuban classics to New World gems, discover our full portfolio of
+          cigars. Browse by brand, search by name, or explore by vitola.
         </p>
       </section>
 
       <div className="max-w-7xl mx-auto px-6 pb-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar — Brands A–Z only (no extra filter widgets) */}
+        {/* Sidebar — Brands A–Z */}
         <aside className="md:col-span-1">
           <h2 className="text-lg font-semibold mb-3">Brands A–Z</h2>
           <ul className="space-y-2">
@@ -83,7 +85,9 @@ export default function CategoryPage() {
                     className="w-full flex items-center justify-between py-2 text-left font-medium hover:text-black/80"
                   >
                     <span>{brand}</span>
-                    <span className="text-xl leading-none">{isOpen ? "−" : "+"}</span>
+                    <span className="text-xl leading-none">
+                      {isOpen ? "−" : "+"}
+                    </span>
                   </button>
 
                   {isOpen && vitolas?.length > 0 && (
@@ -95,7 +99,9 @@ export default function CategoryPage() {
                               setSelectedVitola((cur) => (cur === v ? null : v))
                             }
                             className={`hover:underline ${
-                              selectedVitola === v ? "font-semibold text-black" : ""
+                              selectedVitola === v
+                                ? "font-semibold text-black"
+                                : ""
                             }`}
                           >
                             {v}
@@ -126,7 +132,7 @@ export default function CategoryPage() {
                   )}
 
                   <div className="bg-white p-4 rounded-lg shadow-inner">
-                    <Link href={`/product/${p.id}`}>
+                    <Link href={`/${p.category}/${p.id}`}>
                       <Image
                         src={p.image}
                         alt={p.name}
@@ -145,7 +151,11 @@ export default function CategoryPage() {
                   </p>
 
                   {stockText(p) && (
-                    <p className={`text-center text-sm font-semibold mt-1 ${stockClass(stockText(p))}`}>
+                    <p
+                      className={`text-center text-sm font-semibold mt-1 ${stockClass(
+                        stockText(p)
+                      )}`}
+                    >
                       {stockText(p)}
                     </p>
                   )}
