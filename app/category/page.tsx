@@ -1,174 +1,311 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import React, { useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { cigarBrands, CigarBrand } from "../data/products/cigarBrands";
+import Link from "next/link";
 import { products } from "../data/products";
-import { useSearch } from "../context/SearchContext";
 
-// ✅ helper: normalize strings (lowercase, strip accents, strip trailing "s")
-const normalize = (str: string) =>
-  str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/s$/, "");
+type CategoryPageProps = {
+  title: string;
+  description: string;
+  category: string; // accessories | gifts | promotions | etc.
+};
 
-export default function CategoryPage() {
-  const [openBrand, setOpenBrand] = useState<string | null>(null);
-  const { query } = useSearch();
+export default function CategoryPage({ title, description, category }: CategoryPageProps) {
+  // Products in this category
+  const productsInCategory = useMemo(
+    () => products.filter((p: any) => p.category === category),
+    [category]
+  );
 
-  const toggleBrand = (brand: string) => {
-    setOpenBrand(openBrand === brand ? null : brand);
+  // Facets
+  const brands = useMemo(() => {
+    const set = new Set<string>();
+    productsInCategory.forEach((p: any) => p.brand && set.add(p.brand));
+    return Array.from(set).sort();
+  }, [productsInCategory]);
+
+  const vitolas = useMemo(() => {
+    const set = new Set<string>();
+    productsInCategory.forEach((p: any) => p.vitola && set.add(p.vitola));
+    return Array.from(set).sort();
+  }, [productsInCategory]);
+
+  // Filters
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedVitolas, setSelectedVitolas] = useState<string[]>([]);
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(1000);
+  const [applyFilters, setApplyFilters] = useState(false);
+  const [sortOption, setSortOption] = useState("Default Sorting");
+
+  const brandDetailsRef = useRef<HTMLDetailsElement>(null);
+  const vitolaDetailsRef = useRef<HTMLDetailsElement>(null);
+
+  const toggleBrand = (b: string) => {
+    setSelectedBrands((prev) => (prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]));
+    if (brandDetailsRef.current) brandDetailsRef.current.open = false;
   };
 
-  // ✅ Filter products by brand + search query
-  const filteredProducts = products.filter((p) => {
-    const matchesBrand = openBrand ? p.brand === openBrand : true;
-    const matchesQuery =
-      query === "" ||
-      p.name.toLowerCase().includes(query.toLowerCase()) ||
-      p.brand.toLowerCase().includes(query.toLowerCase()) ||
-      p.vitola?.toLowerCase().includes(query.toLowerCase());
-    return matchesBrand && matchesQuery;
-  });
-
-  // ✅ Helper: label stock status
-  const getStockLabel = (stock: number | "preorder" | undefined) => {
-    if (stock === 0) return "Out of Stock";
-    if (stock === "preorder") return "Pre-order";
-    if (typeof stock === "number" && stock > 0) return "In Stock";
-    return "";
+  const toggleVitola = (v: string) => {
+    setSelectedVitolas((prev) => (prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v]));
+    if (vitolaDetailsRef.current) vitolaDetailsRef.current.open = false;
   };
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSelectedBrands([]);
+    setSelectedVitolas([]);
+    setPriceMin(0);
+    setPriceMax(1000);
+    setApplyFilters(false);
+    setSortOption("Default Sorting");
+    setCurrentPage(1);
+  };
+
+  // Apply filters & sorting
+  const filtered = useMemo(() => {
+    let list = [...productsInCategory];
+
+    if (applyFilters) {
+      if (searchTerm.trim()) {
+        const q = searchTerm.toLowerCase();
+        list = list.filter(
+          (p: any) =>
+            p.name.toLowerCase().includes(q) ||
+            (p.brand || "").toLowerCase().includes(q) ||
+            (p.vitola || "").toLowerCase().includes(q)
+        );
+      }
+      if (selectedBrands.length) list = list.filter((p: any) => selectedBrands.includes(p.brand));
+      if (selectedVitolas.length) list = list.filter((p: any) => selectedVitolas.includes(p.vitola));
+      list = list.filter((p: any) => p.price >= priceMin && p.price <= priceMax);
+    }
+
+    switch (sortOption) {
+      case "Alphabetical":
+        list.sort((a: any, b: any) => a.name.localeCompare(b.name));
+        break;
+      case "Price Low to High":
+        list.sort((a: any, b: any) => a.price - b.price);
+        break;
+      case "Price High to Low":
+        list.sort((a: any, b: any) => b.price - a.price);
+        break;
+      case "Newest Additions":
+        list.sort(
+          (a: any, b: any) =>
+            new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+        );
+        break;
+      case "Top 5 Sellers":
+        list.sort((a: any, b: any) => (b.sales || 0) - (a.sales || 0));
+        break;
+      case "Average Rating":
+        list.sort((a: any, b: any) => (b.rating || 0) - (a.rating || 0));
+        break;
+    }
+
+    return list;
+  }, [
+    productsInCategory,
+    applyFilters,
+    searchTerm,
+    selectedBrands,
+    selectedVitolas,
+    priceMin,
+    priceMax,
+    sortOption,
+  ]);
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / productsPerPage));
+  const pageItems = filtered.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black">
-      {/* Page Header */}
-      <section className="w-full bg-white border-b">
-        <div className="max-w-6xl mx-auto px-6 py-12 text-left">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
-            Explore Our Cigars
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-            From Cuban classics to New World gems, discover our full portfolio
-            of cigars. Browse by brand, search by name, or explore by vitola.
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+        {/* Sidebar */}
+        <aside className="bg-white border border-[#000100] rounded-2xl p-6 space-y-6 shadow-sm">
+          <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
-      {/* Main Content Layout */}
-      <section className="flex-1 max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar: Accordion A–Z */}
-        <aside className="md:col-span-1 sticky top-28 self-start h-fit">
-          <h2 className="text-xl font-semibold mb-4">Brands A–Z</h2>
-          <ul className="space-y-2 text-gray-700">
-            {cigarBrands.map((brandObj: CigarBrand, i: number) => (
-              <li key={i} className="border-b pb-2">
-                <button
-                  onClick={() => toggleBrand(brandObj.brand)}
-                  className="w-full flex justify-between items-center text-left font-semibold hover:text-[#ff9800] transition"
-                >
-                  <span>{brandObj.brand}</span>
-                  <span className="text-xl">
-                    {openBrand === brandObj.brand ? "−" : "+"}
-                  </span>
-                </button>
+          <input
+            type="text"
+            placeholder={`Search ${title}...`}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full border px-3 py-2 rounded-lg"
+          />
 
-                {/* Vitolas Accordion */}
-                {openBrand === brandObj.brand && (
-                  <ul className="mt-2 ml-4 space-y-1 text-sm text-gray-600 list-disc">
-                    {brandObj.vitolas.map((vitola: string, idx: number) => {
-                      const matchedProduct = products.find(
-                        (p) =>
-                          p.brand === brandObj.brand &&
-                          normalize(p.vitola || "") === normalize(vitola)
-                      );
+          <div className="flex gap-3">
+            <button
+              onClick={() => setApplyFilters(true)}
+              className="border border-black text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition"
+            >
+              FILTER
+            </button>
+            <button
+              onClick={clearFilters}
+              className="border border-black text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition"
+            >
+              CLEAR
+            </button>
+          </div>
 
-                      if (!matchedProduct) {
-                        return (
-                          <li key={idx}>
-                            <span className="text-gray-400">{vitola}</span>
-                          </li>
-                        );
-                      }
+          {/* Price */}
+          <div>
+            <h3 className="font-semibold mb-2">Price Range (£)</h3>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min={0}
+                value={priceMin}
+                onChange={(e) => setPriceMin(Number(e.target.value))}
+                className="w-1/2 border rounded-lg px-2 py-1 text-sm"
+              />
+              <span>-</span>
+              <input
+                type="number"
+                min={0}
+                value={priceMax}
+                onChange={(e) => setPriceMax(Number(e.target.value))}
+                className="w-1/2 border rounded-lg px-2 py-1 text-sm"
+              />
+            </div>
+          </div>
 
-                      if (matchedProduct.stock === 0) {
-                        return (
-                          <li key={idx}>
-                            <span
-                              className="text-gray-400 cursor-not-allowed"
-                              title="Out of Stock"
-                            >
-                              {vitola} (Out of Stock)
-                            </span>
-                          </li>
-                        );
-                      }
+          {/* Brands */}
+          {brands.length > 0 && (
+            <details ref={brandDetailsRef} className="border rounded-lg">
+              <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
+              <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
+                {brands.map((b) => (
+                  <label key={b} className="block">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={selectedBrands.includes(b)}
+                      onChange={() => toggleBrand(b)}
+                    />
+                    {b}
+                  </label>
+                ))}
+              </div>
+            </details>
+          )}
 
-                      if (matchedProduct.stock === "preorder") {
-                        return (
-                          <li key={idx}>
-                            <Link
-                              href={`/product/${matchedProduct.id}`}
-                              className="hover:text-black transition"
-                              title="Available for Pre-order"
-                            >
-                              {vitola} (Pre-order)
-                            </Link>
-                          </li>
-                        );
-                      }
-
-                      return (
-                        <li key={idx}>
-                          <Link
-                            href={`/product/${matchedProduct.id}`}
-                            className="hover:text-black transition"
-                          >
-                            {vitola}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+          {/* Vitolas */}
+          {vitolas.length > 0 && (
+            <details ref={vitolaDetailsRef} className="border rounded-lg">
+              <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
+              <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
+                {vitolas.map((v) => (
+                  <label key={v} className="block">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={selectedVitolas.includes(v)}
+                      onChange={() => toggleVitola(v)}
+                    />
+                    {v}
+                  </label>
+                ))}
+              </div>
+            </details>
+          )}
         </aside>
 
-        {/* Main panel with product grid */}
-        <div className="md:col-span-3">
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <Link key={product.id} href={`/product/${product.id}`}>
-                  <div className="flex flex-col items-center cursor-pointer">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={300}
-                      height={300}
-                      className="rounded-lg shadow-md object-cover"
-                    />
-                    <p className="mt-2 text-sm font-medium text-gray-700">
-                      {product.name}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {getStockLabel(product.stock)}
-                    </p>
+        {/* Main */}
+        <main className="md:col-span-3 space-y-6">
+          <section className="bg-white border border-[#000100] rounded-2xl p-6 shadow-sm">
+            <h1 className="text-2xl font-bold mb-2">{title}</h1>
+            <p className="text-gray-700">{description}</p>
+          </section>
+
+          {/* Sorting */}
+          <div className="flex justify-end">
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="border rounded-lg px-3 py-2 shadow-sm"
+            >
+              <option>Default Sorting</option>
+              <option>Alphabetical</option>
+              <option>Average Rating</option>
+              <option>Newest Additions</option>
+              <option>Price High to Low</option>
+              <option>Price Low to High</option>
+              <option>Top 5 Sellers</option>
+            </select>
+          </div>
+
+          {/* Grid */}
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pageItems.length > 0 ? (
+              pageItems.map((p: any) => (
+                <div
+                  key={p.id}
+                  className="relative bg-white border border-[#000100] rounded-2xl overflow-hidden p-4 shadow-sm hover:shadow-lg transition"
+                >
+                  {p.badge && (
+                    <span className="absolute top-3 left-3 bg-black text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+                      {p.badge}
+                    </span>
+                  )}
+
+                  <div className="bg-white p-4 rounded-lg shadow-inner">
+                    <Link href={`/${category}/${p.id}`}>
+                      <Image
+                        src={p.image}
+                        alt={p.name}
+                        width={160}
+                        height={160}
+                        className="mx-auto h-40 w-auto object-contain"
+                      />
+                    </Link>
                   </div>
-                </Link>
-              ))}
+
+                  <h3 className="mt-4 text-center text-[#000100] font-serif text-lg font-bold tracking-wide">
+                    {p.name}
+                  </h3>
+                  <p className="text-center text-sm text-gray-700">
+                    £{Number(p.price).toFixed(2)}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-600">No products found.</p>
+            )}
+          </section>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4 pt-4">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="border border-black text-black px-4 py-2 rounded-full disabled:opacity-50 hover:bg-black hover:text-white transition"
+              >
+                Prev
+              </button>
+              <span className="text-sm">Page {currentPage} of {totalPages}</span>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="border border-black text-black px-4 py-2 rounded-full disabled:opacity-50 hover:bg-black hover:text-white transition"
+              >
+                Next
+              </button>
             </div>
-          ) : (
-            <p className="text-gray-500 italic">
-              No products match your search.
-            </p>
           )}
-        </div>
-      </section>
+        </main>
+      </div>
     </div>
   );
 }

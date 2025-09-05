@@ -107,12 +107,6 @@ export default function HomePage() {
             Cigar Manor is your gateway to the world of cigars - discover and
             enjoy the flavours, and then make it your own.
           </p>
-          <Link
-            href={`/awarded-cigars?lang=${lang}`}
-            className="border border-black px-8 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition"
-          >
-            Shop Now
-          </Link>
         </div>
 
         {/* Two Lifestyle Images */}
