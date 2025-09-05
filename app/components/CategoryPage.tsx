@@ -71,13 +71,22 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setCurrentPage(1);
   };
 
-  // ✅ Apply filters
+  // ✅ Apply filters (extended search: name + brand + vitola)
   let displayedProducts = filtered.filter((p: any) => {
+    const term = searchTerm.toLowerCase();
     if (!applyFilters) {
-      return p.name.toLowerCase().includes(searchTerm.toLowerCase());
+      return (
+        p.name.toLowerCase().includes(term) ||
+        (p.brand && p.brand.toLowerCase().includes(term)) ||
+        (p.vitola && p.vitola.toLowerCase().includes(term))
+      );
     }
 
-    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      p.name.toLowerCase().includes(term) ||
+      (p.brand && p.brand.toLowerCase().includes(term)) ||
+      (p.vitola && p.vitola.toLowerCase().includes(term));
+
     const matchesBrand =
       selectedBrands.length === 0 || (p.brand && selectedBrands.includes(p.brand));
     const matchesVitola =
