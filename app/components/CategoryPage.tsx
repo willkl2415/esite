@@ -35,15 +35,14 @@ export default function CategoryPage({ title, description, category }: CategoryP
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedVitolas, setSelectedVitolas] = useState<string[]>([]);
   const [priceMin, setPriceMin] = useState(0);
-  const [priceMax, setPriceMax] = useState(1000); // widened range
+  const [priceMax, setPriceMax] = useState(1000);
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
 
-  // ✅ Pagination state
+  // ✅ Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
-  // refs for auto-closing <details>
   const brandDetailsRef = useRef<HTMLDetailsElement>(null);
   const vitolaDetailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -69,7 +68,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setPriceMax(1000);
     setApplyFilters(false);
     setSortOption("Default Sorting");
-    setCurrentPage(1); // reset to page 1
+    setCurrentPage(1);
   };
 
   // ✅ Apply filters
@@ -116,10 +115,10 @@ export default function CategoryPage({ title, description, category }: CategoryP
   );
 
   return (
-    <div className="min-h-screen bg-[#ff9800] p-6">
+    <div className="min-h-screen bg-gradient-to-b from-black via-[#000100] to-[#1a1a1a] text-white p-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Sidebar */}
-        <aside className="bg-white shadow-lg p-6 rounded-2xl space-y-6">
+        <aside className="bg-white text-black shadow-lg p-6 rounded-2xl space-y-6">
           <h2 className="font-bold text-lg border-b pb-2">Filter Products</h2>
 
           <input
@@ -133,13 +132,13 @@ export default function CategoryPage({ title, description, category }: CategoryP
           <div className="flex space-x-4">
             <button
               onClick={() => setApplyFilters(true)}
-              className="bg-[#000100] text-[#ff9800] font-semibold px-4 py-2 rounded-full hover:bg-white hover:text-[#000100] transition"
+              className="primary w-full"
             >
               FILTER
             </button>
             <button
               onClick={clearFilters}
-              className="border border-[#000100] text-[#000100] px-4 py-2 rounded-full hover:bg-[#000100] hover:text-white transition"
+              className="secondary w-full"
             >
               CLEAR
             </button>
@@ -171,7 +170,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
           {brandsInCategory.length > 0 && (
             <details ref={brandDetailsRef} className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
-              <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
+              <div className="px-3 py-2 text-sm space-y-1">
                 {brandsInCategory.map((brand) => (
                   <label key={brand} className="block">
                     <input
@@ -191,7 +190,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
           {vitolasInCategory.length > 0 && (
             <details ref={vitolaDetailsRef} className="border rounded-lg">
               <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
-              <div className="px-3 py-2 text-sm text-gray-600 space-y-1">
+              <div className="px-3 py-2 text-sm space-y-1">
                 {vitolasInCategory.map((vitola) => (
                   <label key={vitola} className="block">
                     <input
@@ -210,7 +209,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
         {/* Main Content */}
         <main className="md:col-span-3 space-y-6">
-          <section className="bg-white shadow-lg p-6 rounded-2xl">
+          <section className="bg-white text-black shadow-lg p-6 rounded-2xl">
             <h1 className="text-2xl font-bold mb-2">{title}</h1>
             <p className="text-gray-700">{description}</p>
           </section>
@@ -220,7 +219,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
             <select
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
-              className="border rounded-lg px-3 py-2 shadow-sm"
+              className="border rounded-lg px-3 py-2 shadow-sm text-black"
             >
               <option>Default Sorting</option>
               <option>Alphabetical</option>
@@ -238,15 +237,15 @@ export default function CategoryPage({ title, description, category }: CategoryP
               paginatedProducts.map((product: any) => (
                 <div
                   key={product.id}
-                  className="relative bg-[#3E2723] border border-[#CFAE70] p-6 rounded-2xl shadow-xl hover:scale-105 hover:shadow-2xl transition transform duration-300"
+                  className="relative bg-white text-black p-6 rounded-2xl shadow-md hover:shadow-xl transition transform duration-300"
                 >
                   {product.badge && (
-                    <span className="absolute top-3 left-3 bg-[#CFAE70] text-black text-xs font-semibold px-3 py-1 rounded-full shadow">
+                    <span className="absolute top-3 left-3 bg-[#ff9800] text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
                       {product.badge}
                     </span>
                   )}
 
-                  <div className="bg-white p-4 rounded-lg shadow-inner">
+                  <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
                     <Link href={`/${category}/${product.id}`}>
                       <Image
                         src={product.image}
@@ -258,16 +257,16 @@ export default function CategoryPage({ title, description, category }: CategoryP
                     </Link>
                   </div>
 
-                  <h3 className="mt-4 text-center text-[#FFD700] font-serif text-lg font-bold tracking-wide">
+                  <h3 className="mt-4 text-center text-lg font-bold">
                     {product.name}
                   </h3>
-                  <p className="text-center text-sm text-white">
+                  <p className="text-center text-[#ff9800] font-semibold">
                     £{Number(product.price).toFixed(2)}
                   </p>
                 </div>
               ))
             ) : (
-              <p className="text-center text-lg text-white">No products found in {title}.</p>
+              <p className="text-center text-lg">No products found in {title}.</p>
             )}
           </section>
 
