@@ -51,7 +51,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
     setApplyFilters(true); // auto-apply
-    setCurrentPage(1);     // reset to page 1
+    setCurrentPage(1);
     if (brandDetailsRef.current) brandDetailsRef.current.open = false;
   };
 
@@ -60,7 +60,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
       prev.includes(vitola) ? prev.filter((v) => v !== vitola) : [...prev, vitola]
     );
     setApplyFilters(true); // auto-apply
-    setCurrentPage(1);     // reset to page 1
+    setCurrentPage(1);
     if (vitolaDetailsRef.current) vitolaDetailsRef.current.open = false;
   };
 
@@ -75,26 +75,40 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setCurrentPage(1);
   };
 
-  // ✅ Apply filters (extended search: name + brand + vitola)
+  // ✅ Apply filters (extended search: name + brand + vitola with normalization)
   let displayedProducts = filtered.filter((p: any) => {
-    const term = searchTerm.toLowerCase();
+    const normalize = (str: string) =>
+      str ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : "";
+
+    const term = normalize(searchTerm);
+
     if (!applyFilters) {
       return (
-        p.name.toLowerCase().includes(term) ||
-        (p.brand && p.brand.toLowerCase().includes(term)) ||
-        (p.vitola && p.vitola.toLowerCase().includes(term))
+        normalize(p.name).includes(term) ||
+        (p.brand && normalize(p.brand).includes(term)) ||
+        (p.vitola && normalize(p.vitola).includes(term))
       );
     }
 
     const matchesSearch =
-      p.name.toLowerCase().includes(term) ||
-      (p.brand && p.brand.toLowerCase().includes(term)) ||
-      (p.vitola && p.vitola.toLowerCase().includes(term));
+      normalize(p.name).includes(term) ||
+      (p.brand && normalize(p.brand).includes(term)) ||
+      (p.vitola && normalize(p.vitola).includes(term));
 
     const matchesBrand =
-      selectedBrands.length === 0 || (p.brand && selectedBrands.includes(p.brand));
+      selectedBrands.length === 0 ||
+      (p.brand &&
+        selectedBrands.some(
+          (b) => normalize(b) === normalize(p.brand)
+        ));
+
     const matchesVitola =
-      selectedVitolas.length === 0 || (p.vitola && selectedVitolas.includes(p.vitola));
+      selectedVitolas.length === 0 ||
+      (p.vitola &&
+        selectedVitolas.some(
+          (v) => normalize(v) === normalize(p.vitola)
+        ));
+
     const matchesPrice = p.price >= priceMin && p.price <= priceMax;
 
     return matchesSearch && matchesBrand && matchesVitola && matchesPrice;
