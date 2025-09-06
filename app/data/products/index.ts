@@ -166,7 +166,7 @@ export const products: Product[] = [
     image: "/cigar-2.png",
     description:
       "Elegant and smooth, with rich notes of chocolate, roasted coffee, and leather. One of the most exclusive Cuban cigars.",
-    categories: ["awarded-cigars", "new-world-cigars"],
+    category: "new-world-cigars",
     featured: true,
     badge: "Luxury",
     brand: "Trinidad",
