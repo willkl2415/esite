@@ -20,12 +20,16 @@ type Product = {
   stockStatus?: string;
 };
 
+// Normalizer to handle accents, case, spacing
+const normalize = (str: string) =>
+  str ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : "";
+
 export default function CategoryPage() {
   // Sidebar accordion state
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
 
-  // ✅ Show all cigar-related products, not just "product"
+  // ✅ Show all cigar-related products
   const allCigars = useMemo<Product[]>(() => {
     const all = products as Product[];
     return all.filter((p) =>
@@ -36,8 +40,12 @@ export default function CategoryPage() {
   // Apply brand/vitola filtering
   const filtered = useMemo(() => {
     let list = [...allCigars];
-    if (openBrand) list = list.filter((p) => p.brand === openBrand);
-    if (selectedVitola) list = list.filter((p) => p.vitola === selectedVitola);
+    if (openBrand) {
+      list = list.filter((p) => normalize(p.brand) === normalize(openBrand));
+    }
+    if (selectedVitola) {
+      list = list.filter((p) => p.vitola && normalize(p.vitola) === normalize(selectedVitola));
+    }
     return list;
   }, [allCigars, openBrand, selectedVitola]);
 
@@ -96,7 +104,9 @@ export default function CategoryPage() {
                         <li key={v}>
                           <button
                             onClick={() =>
-                              setSelectedVitola((cur) => (cur === v ? null : v))
+                              setSelectedVitola((cur) =>
+                                cur === v ? null : v
+                              )
                             }
                             className={`hover:underline ${
                               selectedVitola === v
