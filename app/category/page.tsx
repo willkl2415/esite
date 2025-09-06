@@ -22,15 +22,20 @@ type Product = {
 
 // Normalizer to handle accents, case, spacing
 const normalize = (str: string) =>
-  str ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : "";
+  str
+    ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()
+    : "";
 
 export default function CategoryPage() {
   // Sidebar accordion state
   const [openBrand, setOpenBrand] = useState<string | null>(null);
-  const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
+  const [selectedPair, setSelectedPair] = useState<{
+    brand: string;
+    vitola: string;
+  } | null>(null);
 
   // ✅ Show all cigar-related products
-  const allCigars = useMemo<Product[]>(() => {
+  const allCigars = useMemo(() => {
     const all = products as Product[];
     return all.filter((p) =>
       ["awarded-cigars", "cigars", "product"].includes(p.category)
@@ -43,13 +48,16 @@ export default function CategoryPage() {
     if (openBrand) {
       list = list.filter((p) => normalize(p.brand) === normalize(openBrand));
     }
-    if (selectedVitola) {
+    if (selectedPair) {
       list = list.filter(
-        (p) => p.vitola && normalize(p.vitola) === normalize(selectedVitola)
+        (p) =>
+          normalize(p.brand) === normalize(selectedPair.brand) &&
+          p.vitola &&
+          normalize(p.vitola) === normalize(selectedPair.vitola)
       );
     }
     return list;
-  }, [allCigars, openBrand, selectedVitola]);
+  }, [allCigars, openBrand, selectedPair]);
 
   // Stock helpers
   const stockText = (p: Product) => p.stockStatus || p.status || "";
@@ -86,10 +94,10 @@ export default function CategoryPage() {
                     onClick={() => {
                       if (isOpen) {
                         setOpenBrand(null);
-                        setSelectedVitola(null);
+                        setSelectedPair(null);
                       } else {
                         setOpenBrand(brand);
-                        setSelectedVitola(null);
+                        setSelectedPair(null);
                       }
                     }}
                     className="w-full flex items-center justify-between py-2 text-left font-medium hover:text-black/80"
@@ -105,15 +113,19 @@ export default function CategoryPage() {
                       {vitolas.map((v) => (
                         <li key={v}>
                           <button
-                            onClick={() => {
-                              // Always lock to the parent brand + vitola
-                              setOpenBrand(brand);
-                              setSelectedVitola((cur) =>
-                                cur === v ? null : v
-                              );
-                            }}
+                            onClick={() =>
+                              setSelectedPair((cur) =>
+                                cur &&
+                                cur.brand === brand &&
+                                cur.vitola === v
+                                  ? null
+                                  : { brand, vitola: v }
+                              )
+                            }
                             className={`hover:underline ${
-                              selectedVitola === v
+                              selectedPair &&
+                              selectedPair.brand === brand &&
+                              selectedPair.vitola === v
                                 ? "font-semibold text-black"
                                 : ""
                             }`}
@@ -146,7 +158,6 @@ export default function CategoryPage() {
                   )}
 
                   <div className="bg-white p-4 rounded-lg shadow-inner">
-                    {/* ✅ Force product links to /product/[id] */}
                     <Link href={`/product/${p.id}`}>
                       <Image
                         src={p.image}
