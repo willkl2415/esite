@@ -44,7 +44,9 @@ export default function CategoryPage() {
       list = list.filter((p) => normalize(p.brand) === normalize(openBrand));
     }
     if (selectedVitola) {
-      list = list.filter((p) => p.vitola && normalize(p.vitola) === normalize(selectedVitola));
+      list = list.filter(
+        (p) => p.vitola && normalize(p.vitola) === normalize(selectedVitola)
+      );
     }
     return list;
   }, [allCigars, openBrand, selectedVitola]);
@@ -103,11 +105,13 @@ export default function CategoryPage() {
                       {vitolas.map((v) => (
                         <li key={v}>
                           <button
-                            onClick={() =>
+                            onClick={() => {
+                              // Always lock to the parent brand + vitola
+                              setOpenBrand(brand);
                               setSelectedVitola((cur) =>
                                 cur === v ? null : v
-                              )
-                            }
+                              );
+                            }}
                             className={`hover:underline ${
                               selectedVitola === v
                                 ? "font-semibold text-black"
