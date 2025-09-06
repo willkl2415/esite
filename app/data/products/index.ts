@@ -213,8 +213,6 @@ export const products: Product[] = [
 
   // === New World Cigars ===
   {
-    id:
-  {
     id: "trinidad-vigia",
     name: "Trinidad Vigía",
     price: 52.0,
@@ -231,8 +229,8 @@ export const products: Product[] = [
     rating: 4.9,
     stock: 15, // in stock
   },
-
-"davidoff-1",
+  {
+    id: id: "davidoff-1",
     name: "Davidoff Winston Churchill Toro",
     price: 45.0,
     image: "/Cohiba-Connecticut-Robusto-cigar.png",
