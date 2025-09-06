@@ -29,10 +29,7 @@ const normalize = (str: string) =>
 export default function CategoryPage() {
   // Sidebar accordion state
   const [openBrand, setOpenBrand] = useState<string | null>(null);
-  const [selectedPair, setSelectedPair] = useState<{
-    brand: string;
-    vitola: string;
-  } | null>(null);
+  const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
 
   // ✅ Show all cigar-related products
   const allCigars = useMemo(() => {
@@ -42,22 +39,19 @@ export default function CategoryPage() {
     );
   }, []);
 
-  // Apply brand/vitola filtering
+  // Apply brand + vitola filtering
   const filtered = useMemo(() => {
     let list = [...allCigars];
     if (openBrand) {
       list = list.filter((p) => normalize(p.brand) === normalize(openBrand));
-    }
-    if (selectedPair) {
-      list = list.filter(
-        (p) =>
-          normalize(p.brand) === normalize(selectedPair.brand) &&
-          p.vitola &&
-          normalize(p.vitola) === normalize(selectedPair.vitola)
-      );
+      if (selectedVitola) {
+        list = list.filter(
+          (p) => p.vitola && normalize(p.vitola) === normalize(selectedVitola)
+        );
+      }
     }
     return list;
-  }, [allCigars, openBrand, selectedPair]);
+  }, [allCigars, openBrand, selectedVitola]);
 
   // Stock helpers
   const stockText = (p: Product) => p.stockStatus || p.status || "";
@@ -94,10 +88,10 @@ export default function CategoryPage() {
                     onClick={() => {
                       if (isOpen) {
                         setOpenBrand(null);
-                        setSelectedPair(null);
+                        setSelectedVitola(null);
                       } else {
                         setOpenBrand(brand);
-                        setSelectedPair(null);
+                        setSelectedVitola(null);
                       }
                     }}
                     className="w-full flex items-center justify-between py-2 text-left font-medium hover:text-black/80"
@@ -114,18 +108,12 @@ export default function CategoryPage() {
                         <li key={v}>
                           <button
                             onClick={() =>
-                              setSelectedPair((cur) =>
-                                cur &&
-                                cur.brand === brand &&
-                                cur.vitola === v
-                                  ? null
-                                  : { brand, vitola: v }
+                              setSelectedVitola((cur) =>
+                                cur === v ? null : v
                               )
                             }
                             className={`hover:underline ${
-                              selectedPair &&
-                              selectedPair.brand === brand &&
-                              selectedPair.vitola === v
+                              selectedVitola === v
                                 ? "font-semibold text-black"
                                 : ""
                             }`}
