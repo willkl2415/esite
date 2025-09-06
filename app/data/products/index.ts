@@ -230,7 +230,7 @@ export const products: Product[] = [
     stock: 15, // in stock
   },
   {
-    id: id: "davidoff-1",
+    id: "davidoff-1",
     name: "Davidoff Winston Churchill Toro",
     price: 45.0,
     image: "/Cohiba-Connecticut-Robusto-cigar.png",
