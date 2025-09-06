@@ -103,6 +103,7 @@ function Header() {
           <li><Link href="/about-us">About Us</Link></li>
           <li><Link href="/history">History</Link></li>
           <li><Link href="/category">Cigars A–Z</Link></li>
+          <li><Link href="/hand-rolling">Tobacco</Link></li> {/* ✅ New menu item */}
           <li><Link href="/accessories">Accessories</Link></li>
           <li><Link href="/gifts">Gifts</Link></li>
           <li><Link href="/promotions">Promotions</Link></li>
