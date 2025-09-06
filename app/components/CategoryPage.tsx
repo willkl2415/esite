@@ -50,6 +50,8 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
+    setApplyFilters(true); // auto-apply
+    setCurrentPage(1);     // reset to page 1
     if (brandDetailsRef.current) brandDetailsRef.current.open = false;
   };
 
@@ -57,6 +59,8 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setSelectedVitolas((prev) =>
       prev.includes(vitola) ? prev.filter((v) => v !== vitola) : [...prev, vitola]
     );
+    setApplyFilters(true); // auto-apply
+    setCurrentPage(1);     // reset to page 1
     if (vitolaDetailsRef.current) vitolaDetailsRef.current.open = false;
   };
 
@@ -181,7 +185,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
               <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
               <div className="px-3 py-2 text-sm space-y-1">
                 {brandsInCategory.map((brand) => (
-                  <label key={brand} className="block">
+                  <label key={brand} className="block cursor-pointer">
                     <input
                       type="checkbox"
                       checked={selectedBrands.includes(brand)}
@@ -201,7 +205,7 @@ export default function CategoryPage({ title, description, category }: CategoryP
               <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
               <div className="px-3 py-2 text-sm space-y-1">
                 {vitolasInCategory.map((vitola) => (
-                  <label key={vitola} className="block">
+                  <label key={vitola} className="block cursor-pointer">
                     <input
                       type="checkbox"
                       checked={selectedVitolas.includes(vitola)}
