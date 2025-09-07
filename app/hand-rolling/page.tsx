@@ -12,6 +12,7 @@ type Product = {
   name: string;
   brand: string;
   vitola?: string; // not used for tobacco, but harmless
+  blend?: string;  // added for tobacco
   price: number | string;
   image: string;
   category: string;
@@ -27,27 +28,26 @@ const normalize = (s: string) =>
 export default function HandRollingCategoryPage() {
   // Sidebar accordion state
   const [openBrand, setOpenBrand] = useState<string | null>(null);
-  const [selectedPair, setSelectedPair] = useState<{ brand: string; vitola: string } | null>(null);
+  const [selectedPair, setSelectedPair] = useState<{ brand: string; blend: string } | null>(null);
 
   // Only hand-rolling tobacco products
   const allTobacco = useMemo<Product[]>(
-    () => (products as Product[]).filter((p) => normalize(p.category) === "tobacco"),
+    () => (products as Product[]).filter((p) => normalize(p.category) === "hand-rolling"),
     []
   );
 
-  // Apply brand + sub-filter (match by name since tobacco has no real 'vitola' field)
+  // Apply brand + sub-filter (blend filter)
   const filtered = useMemo(() => {
     let list = [...allTobacco];
     if (openBrand) {
       list = list.filter((p) => normalize(p.brand) === normalize(openBrand));
     }
     if (selectedPair) {
-      const needle = normalize(selectedPair.vitola);
+      const needle = normalize(selectedPair.blend);
       list = list.filter(
         (p) =>
           normalize(p.brand) === normalize(selectedPair.brand) &&
-          // match sub-option inside product name
-          normalize(p.name).includes(needle)
+          (p.blend ? normalize(p.blend) === needle : normalize(p.name).includes(needle))
       );
     }
     return list;
@@ -70,13 +70,13 @@ export default function HandRollingCategoryPage() {
         </p>
       </section>
 
-      {/* Same two-column layout as Cigars */}
+      {/* Two-column layout */}
       <div className="max-w-7xl mx-auto px-6 pb-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Sidebar — Brands A–Z */}
         <aside className="md:col-span-1">
           <h2 className="text-lg font-semibold mb-3">Brands A–Z</h2>
           <ul className="space-y-2">
-            {tobaccoBrands.map(({ brand, vitolas }) => {
+            {tobaccoBrands.map(({ brand, blends }) => {
               const isOpen = openBrand === brand;
               return (
                 <li key={brand} className="border-b">
@@ -96,27 +96,27 @@ export default function HandRollingCategoryPage() {
                     <span className="text-xl leading-none">{isOpen ? "−" : "+"}</span>
                   </button>
 
-                  {isOpen && vitolas?.length > 0 && (
+                  {isOpen && blends?.length > 0 && (
                     <ul className="ml-4 mb-3 space-y-1 list-disc text-sm text-gray-700">
-                      {vitolas.map((v) => (
-                        <li key={v}>
+                      {blends.map((b: string) => (
+                        <li key={b}>
                           <button
                             onClick={() =>
                               setSelectedPair((cur) =>
-                                cur && cur.brand === brand && cur.vitola === v
+                                cur && cur.brand === brand && cur.blend === b
                                   ? null
-                                  : { brand, vitola: v }
+                                  : { brand, blend: b }
                               )
                             }
                             className={`hover:underline ${
                               selectedPair &&
                               selectedPair.brand === brand &&
-                              selectedPair.vitola === v
+                              selectedPair.blend === b
                                 ? "font-semibold text-black"
                                 : ""
                             }`}
                           >
-                            {v}
+                            {b}
                           </button>
                         </li>
                       ))}
@@ -128,7 +128,7 @@ export default function HandRollingCategoryPage() {
           </ul>
         </aside>
 
-        {/* Main grid (identical style to Cigars) */}
+        {/* Main grid */}
         <main className="md:col-span-3 space-y-6">
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.length > 0 ? (
@@ -159,7 +159,6 @@ export default function HandRollingCategoryPage() {
                     {p.name}
                   </h3>
                   <p className="text-center text-sm text-gray-700">
-                    {/* Support numeric or range strings */}
                     {typeof p.price === "number" ? `£${p.price.toFixed(2)}` : p.price}
                   </p>
 
