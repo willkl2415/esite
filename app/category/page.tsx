@@ -3,24 +3,9 @@
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "../data/products";
+import { products, Product } from "../data/products";
 import { cigarBrands } from "../data/products/cigarBrands";
 import { tobaccoBrands } from "../data/products/tobaccoBrands";
-
-// --- Types that match your dataset ---
-type Product = {
-  id: string;
-  name: string;
-  brand: string;
-  vitola?: string;   // cigars
-  blend?: string;    // tobacco
-  price: number | string;
-  image: string;
-  category: string;
-  badge?: string;
-  status?: string;
-  stockStatus?: string;
-};
 
 // Normalizer to handle accents, case, spacing
 const normalize = (str: string) =>
@@ -33,13 +18,11 @@ export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
 
-  // ✅ Detect category from products (cigars vs tobacco)
+  // ✅ Detect category (hand rolling vs cigars)
   const allProducts = useMemo(() => products as Product[], []);
 
-  const currentCategory =
-    allProducts.find((p) => p.category === "hand-rolling") !== undefined
-      ? "hand-rolling"
-      : "cigars";
+  const hasTobacco = allProducts.some((p) => p.category === "hand-rolling");
+  const currentCategory = hasTobacco ? "hand-rolling" : "cigars";
 
   // Select correct brand map
   const brandMap =
@@ -48,9 +31,12 @@ export default function CategoryPage() {
   // Apply brand + vitola/blend filtering
   const filtered = useMemo(() => {
     let list = [...allProducts];
+
     if (currentCategory === "cigars") {
       list = list.filter((p) =>
-        ["awarded-cigars", "cigars", "product"].includes(p.category)
+        ["awarded-cigars", "cigars", "product", "new-world-cigars"].includes(
+          p.category
+        )
       );
     } else {
       list = list.filter((p) => normalize(p.category) === "hand-rolling");
@@ -76,7 +62,14 @@ export default function CategoryPage() {
   }, [allProducts, openBrand, selectedSub, currentCategory]);
 
   // Stock helpers
-  const stockText = (p: Product) => p.stockStatus || p.status || "";
+  const stockText = (p: Product) => {
+    if (typeof p.stock === "number") {
+      return p.stock > 0 ? "In Stock" : "Out of Stock";
+    }
+    if (p.stock === "preorder") return "Pre-order Available";
+    return "";
+  };
+
   const stockClass = (txt: string) =>
     txt === "In Stock"
       ? "text-green-600"
@@ -138,9 +131,7 @@ export default function CategoryPage() {
                         <li key={s}>
                           <button
                             onClick={() =>
-                              setSelectedSub((cur) =>
-                                cur === s ? null : s
-                              )
+                              setSelectedSub((cur) => (cur === s ? null : s))
                             }
                             className={`hover:underline ${
                               selectedSub === s
