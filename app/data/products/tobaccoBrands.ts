@@ -1,9 +1,8 @@
-// /app/data/products/tobaccoBrands.ts
+// Brand → Blends mapping for hand rolling tobacco
 export const tobaccoBrands = [
   {
     brand: "Auld Kendal",
-    // use "vitolas" key so we can reuse the same accordion code pattern
-    vitolas: [
+    blends: [
       "Dark",
       "Georgia Blend",
       "Golden Blend",
@@ -14,11 +13,11 @@ export const tobaccoBrands = [
   },
   {
     brand: "Pueblo",
-    vitolas: [
+    blends: [
       "Blue",
+      "Classic",
       "Classic Additive Free 250g",
       "Classic Additive Free 30g Pouch",
-      "Classic",
     ],
   },
 ];

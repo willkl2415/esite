@@ -34,10 +34,8 @@ export default function CategoryPage() {
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
 
   // ✅ Detect category from products (cigars vs tobacco)
-  // We assume this page is for ALL products, but filtering is separate
   const allProducts = useMemo(() => products as Product[], []);
 
-  // Figure out which category we’re in based on first product
   const currentCategory =
     allProducts.find((p) => p.category === "hand-rolling") !== undefined
       ? "hand-rolling"
@@ -51,12 +49,11 @@ export default function CategoryPage() {
   const filtered = useMemo(() => {
     let list = [...allProducts];
     if (currentCategory === "cigars") {
-      list = list.filter(
-        (p) =>
-          ["awarded-cigars", "cigars", "product"].includes(p.category) // cigars only
+      list = list.filter((p) =>
+        ["awarded-cigars", "cigars", "product"].includes(p.category)
       );
     } else {
-      list = list.filter((p) => normalize(p.category) === "hand-rolling"); // tobacco only
+      list = list.filter((p) => normalize(p.category) === "hand-rolling");
     }
 
     if (openBrand) {
@@ -65,13 +62,11 @@ export default function CategoryPage() {
       if (selectedSub) {
         if (currentCategory === "hand-rolling") {
           list = list.filter(
-            (p) =>
-              p.blend && normalize(p.blend) === normalize(selectedSub)
+            (p) => p.blend && normalize(p.blend) === normalize(selectedSub)
           );
         } else {
           list = list.filter(
-            (p) =>
-              p.vitola && normalize(p.vitola) === normalize(selectedSub)
+            (p) => p.vitola && normalize(p.vitola) === normalize(selectedSub)
           );
         }
       }
@@ -110,33 +105,34 @@ export default function CategoryPage() {
         <aside className="md:col-span-1">
           <h2 className="text-lg font-semibold mb-3">Brands A–Z</h2>
           <ul className="space-y-2">
-            {brandMap.map(({ brand, vitolas, blends }) => {
-              const isOpen = openBrand === brand;
+            {brandMap.map((item: any) => {
+              const isOpen = openBrand === item.brand;
               const subs =
                 currentCategory === "hand-rolling"
-                  ? blends || []
-                  : vitolas || [];
+                  ? item.blends || []
+                  : item.vitolas || [];
+
               return (
-                <li key={brand} className="border-b">
+                <li key={item.brand} className="border-b">
                   <button
                     onClick={() => {
                       if (isOpen) {
                         setOpenBrand(null);
                         setSelectedSub(null);
                       } else {
-                        setOpenBrand(brand);
+                        setOpenBrand(item.brand);
                         setSelectedSub(null);
                       }
                     }}
                     className="w-full flex items-center justify-between py-2 text-left font-medium hover:text-black/80"
                   >
-                    <span>{brand}</span>
+                    <span>{item.brand}</span>
                     <span className="text-xl leading-none">
                       {isOpen ? "−" : "+"}
                     </span>
                   </button>
 
-                  {isOpen && subs?.length > 0 && (
+                  {isOpen && subs.length > 0 && (
                     <ul className="ml-4 mb-3 space-y-1 list-disc text-sm text-gray-700">
                       {subs.map((s: string) => (
                         <li key={s}>
