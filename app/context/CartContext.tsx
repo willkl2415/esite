@@ -9,13 +9,19 @@ type CartItem = {
   price: number;
   image: string;
   quantity: number;
+  variant?: string; // ✅ New: for tobacco weights/sizes
 };
 
 type CartContextType = {
   cart: CartItem[];
-  addToCart: (id: string, quantity: number) => void;
-  removeFromCart: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  addToCart: (
+    id: string,
+    quantity: number,
+    variant?: string,
+    priceOverride?: number
+  ) => void;
+  removeFromCart: (id: string, variant?: string) => void;
+  updateQuantity: (id: string, quantity: number, variant?: string) => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -23,46 +29,69 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  const addToCart = (id: string, quantity: number) => {
+  const addToCart = (
+    id: string,
+    quantity: number,
+    variant?: string,
+    priceOverride?: number
+  ) => {
     const product = products.find((p) => p.id === id);
     if (!product) return;
 
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === id);
+      const existing = prev.find(
+        (item) => item.id === id && item.variant === variant
+      );
+
       if (existing) {
+        // ✅ If same product + same variant exists → increase quantity
         return prev.map((item) =>
-          item.id === id
+          item.id === id && item.variant === variant
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
+
+      // ✅ Otherwise add a new line item
       return [
         ...prev,
         {
           id: product.id,
           name: product.name,
-          price: product.price,
+          price:
+            typeof priceOverride === "number"
+              ? priceOverride
+              : (product.price as number),
           image: product.image,
           quantity,
+          variant,
         },
       ];
     });
   };
 
-  const removeFromCart = (id: string) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+  const removeFromCart = (id: string, variant?: string) => {
+    setCart((prev) =>
+      prev.filter(
+        (item) => !(item.id === id && item.variant === variant)
+      )
+    );
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
+  const updateQuantity = (id: string, quantity: number, variant?: string) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, quantity } : item
+        item.id === id && item.variant === variant
+          ? { ...item, quantity }
+          : item
       )
     );
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, updateQuantity }}
+    >
       {children}
     </CartContext.Provider>
   );
