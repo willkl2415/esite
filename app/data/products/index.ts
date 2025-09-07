@@ -4,6 +4,8 @@
 export type StockStatus = number | 0 | "preorder";
 
 export interface Product {
+  vitola?: string;
+  blend?: string;
   id: string;
   name: string;
   price: number;
@@ -13,7 +15,7 @@ export interface Product {
   featured: boolean;
   badge: string;
   brand: string;
-  vitola: string;
+  vitola?: string;
   dateAdded: string;
   sales: number;
   rating: number;
@@ -806,7 +808,7 @@ export const products: Product[] = [
     featured: false,
     badge: "",
     brand: "Auld Kendal",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 300,
     rating: 4.6,
@@ -822,7 +824,7 @@ export const products: Product[] = [
     featured: false,
     badge: "",
     brand: "Auld Kendal",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 250,
     rating: 4.5,
@@ -838,7 +840,7 @@ export const products: Product[] = [
     featured: false,
     badge: "",
     brand: "Auld Kendal",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 220,
     rating: 4.5,
@@ -854,7 +856,7 @@ export const products: Product[] = [
     featured: false,
     badge: "",
     brand: "Auld Kendal",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 200,
     rating: 4.4,
@@ -870,7 +872,7 @@ export const products: Product[] = [
     featured: false,
     badge: "",
     brand: "Auld Kendal",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 190,
     rating: 4.4,
@@ -886,7 +888,7 @@ export const products: Product[] = [
     featured: true,
     badge: "Value Pack",
     brand: "Auld Kendal",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 120,
     rating: 4.7,
@@ -902,7 +904,7 @@ export const products: Product[] = [
     featured: false,
     badge: "",
     brand: "Pueblo",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 210,
     rating: 4.5,
@@ -918,7 +920,7 @@ export const products: Product[] = [
     featured: true,
     badge: "Value Pack",
     brand: "Pueblo",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 100,
     rating: 4.6,
@@ -934,7 +936,7 @@ export const products: Product[] = [
     featured: false,
     badge: "",
     brand: "Pueblo",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 300,
     rating: 4.5,
@@ -950,7 +952,7 @@ export const products: Product[] = [
     featured: false,
     badge: "",
     brand: "Pueblo",
-    vitola: "",
+    blend: "",
     dateAdded: "2024-09-01",
     sales: 260,
     rating: 4.5,
