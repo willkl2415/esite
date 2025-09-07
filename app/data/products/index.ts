@@ -15,7 +15,6 @@ export interface Product {
   featured: boolean;
   badge: string;
   brand: string;
-  vitola?: string;
   dateAdded: string;
   sales: number;
   rating: number;
