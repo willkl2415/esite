@@ -5,14 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { products } from "../data/products";
 import { cigarBrands } from "../data/products/cigarBrands";
+import { tobaccoBrands } from "../data/products/tobaccoBrands";
 
 // --- Types that match your dataset ---
 type Product = {
   id: string;
   name: string;
   brand: string;
-  vitola?: string;
-  price: number;
+  vitola?: string;   // cigars
+  blend?: string;    // tobacco
+  price: number | string;
   image: string;
   category: string;
   badge?: string;
@@ -29,29 +31,54 @@ const normalize = (str: string) =>
 export default function CategoryPage() {
   // Sidebar accordion state
   const [openBrand, setOpenBrand] = useState<string | null>(null);
-  const [selectedVitola, setSelectedVitola] = useState<string | null>(null);
+  const [selectedSub, setSelectedSub] = useState<string | null>(null);
 
-  // ✅ Show all cigar-related products
-  const allCigars = useMemo(() => {
-    const all = products as Product[];
-    return all.filter((p) =>
-      ["awarded-cigars", "cigars", "product"].includes(p.category)
-    );
-  }, []);
+  // ✅ Detect category from products (cigars vs tobacco)
+  // We assume this page is for ALL products, but filtering is separate
+  const allProducts = useMemo(() => products as Product[], []);
 
-  // Apply brand + vitola filtering
+  // Figure out which category we’re in based on first product
+  const currentCategory =
+    allProducts.find((p) => p.category === "hand-rolling") !== undefined
+      ? "hand-rolling"
+      : "cigars";
+
+  // Select correct brand map
+  const brandMap =
+    currentCategory === "hand-rolling" ? tobaccoBrands : cigarBrands;
+
+  // Apply brand + vitola/blend filtering
   const filtered = useMemo(() => {
-    let list = [...allCigars];
+    let list = [...allProducts];
+    if (currentCategory === "cigars") {
+      list = list.filter(
+        (p) =>
+          ["awarded-cigars", "cigars", "product"].includes(p.category) // cigars only
+      );
+    } else {
+      list = list.filter((p) => normalize(p.category) === "hand-rolling"); // tobacco only
+    }
+
     if (openBrand) {
       list = list.filter((p) => normalize(p.brand) === normalize(openBrand));
-      if (selectedVitola) {
-        list = list.filter(
-          (p) => p.vitola && normalize(p.vitola) === normalize(selectedVitola)
-        );
+
+      if (selectedSub) {
+        if (currentCategory === "hand-rolling") {
+          list = list.filter(
+            (p) =>
+              p.blend && normalize(p.blend) === normalize(selectedSub)
+          );
+        } else {
+          list = list.filter(
+            (p) =>
+              p.vitola && normalize(p.vitola) === normalize(selectedSub)
+          );
+        }
       }
     }
+
     return list;
-  }, [allCigars, openBrand, selectedVitola]);
+  }, [allProducts, openBrand, selectedSub, currentCategory]);
 
   // Stock helpers
   const stockText = (p: Product) => p.stockStatus || p.status || "";
@@ -67,11 +94,14 @@ export default function CategoryPage() {
       {/* Page header */}
       <section className="max-w-7xl mx-auto px-6 pt-10 pb-4">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2">
-          Explore Our Cigars
+          {currentCategory === "hand-rolling"
+            ? "Explore Our Hand Rolling Tobacco"
+            : "Explore Our Cigars"}
         </h1>
         <p className="text-gray-700 text-base md:text-lg">
-          From Cuban classics to New World gems, discover our full portfolio of
-          cigars. Browse by brand, search by name, or explore by vitola.
+          {currentCategory === "hand-rolling"
+            ? "From Auld Kendal to Pueblo, explore our full collection of premium hand rolling tobaccos."
+            : "From Cuban classics to New World gems, discover our full portfolio of cigars. Browse by brand, search by name, or explore by vitola."}
         </p>
       </section>
 
@@ -80,18 +110,22 @@ export default function CategoryPage() {
         <aside className="md:col-span-1">
           <h2 className="text-lg font-semibold mb-3">Brands A–Z</h2>
           <ul className="space-y-2">
-            {cigarBrands.map(({ brand, vitolas }) => {
+            {brandMap.map(({ brand, vitolas, blends }) => {
               const isOpen = openBrand === brand;
+              const subs =
+                currentCategory === "hand-rolling"
+                  ? blends || []
+                  : vitolas || [];
               return (
                 <li key={brand} className="border-b">
                   <button
                     onClick={() => {
                       if (isOpen) {
                         setOpenBrand(null);
-                        setSelectedVitola(null);
+                        setSelectedSub(null);
                       } else {
                         setOpenBrand(brand);
-                        setSelectedVitola(null);
+                        setSelectedSub(null);
                       }
                     }}
                     className="w-full flex items-center justify-between py-2 text-left font-medium hover:text-black/80"
@@ -102,23 +136,23 @@ export default function CategoryPage() {
                     </span>
                   </button>
 
-                  {isOpen && vitolas?.length > 0 && (
+                  {isOpen && subs?.length > 0 && (
                     <ul className="ml-4 mb-3 space-y-1 list-disc text-sm text-gray-700">
-                      {vitolas.map((v) => (
-                        <li key={v}>
+                      {subs.map((s: string) => (
+                        <li key={s}>
                           <button
                             onClick={() =>
-                              setSelectedVitola((cur) =>
-                                cur === v ? null : v
+                              setSelectedSub((cur) =>
+                                cur === s ? null : s
                               )
                             }
                             className={`hover:underline ${
-                              selectedVitola === v
+                              selectedSub === s
                                 ? "font-semibold text-black"
                                 : ""
                             }`}
                           >
-                            {v}
+                            {s}
                           </button>
                         </li>
                       ))}
@@ -161,7 +195,9 @@ export default function CategoryPage() {
                     {p.name}
                   </h3>
                   <p className="text-center text-sm text-gray-700">
-                    £{Number(p.price).toFixed(2)}
+                    {typeof p.price === "number"
+                      ? `£${p.price.toFixed(2)}`
+                      : p.price}
                   </p>
 
                   {stockText(p) && (
