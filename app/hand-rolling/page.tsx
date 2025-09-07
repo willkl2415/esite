@@ -144,7 +144,8 @@ export default function HandRollingCategoryPage() {
                   )}
 
                   <div className="bg-white p-4 rounded-lg shadow-inner">
-                    <Link href={`/hand-rolling/${p.id}`}>
+                    {/* ✅ FIX: Link to shared product page */}
+                    <Link href={`/product/${p.id}`}>
                       <Image
                         src={p.image}
                         alt={p.name}
