@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { products, Product } from "../data/products";
 import { cigarBrands } from "../data/products/cigarBrands";
-import { tobaccoBrands } from "../data/products/tobaccoBrands";
 
 // Normalizer to handle accents, case, spacing
 const normalize = (str: string) =>
@@ -18,48 +17,36 @@ export default function CategoryPage() {
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
 
-  // ✅ Detect category (hand rolling vs cigars)
+  // ✅ Force this page to only handle cigars
   const allProducts = useMemo(() => products as Product[], []);
+  const currentCategory = "cigars";
 
-  const hasTobacco = allProducts.some((p) => p.category === "hand-rolling");
-  const currentCategory = hasTobacco ? "hand-rolling" : "cigars";
+  // Select cigar brand map
+  const brandMap = cigarBrands;
 
-  // Select correct brand map
-  const brandMap =
-    currentCategory === "hand-rolling" ? tobaccoBrands : cigarBrands;
-
-  // Apply brand + vitola/blend filtering
+  // Apply brand + vitola filtering
   const filtered = useMemo(() => {
     let list = [...allProducts];
 
-    if (currentCategory === "cigars") {
-      list = list.filter((p) =>
-        ["awarded-cigars", "cigars", "product", "new-world-cigars"].includes(
-          p.category
-        )
-      );
-    } else {
-      list = list.filter((p) => normalize(p.category) === "hand-rolling");
-    }
+    // Only show cigar categories
+    list = list.filter((p) =>
+      ["awarded-cigars", "cigars", "product", "new-world-cigars"].includes(
+        p.category
+      )
+    );
 
     if (openBrand) {
       list = list.filter((p) => normalize(p.brand) === normalize(openBrand));
 
       if (selectedSub) {
-        if (currentCategory === "hand-rolling") {
-          list = list.filter(
-            (p) => p.blend && normalize(p.blend) === normalize(selectedSub)
-          );
-        } else {
-          list = list.filter(
-            (p) => p.vitola && normalize(p.vitola) === normalize(selectedSub)
-          );
-        }
+        list = list.filter(
+          (p) => p.vitola && normalize(p.vitola) === normalize(selectedSub)
+        );
       }
     }
 
     return list;
-  }, [allProducts, openBrand, selectedSub, currentCategory]);
+  }, [allProducts, openBrand, selectedSub]);
 
   // Stock helpers
   const stockText = (p: Product) => {
@@ -82,14 +69,11 @@ export default function CategoryPage() {
       {/* Page header */}
       <section className="max-w-7xl mx-auto px-6 pt-10 pb-4">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2">
-          {currentCategory === "hand-rolling"
-            ? "Explore Our Hand Rolling Tobacco"
-            : "Explore Our Cigars"}
+          Explore Our Cigars
         </h1>
         <p className="text-gray-700 text-base md:text-lg">
-          {currentCategory === "hand-rolling"
-            ? "From Auld Kendal to Pueblo, explore our full collection of premium hand rolling tobaccos."
-            : "From Cuban classics to New World gems, discover our full portfolio of cigars. Browse by brand, search by name, or explore by vitola."}
+          From Cuban classics to New World gems, discover our full portfolio of
+          cigars. Browse by brand, search by name, or explore by vitola.
         </p>
       </section>
 
@@ -100,10 +84,7 @@ export default function CategoryPage() {
           <ul className="space-y-2">
             {brandMap.map((item: any) => {
               const isOpen = openBrand === item.brand;
-              const subs =
-                currentCategory === "hand-rolling"
-                  ? item.blends || []
-                  : item.vitolas || [];
+              const subs = item.vitolas || [];
 
               return (
                 <li key={item.brand} className="border-b">
