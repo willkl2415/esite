@@ -104,14 +104,14 @@ export default function HomePage() {
             Where Cigars Come Alive
           </h1>
           <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
-            Cigar Manor is your gateway to the world of cigars - discover and
+            Cigar Manor is your gateway to the world of cigars – discover and
             enjoy the flavours, and then make it your own.
           </p>
         </div>
 
         {/* Two Lifestyle Images */}
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-6 mt-8">
-          <div className="relative w-full md:w-2/5 h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-md">
+          <div className="relative w-full md:w-2/5 h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-md glass-card">
             <Image
               src="/cigar-15.png"
               alt="Cigar close-up"
@@ -120,7 +120,7 @@ export default function HomePage() {
               priority
             />
           </div>
-          <div className="relative w-full md:w-2/5 h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-md">
+          <div className="relative w-full md:w-2/5 h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-md glass-card">
             <Image
               src="/f-30.png"
               alt="Cigar lifestyle"
@@ -141,7 +141,7 @@ export default function HomePage() {
           {/* Left Arrow */}
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md p-3 rounded-full hover:bg-gray-100"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 glass-btn"
           >
             ‹
           </button>
@@ -159,12 +159,10 @@ export default function HomePage() {
               return (
                 <div
                   key={i}
-                  className="flex-none w-64 h-64 bg-gray-100 rounded-lg shadow-md overflow-hidden relative"
+                  className="flex-none w-64 h-64 bg-gray-100 rounded-lg shadow-md overflow-hidden relative glass-card"
                 >
                   {product ? (
-                    <Link
-                      href={`/${product.category}/${product.id}?lang=${lang}`}
-                    >
+                    <Link href={`/product/${product.id}?lang=${lang}`}>
                       <Image
                         src={`/${img}`}
                         alt={product.name}
@@ -188,7 +186,7 @@ export default function HomePage() {
           {/* Right Arrow */}
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md p-3 rounded-full hover:bg-gray-100"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 glass-btn"
           >
             ›
           </button>
@@ -241,7 +239,7 @@ export default function HomePage() {
               Our mission is to cultivate a vibrant community and challenge
               outdated perceptions about cigar culture.
             </p>
-            <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
+            <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-lg glass-card">
               <Image
                 src="/cigar-drink.png"
                 alt="Cigar in ashtray"
