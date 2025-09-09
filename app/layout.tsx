@@ -2,18 +2,21 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "esite — Liquid Glass",
-  description: "Universal Liquid Glass design shell",
+  description: "Cigar Manor – Where Cigars Come Alive",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
       <body>
-        {/* The header is rendered by Header.tsx inside pages or here globally if you prefer */}
-        {children}
+        <Header />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
