@@ -2,121 +2,137 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ==== Liquid Glass Design Tokens (from your Silk V6) ==== */
-:root {
-  --header-h: 64px;
-
-  /* Morph ranges from demo */
-  --min-width: 300px;
-  --max-width: 760px;
-  --min-radius: 14px;
-  --max-radius: 28px;
-  --min-padding: 16px;
-  --max-padding: 28px;
-  --min-top: 7vh;
-  --max-top: 18vh;
-  --min-bg: 0.20;
-  --max-bg: 0.14;
-
-  --blur: 16px;
-  --saturate: 180%;
-  --edge: 0.35;
-  --shadow: 0.32;
-
-  --header-bg: rgba(0,0,0,0.35);
-  --header-edge: rgba(255,255,255,0.25);
-  --progress: 0%;
-}
-
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-
-html {
-  scroll-behavior: auto; /* custom smooth scrolling implemented in component */
-  scroll-padding-top: calc(var(--header-h) + 10px);
-}
-
 body {
-  margin: 0;
-  color: #fff;
-  background: #000;
-  padding-top: var(--header-h);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scrollbar-gutter: stable both-edges;
+  @apply bg-white text-[#000100] font-sans antialiased;
 }
 
-/* ==== Universal background (subtle gradient + vignette) ==== */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background:
-    radial-gradient(1200px 800px at 50% 40%, rgba(255,255,255,0.04), rgba(255,255,255,0) 60%) ,
-    linear-gradient(180deg, #020202 0%, #090909 100%);
+a {
+  @apply text-[#000100] hover:text-gray-600 transition-colors duration-200;
 }
 
-/* ==== Glass Utilities (header, surfaces, cards, buttons) ==== */
-.glass-surface {
-  background: rgba(255,255,255,var(--panel-bg, var(--min-bg)));
-  backdrop-filter: blur(var(--panel-blur, var(--blur))) saturate(var(--saturate));
-  -webkit-backdrop-filter: blur(var(--panel-blur, var(--blur))) saturate(var(--saturate));
-  border: 1px solid rgba(255,255,255,var(--edge));
-  box-shadow: 0 10px 34px rgba(0,0,0,0.35);
+button {
+  @apply transition duration-200 ease-in-out;
 }
 
-.glass-card {
-  @apply rounded-lgx;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.25);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-  box-shadow: 0 6px 22px rgba(0,0,0,0.28);
+/* ✅ Primary buttons (Add to Basket, Checkout, Back Home) */
+button.primary,
+.bg-primary {
+  @apply bg-black text-white font-semibold px-6 py-3 rounded-full hover:bg-gray-800;
 }
 
-.glass-btn {
-  display: inline-block;
-  padding: 12px 18px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.18);
-  border: 1px solid rgba(255,255,255,0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: transform 200ms ease, background 200ms ease;
-}
-.glass-btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.28); }
-
-/* ==== Glass Header / Nav ==== */
-.glass-nav {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: var(--header-h);
-  z-index: 2000;
-  display: grid;
-  align-content: center;
-  background: var(--header-bg);
-  border-bottom: 1px solid var(--header-edge);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-}
-.glass-nav .progress {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: var(--progress);
-  background: linear-gradient(90deg, #9ad, #6ef, #9af);
-  box-shadow: 0 0 10px rgba(160,220,255,0.8);
-  transition: width 120ms linear;
+/* ✅ Secondary buttons (Continue Shopping, Browse Products, etc.) */
+button.secondary,
+.bg-secondary {
+  @apply bg-white border border-black text-black font-semibold px-6 py-3 rounded-full hover:bg-black hover:text-white;
 }
 
-/* Scene tint helper (used by LiquidGlassPanel) */
-.scene-tint {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(1200px 800px at 50% 50%, rgba(0,0,0,0.25), rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.65));
-  opacity: var(--tint-opacity, 0.5);
-  transition: opacity 700ms linear;
-  z-index: 0;
+/* ✅ Danger buttons (Remove, Delete) */
+button.danger,
+.text-danger {
+  @apply text-red-600 font-medium hover:underline;
+}
+
+header {
+  @apply bg-white border-b shadow-sm;
+}
+
+nav a {
+  @apply text-[#000100] hover:text-gray-600;
+}
+
+section.hero {
+  @apply bg-white text-[#000100];
+}
+
+.product-card {
+  @apply border border-[#000100] rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition bg-white;
+}
+
+.product-card h3 {
+  @apply text-lg font-semibold mb-2 text-[#000100];
+}
+
+.product-card p {
+  @apply text-[#000100] mb-4;
+}
+
+footer {
+  background-color: #f3f4f6 !important; /* light gray */
+  color: #000100 !important;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 1.5rem;
+}
+
+/* Google Translate widget styling */
+#google_translate_element {
+  display: inline-block !important;
+}
+
+#google_translate_element .goog-te-gadget {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+#google_translate_element .goog-te-gadget .goog-te-gadget-simple,
+#google_translate_element .goog-te-gadget .goog-te-combo {
+  font-size: 14px !important;
+  line-height: 1.1 !important;
+  font-weight: 700 !important;
+  color: #000100 !important;
+}
+
+#google_translate_element .goog-te-gadget-simple {
+  background: #f3f4f6 !important; /* light gray */
+  color: #000100 !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+  border: 2px solid #000100 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: auto !important;
+  box-shadow: none !important;
+}
+
+#google_translate_element .goog-te-gadget-simple span,
+#google_translate_element .goog-te-gadget-simple a {
+  color: #000100 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+}
+
+#google_translate_element .goog-te-combo {
+  background: #f3f4f6 !important; /* light gray */
+  color: #000100 !important;
+  font-weight: 700 !important;
+  border: 2px solid #000100 !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  width: 140px !important;
+  max-width: 160px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+#google_translate_element .goog-te-gadget-icon {
+  display: none !important;
+}
+
+#google_translate_element .goog-logo-link {
+  display: none !important;
+}
+
+/* Anchor scroll offset fix */
+html {
+  scroll-padding-top: 100px;
+}
+
+/* ✅ Universal fix for Next.js product images */
+.product-card span > img,
+.product-image span > img {
+  object-fit: contain !important; /* always show full cigar */
 }
