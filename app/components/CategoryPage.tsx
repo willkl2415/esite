@@ -19,17 +19,22 @@ const cigarCategories = [
   "samplers",
 ];
 
-export default function CategoryPage({ title, description, category }: CategoryPageProps) {
+export default function CategoryPage({
+  title,
+  description,
+  category,
+}: CategoryPageProps) {
   const filtered = products.filter((p) => p.category === category);
 
   const brandsInCategory = Array.from(
     new Set(filtered.map((p: any) => p.brand || null))
   ).filter(Boolean);
 
-  const vitolasInCategory =
-    cigarCategories.includes(category)
-      ? Array.from(new Set(filtered.map((p: any) => p.vitola || null))).filter(Boolean)
-      : [];
+  const vitolasInCategory = cigarCategories.includes(category)
+    ? Array.from(new Set(filtered.map((p: any) => p.vitola || null))).filter(
+        Boolean
+      )
+    : [];
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
@@ -57,7 +62,9 @@ export default function CategoryPage({ title, description, category }: CategoryP
 
   const toggleVitola = (vitola: string) => {
     setSelectedVitolas((prev) =>
-      prev.includes(vitola) ? prev.filter((v) => v !== vitola) : [...prev, vitola]
+      prev.includes(vitola)
+        ? prev.filter((v) => v !== vitola)
+        : [...prev, vitola]
     );
     setApplyFilters(true); // auto-apply
     setCurrentPage(1);
@@ -78,7 +85,9 @@ export default function CategoryPage({ title, description, category }: CategoryP
   // ✅ Apply filters (extended search: name + brand + vitola with normalization)
   let displayedProducts = filtered.filter((p: any) => {
     const normalize = (str: string) =>
-      str ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : "";
+      str
+        ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()
+        : "";
 
     const term = normalize(searchTerm);
 
@@ -98,16 +107,12 @@ export default function CategoryPage({ title, description, category }: CategoryP
     const matchesBrand =
       selectedBrands.length === 0 ||
       (p.brand &&
-        selectedBrands.some(
-          (b) => normalize(b) === normalize(p.brand)
-        ));
+        selectedBrands.some((b) => normalize(b) === normalize(p.brand)));
 
     const matchesVitola =
       selectedVitolas.length === 0 ||
       (p.vitola &&
-        selectedVitolas.some(
-          (v) => normalize(v) === normalize(p.vitola)
-        ));
+        selectedVitolas.some((v) => normalize(v) === normalize(p.vitola)));
 
     const matchesPrice = p.price >= priceMin && p.price <= priceMax;
 
@@ -124,7 +129,9 @@ export default function CategoryPage({ title, description, category }: CategoryP
       case "Price High to Low":
         return b.price - a.price;
       case "Newest Additions":
-        return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+        return (
+          new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+        );
       case "Top 5 Sellers":
         return (b.sales || 0) - (a.sales || 0);
       case "Average Rating":
@@ -157,16 +164,10 @@ export default function CategoryPage({ title, description, category }: CategoryP
           />
 
           <div className="flex space-x-4">
-            <button
-              onClick={() => setApplyFilters(true)}
-              className="primary w-full"
-            >
+            <button onClick={() => setApplyFilters(true)} className="primary w-full">
               FILTER
             </button>
-            <button
-              onClick={clearFilters}
-              className="secondary w-full"
-            >
+            <button onClick={clearFilters} className="secondary w-full">
               CLEAR
             </button>
           </div>
@@ -196,7 +197,9 @@ export default function CategoryPage({ title, description, category }: CategoryP
           {/* Brands */}
           {brandsInCategory.length > 0 && (
             <details ref={brandDetailsRef} className="border rounded-lg">
-              <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
+              <summary className="cursor-pointer px-3 py-2 font-medium">
+                Brands
+              </summary>
               <div className="px-3 py-2 text-sm space-y-1">
                 {brandsInCategory.map((brand) => (
                   <label key={brand} className="block cursor-pointer">
@@ -216,7 +219,9 @@ export default function CategoryPage({ title, description, category }: CategoryP
           {/* Vitolas */}
           {vitolasInCategory.length > 0 && (
             <details ref={vitolaDetailsRef} className="border rounded-lg">
-              <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
+              <summary className="cursor-pointer px-3 py-2 font-medium">
+                Vitola
+              </summary>
               <div className="px-3 py-2 text-sm space-y-1">
                 {vitolasInCategory.map((vitola) => (
                   <label key={vitola} className="block cursor-pointer">
@@ -273,7 +278,8 @@ export default function CategoryPage({ title, description, category }: CategoryP
                   )}
 
                   <div className="bg-gray-50 p-4 rounded-md">
-                    <Link href={`/${category}/${product.id}`}>
+                    {/* ✅ fixed link to /product/[id] */}
+                    <Link href={`/product/${product.id}`}>
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -293,7 +299,9 @@ export default function CategoryPage({ title, description, category }: CategoryP
                 </div>
               ))
             ) : (
-              <p className="text-center text-lg">No products found in {title}.</p>
+              <p className="text-center text-lg">
+                No products found in {title}.
+              </p>
             )}
           </section>
 
