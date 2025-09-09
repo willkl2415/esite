@@ -15,7 +15,9 @@ type Variant = {
 };
 
 export default function ProductPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = typeof params?.id === "string" ? params.id : "";
+
   const product = products.find((p) => p.id === id);
 
   const [quantity, setQuantity] = useState(1);
@@ -29,10 +31,14 @@ export default function ProductPage() {
     setQuery("");
   }, [setQuery]);
 
+  // ✅ Defensive: if no match or invalid ID
   if (!product) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-20 text-center">
         <h1 className="text-3xl font-bold mb-4">Product Not Found</h1>
+        <p className="mb-6 text-gray-600">
+          We couldn’t find that product. Please return to the catalog.
+        </p>
         <Link href="/category" className="secondary">
           ← Back to A–Z
         </Link>
@@ -65,13 +71,19 @@ export default function ProductPage() {
     <div className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
       {/* Product Image */}
       <div className="flex justify-center items-start">
-        <Image
-          src={product.image}
-          alt={product.name}
-          width={400}
-          height={600}
-          className="rounded-lg shadow-lg object-contain"
-        />
+        {product.image ? (
+          <Image
+            src={product.image}
+            alt={product.name}
+            width={400}
+            height={600}
+            className="rounded-lg shadow-lg object-contain"
+          />
+        ) : (
+          <div className="w-[400px] h-[600px] flex items-center justify-center bg-gray-200 rounded-lg">
+            <span className="text-gray-500">No image available</span>
+          </div>
+        )}
       </div>
 
       {/* Product Info */}
@@ -79,14 +91,18 @@ export default function ProductPage() {
         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
 
         {!isTobacco ? (
-          <p className="text-2xl font-semibold mb-6">£{product.price.toFixed(2)}</p>
+          <p className="text-2xl font-semibold mb-6">
+            £{Number(product.price).toFixed(2)}
+          </p>
         ) : variant ? (
-          <p className="text-2xl font-semibold mb-6">£{variant.price.toFixed(2)}</p>
+          <p className="text-2xl font-semibold mb-6">
+            £{variant.price.toFixed(2)}
+          </p>
         ) : (
           <p className="text-lg text-gray-600 mb-6">Select a weight option</p>
         )}
 
-        <p className="text-gray-700 mb-8">{product.description}</p>
+        <p className="text-gray-700 mb-8">{product.description || "No description available."}</p>
 
         {/* ✅ Tobacco Variant Dropdown */}
         {isTobacco ? (
@@ -98,7 +114,8 @@ export default function ProductPage() {
               id="variant"
               value={variant?.label || ""}
               onChange={(e) => {
-                const v = tobaccoVariants.find((t) => t.label === e.target.value) || null;
+                const v =
+                  tobaccoVariants.find((t) => t.label === e.target.value) || null;
                 setVariant(v);
               }}
               className="border rounded px-3 py-2"
