@@ -19,17 +19,22 @@ const cigarCategories = [
   "samplers",
 ];
 
-export default function CategoryPage({ title, description, category }: CategoryPageProps) {
+export default function CategoryPage({
+  title,
+  description,
+  category,
+}: CategoryPageProps) {
   const filtered = products.filter((p) => p.category === category);
 
   const brandsInCategory = Array.from(
     new Set(filtered.map((p: any) => p.brand || null))
   ).filter(Boolean);
 
-  const vitolasInCategory =
-    cigarCategories.includes(category)
-      ? Array.from(new Set(filtered.map((p: any) => p.vitola || null))).filter(Boolean)
-      : [];
+  const vitolasInCategory = cigarCategories.includes(category)
+    ? Array.from(new Set(filtered.map((p: any) => p.vitola || null))).filter(
+        Boolean
+      )
+    : [];
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
@@ -39,7 +44,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
   const [applyFilters, setApplyFilters] = useState(false);
   const [sortOption, setSortOption] = useState("Default Sorting");
 
-  // ✅ Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
@@ -50,16 +54,18 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
-    setApplyFilters(true); // auto-apply
+    setApplyFilters(true);
     setCurrentPage(1);
     if (brandDetailsRef.current) brandDetailsRef.current.open = false;
   };
 
   const toggleVitola = (vitola: string) => {
     setSelectedVitolas((prev) =>
-      prev.includes(vitola) ? prev.filter((v) => v !== vitola) : [...prev, vitola]
+      prev.includes(vitola)
+        ? prev.filter((v) => v !== vitola)
+        : [...prev, vitola]
     );
-    setApplyFilters(true); // auto-apply
+    setApplyFilters(true);
     setCurrentPage(1);
     if (vitolaDetailsRef.current) vitolaDetailsRef.current.open = false;
   };
@@ -75,10 +81,11 @@ export default function CategoryPage({ title, description, category }: CategoryP
     setCurrentPage(1);
   };
 
-  // ✅ Apply filters (extended search: name + brand + vitola with normalization)
   let displayedProducts = filtered.filter((p: any) => {
     const normalize = (str: string) =>
-      str ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : "";
+      str
+        ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()
+        : "";
 
     const term = normalize(searchTerm);
 
@@ -98,23 +105,18 @@ export default function CategoryPage({ title, description, category }: CategoryP
     const matchesBrand =
       selectedBrands.length === 0 ||
       (p.brand &&
-        selectedBrands.some(
-          (b) => normalize(b) === normalize(p.brand)
-        ));
+        selectedBrands.some((b) => normalize(b) === normalize(p.brand)));
 
     const matchesVitola =
       selectedVitolas.length === 0 ||
       (p.vitola &&
-        selectedVitolas.some(
-          (v) => normalize(v) === normalize(p.vitola)
-        ));
+        selectedVitolas.some((v) => normalize(v) === normalize(p.vitola)));
 
     const matchesPrice = p.price >= priceMin && p.price <= priceMax;
 
     return matchesSearch && matchesBrand && matchesVitola && matchesPrice;
   });
 
-  // ✅ Apply sorting
   displayedProducts = [...displayedProducts].sort((a: any, b: any) => {
     switch (sortOption) {
       case "Alphabetical":
@@ -124,7 +126,9 @@ export default function CategoryPage({ title, description, category }: CategoryP
       case "Price High to Low":
         return b.price - a.price;
       case "Newest Additions":
-        return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+        return (
+          new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+        );
       case "Top 5 Sellers":
         return (b.sales || 0) - (a.sales || 0);
       case "Average Rating":
@@ -134,7 +138,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
     }
   });
 
-  // ✅ Pagination logic
   const totalPages = Math.ceil(displayedProducts.length / productsPerPage);
   const paginatedProducts = displayedProducts.slice(
     (currentPage - 1) * productsPerPage,
@@ -157,46 +160,20 @@ export default function CategoryPage({ title, description, category }: CategoryP
           />
 
           <div className="flex space-x-4">
-            <button
-              onClick={() => setApplyFilters(true)}
-              className="primary w-full"
-            >
+            <button onClick={() => setApplyFilters(true)} className="primary w-full">
               FILTER
             </button>
-            <button
-              onClick={clearFilters}
-              className="secondary w-full"
-            >
+            <button onClick={clearFilters} className="secondary w-full">
               CLEAR
             </button>
-          </div>
-
-          {/* Price Filter */}
-          <div>
-            <h3 className="font-semibold mb-2">Price Range (£)</h3>
-            <div className="flex items-center space-x-2">
-              <input
-                type="number"
-                min="0"
-                value={priceMin}
-                onChange={(e) => setPriceMin(Number(e.target.value))}
-                className="w-1/2 border rounded-lg px-2 py-1 text-sm"
-              />
-              <span>-</span>
-              <input
-                type="number"
-                min="0"
-                value={priceMax}
-                onChange={(e) => setPriceMax(Number(e.target.value))}
-                className="w-1/2 border rounded-lg px-2 py-1 text-sm"
-              />
-            </div>
           </div>
 
           {/* Brands */}
           {brandsInCategory.length > 0 && (
             <details ref={brandDetailsRef} className="border rounded-lg">
-              <summary className="cursor-pointer px-3 py-2 font-medium">Brands</summary>
+              <summary className="cursor-pointer px-3 py-2 font-medium">
+                Brands
+              </summary>
               <div className="px-3 py-2 text-sm space-y-1">
                 {brandsInCategory.map((brand) => (
                   <label key={brand} className="block cursor-pointer">
@@ -216,7 +193,9 @@ export default function CategoryPage({ title, description, category }: CategoryP
           {/* Vitolas */}
           {vitolasInCategory.length > 0 && (
             <details ref={vitolaDetailsRef} className="border rounded-lg">
-              <summary className="cursor-pointer px-3 py-2 font-medium">Vitola</summary>
+              <summary className="cursor-pointer px-3 py-2 font-medium">
+                Vitola
+              </summary>
               <div className="px-3 py-2 text-sm space-y-1">
                 {vitolasInCategory.map((vitola) => (
                   <label key={vitola} className="block cursor-pointer">
@@ -241,7 +220,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
             <p className="text-gray-700">{description}</p>
           </section>
 
-          {/* Sorting */}
           <div className="flex justify-end">
             <select
               value={sortOption}
@@ -258,7 +236,6 @@ export default function CategoryPage({ title, description, category }: CategoryP
             </select>
           </div>
 
-          {/* Product Grid */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {paginatedProducts.length > 0 ? (
               paginatedProducts.map((product: any) => (
@@ -273,7 +250,8 @@ export default function CategoryPage({ title, description, category }: CategoryP
                   )}
 
                   <div className="bg-gray-50 p-4 rounded-md">
-                    <Link href={`/${category}/${product.id}`}>
+                    {/* ✅ Correct link */}
+                    <Link href={`/product/${product.id}`}>
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -293,11 +271,12 @@ export default function CategoryPage({ title, description, category }: CategoryP
                 </div>
               ))
             ) : (
-              <p className="text-center text-lg">No products found in {title}.</p>
+              <p className="text-center text-lg">
+                No products found in {title}.
+              </p>
             )}
           </section>
 
-          {/* Pagination Controls */}
           {totalPages > 1 && (
             <div className="flex justify-center space-x-4 mt-8">
               <button
