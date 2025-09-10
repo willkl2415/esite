@@ -44,4 +44,3 @@ if (hasErrors) {
 } else {
   console.log("✅ Audit complete: No issues found.");
 }
-
