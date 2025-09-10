@@ -2,8 +2,11 @@ import { products } from "../app/data/products";
 import { cigarBrands } from "../app/data/products/cigarBrands";
 import { tobaccoBrands } from "../app/data/products/tobaccoBrands";
 
-// ✅ If cigarBrands/tobaccoBrands are arrays of strings, use them directly
-const allowedBrands = [...cigarBrands, ...tobaccoBrands];
+// ✅ Force both arrays into plain string arrays
+const allowedBrands: string[] = [
+  ...(cigarBrands as unknown as string[]),
+  ...(tobaccoBrands as unknown as string[]),
+];
 
 const seen = new Map<string, string[]>();
 let hasErrors = false;
