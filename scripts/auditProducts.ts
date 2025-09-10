@@ -2,19 +2,16 @@ import { products } from "../app/data/products";
 import { cigarBrands } from "../app/data/products/cigarBrands";
 import { tobaccoBrands } from "../app/data/products/tobaccoBrands";
 
-const allowedBrands = [
-  ...cigarBrands.map((b) => b.name),
-  ...tobaccoBrands.map((b) => b.name),
-];
+// ✅ If cigarBrands/tobaccoBrands are arrays of strings, use them directly
+const allowedBrands = [...cigarBrands, ...tobaccoBrands];
 
 const seen = new Map<string, string[]>();
-
 let hasErrors = false;
 
 products.forEach((p) => {
   const issues: string[] = [];
 
-  // Brand must exist
+  // Brand must exist in allowed list
   if (!allowedBrands.includes(p.brand)) {
     issues.push(`❌ Brand "${p.brand}" not in allowed brands`);
   }
