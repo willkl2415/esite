@@ -4,8 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 border-t mt-12">
-      {/* Main Footer */}
+    <footer className="bg-gray-50 border-t mt-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6 py-10">
         {/* Why Shop */}
         <div>
@@ -43,27 +42,24 @@ export default function Footer() {
               placeholder="Your email"
               className="border px-3 py-2 text-sm flex-1 rounded-l"
             />
-            <button
-              type="submit"
-              className="bg-black text-white px-4 rounded-r text-sm"
-            >
+            <button type="submit" className="bg-black text-white px-4 rounded-r text-sm">
               Join
             </button>
           </form>
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Bottom bar */}
       <div className="border-t bg-gray-100 py-4">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 text-xs text-gray-600 space-y-2 md:space-y-0">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 text-xs text-gray-600 gap-2">
           <p>© 2025 Cigar Manor — "Where Connoisseurs of Cool Meet Pleasure"</p>
-          <div className="flex space-x-4">
+          <div className="flex gap-4">
             <Link href="#">X</Link>
             <Link href="#">Facebook</Link>
             <Link href="#">Instagram</Link>
             <Link href="#">LinkedIn</Link>
           </div>
-          <div className="flex space-x-4">
+          <div className="flex gap-4">
             <Link href="/help">Help</Link>
             <Link href="/contact">Contact</Link>
           </div>

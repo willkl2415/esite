@@ -8,33 +8,21 @@ import { siteMetadata } from "./metadata";
 import { CartProvider } from "./context/CartContext";
 import { SearchProvider } from "./context/SearchContext";
 
-// ✅ Import shared components instead of inline versions
 import Header from "./components/Header";
+import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   useEffect(() => {
-    const interval = setInterval(() => {
+    const id = setInterval(() => {
       document
-        .querySelectorAll(
-          ".goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame"
-        )
+        .querySelectorAll(".goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame")
         .forEach((el) => ((el as HTMLElement).style.display = "none"));
     }, 1000);
-
-    return () => clearInterval(interval);
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -47,13 +35,13 @@ export default function RootLayout({
         <CartProvider>
           <SearchProvider>
             <Header />
+            <NavBar />
+
             <main>{children}</main>
 
             {/* Universal Back Home Button */}
             <div className="flex justify-center my-6">
-              <Link href="/" className="primary">
-                Back Home
-              </Link>
+              <Link href="/" className="primary">Back Home</Link>
             </div>
 
             <Footer />
@@ -66,18 +54,12 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               function googleTranslateElementInit() {
-                new google.translate.TranslateElement(
-                  {pageLanguage: 'en'},
-                  'google_translate_element'
-                );
+                new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
               }
             `,
           }}
         />
-        <script
-          type="text/javascript"
-          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        />
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" />
       </body>
     </html>
   );

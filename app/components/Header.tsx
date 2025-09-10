@@ -2,67 +2,84 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { UserIcon, ShoppingCartIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import {
+  UserIcon,
+  ShoppingCartIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import { useCart } from "../context/CartContext";
+import { useSearch } from "../context/SearchContext";
+import LanguageSwitcher from "../language-switcher"; // kept to avoid breaking existing usage
+
+function getLang(): string {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search).get("lang") || "en";
+  }
+  return "en";
+}
 
 export default function Header() {
-  const [showHelp, setShowHelp] = useState(false);
+  const router = useRouter();
+  const { cart } = useCart();
+  const { query, setQuery } = useSearch();
+  const lang = getLang();
+
+  const itemCount = cart.reduce((n, i) => n + i.quantity, 0);
+  const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") router.push(`/category?lang=${lang}`);
+  };
 
   return (
-    <header className="bg-white shadow sticky top-0 z-50">
-      {/* Top Bar */}
-      <div className="flex items-center justify-between px-6 py-3 border-b">
-        {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <Image src="/cigar-manor.png" alt="Cigar Manor Logo" width={80} height={80} />
-        </Link>
+    <header className="bg-white border-b sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto grid grid-cols-3 items-center gap-4 px-6 py-3">
+        {/* Left: Logo */}
+        <div className="flex items-center">
+          <Link href={`/?lang=${lang}`} className="flex items-center">
+            <Image src="/cigar-manor.png" alt="Cigar Manor" width={64} height={64} />
+          </Link>
+        </div>
 
-        {/* Nav */}
-        <nav className="hidden md:flex space-x-6 text-sm font-medium text-gray-800">
-          <Link href="/">Home</Link>
-          <Link href="/about-us">About Us</Link>
-          <Link href="/history">History</Link>
-          <Link href="/awarded-cigars">Awarded Cigars</Link>
-          <Link href="/new-world-cigars">New World Cigars</Link>
-          <Link href="/machine-made-cigars">Machine-Made</Link>
-          <Link href="/flavoured-cigars">Flavoured</Link>
-          <Link href="/samplers">Samplers</Link>
-          <Link href="/accessories">Accessories</Link>
-          <Link href="/gifts">Gifts</Link>
-          <Link href="/promotions">Promotions</Link>
-          <Link href="/sale" className="text-red-600 font-semibold">Sale</Link>
-          <Link href="/loyalty">Loyalty</Link>
-          <Link href="/journal">Journal</Link>
-          <Link href="/my-locker">My Locker</Link>
-
-          {/* Help Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setShowHelp(!showHelp)}
-              className="flex items-center space-x-1"
-            >
-              <span>Help</span>
-              <ChevronDownIcon className="w-4 h-4" />
-            </button>
-            {showHelp && (
-              <div className="absolute top-6 left-0 bg-white border shadow rounded w-40 text-sm p-2">
-                <Link href="/help/shipping" className="block px-2 py-1 hover:bg-gray-100">Shipping</Link>
-                <Link href="/help/returns" className="block px-2 py-1 hover:bg-gray-100">Returns</Link>
-                <Link href="/help/faq" className="block px-2 py-1 hover:bg-gray-100">FAQ</Link>
-              </div>
-            )}
+        {/* Center: Search */}
+        <div className="flex justify-center">
+          <div className="relative w-full max-w-md">
+            <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search for products..."
+              className="w-full pl-10 pr-4 py-2 border rounded-lg"
+            />
           </div>
-        </nav>
+        </div>
 
-        {/* Right Side */}
-        <div className="flex items-center space-x-4">
-          <Link href="/account" className="flex items-center space-x-1">
+        {/* Right: Language / Account / Cart */}
+        <div className="flex justify-end items-center space-x-4">
+          {/* Keep your existing language switcher + Google element hook */}
+          <LanguageSwitcher />
+          <div id="google_translate_element" />
+
+          <Link href={`/account?lang=${lang}`} className="flex items-center space-x-1">
             <UserIcon className="w-5 h-5" />
             <span className="hidden md:inline">Account</span>
           </Link>
-          <Link href="/cart" className="flex items-center space-x-1">
-            <ShoppingCartIcon className="w-5 h-5" />
-            <span className="hidden md:inline">Cart</span>
+
+          <Link href={`/cart?lang=${lang}`} className="relative flex items-center space-x-1">
+            <div className="relative">
+              <ShoppingCartIcon className="w-5 h-5" />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-black text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
+            </div>
+            <span className="hidden md:inline font-medium">
+              {itemCount > 0 ? `£${total.toFixed(2)}` : "£0.00"}
+            </span>
           </Link>
         </div>
       </div>
