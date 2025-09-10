@@ -59,6 +59,7 @@ export default function ProductPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+      {/* Product Image */}
       <div className="flex justify-center items-start">
         <Image
           src={product.image}
@@ -69,6 +70,7 @@ export default function ProductPage() {
         />
       </div>
 
+      {/* Product Info */}
       <div className="flex flex-col justify-start">
         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
 
@@ -86,6 +88,7 @@ export default function ProductPage() {
 
         <p className="text-gray-700 mb-8">{product.description}</p>
 
+        {/* Tobacco Variant Dropdown */}
         {isTobacco ? (
           <div className="flex items-center gap-4 mb-8">
             <label htmlFor="variant" className="font-medium">
@@ -113,3 +116,39 @@ export default function ProductPage() {
               onClick={handleAddToCart}
               className="primary"
               disabled={!variant}
+            >
+              Add to Basket
+            </button>
+          </div>
+        ) : (
+          /* Cigar Quantity Dropdown */
+          <div className="flex items-center gap-4 mb-8">
+            <label htmlFor="quantity" className="font-medium">
+              Quantity:
+            </label>
+            <select
+              id="quantity"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="border rounded px-3 py-2"
+            >
+              {[...Array(10).keys()].map((n) => (
+                <option key={n + 1} value={n + 1}>
+                  {n + 1}
+                </option>
+              ))}
+            </select>
+            <button onClick={handleAddToCart} className="primary">
+              Add to Basket
+            </button>
+          </div>
+        )}
+
+        {/* Back Link */}
+        <Link href="/category" className="secondary">
+          ← Back to A–Z
+        </Link>
+      </div>
+    </div>
+  );
+}
