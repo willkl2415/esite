@@ -214,22 +214,6 @@ export const products: Product[] = [
 
   // === New World Cigars ===
   {
-    id: "trinidad-vigia",
-    name: "Trinidad Vigía",
-    price: 52.0,
-    image: "/trinidad-vigia.png",
-    description:
-      "Elegant and smooth, with rich notes of chocolate, roasted coffee, and leather. One of the most exclusive Cuban cigars.",
-    category: "awarded-cigars",
-    featured: true,
-    badge: "Luxury",
-    brand: "Trinidad",
-    vitola: "Vigía",
-    dateAdded: "2024-09-01",
-    sales: 1200,
-    rating: 4.9,
-    stock: 15, // in stock
-  },
   {
     id: "davidoff-1",
     name: "Davidoff Winston Churchill Toro",
