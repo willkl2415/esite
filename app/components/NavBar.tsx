@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { labels } from "../dictionary";
 
 function getLang(): string {
   if (typeof window !== "undefined") {
@@ -15,34 +14,33 @@ function getLang(): string {
 export default function NavBar() {
   const [open, setOpen] = useState(false);
   const lang = getLang();
-  const t = labels[lang] || labels.en;
 
-  const navItems = [
-    { label: t.home, href: "/" },
-    { label: t.about, href: "/about-us" },
-    { label: t.history, href: "/history" },
-    { label: t.awarded, href: "/awarded-cigars" },
-    { label: t.newWorld, href: "/new-world-cigars" },
-    { label: t.machineMade, href: "/machine-made-cigars" },
-    { label: t.flavoured, href: "/flavoured-cigars" },
-    { label: t.samplers, href: "/samplers" },
-    { label: t.accessories, href: "/accessories" },
-    { label: t.gifts, href: "/gifts" },
-    { label: t.promotions, href: "/promotions" },
-
-    // New additions
-    { label: "Sale", href: "/sale", className: "text-red-600 font-semibold" },
-    { label: "Loyalty", href: "/loyalty" },
-    { label: "Journal", href: "/journal" },
-    { label: "My Locker", href: "/my-locker" },
+  const items = [
+    { label: "HOME", href: "/" },
+    { label: "ABOUT US", href: "/about-us" },
+    { label: "HISTORY", href: "/history" },
+    { label: "A–Z CIGARS", href: "/category" },        // existing route for A–Z
+    { label: "TOBACCO", href: "/hand-rolling" },       // existing route for tobacco
+    { label: "ACCESSORIES", href: "/accessories" },
+    { label: "GIFTS", href: "/gifts" },
+    { label: "PROMOTIONS", href: "/promotions" },
+    { label: "SALE", href: "/sale", className: "text-red-600 font-semibold" },
+    { label: "LOYALTY", href: "/loyalty" },
+    { label: "JOURNAL", href: "/journal" },
+    { label: "MY LOCKER", href: "/my-locker" },
   ];
 
   return (
     <div className="bg-white border-b">
-      <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-        {/* Scrollable list so it never wraps into two rows */}
-        <ul className="flex items-center gap-6 text-sm font-medium text-gray-900 overflow-x-auto whitespace-nowrap">
-          {navItems.map((item) => (
+      <nav className="max-w-7xl mx-auto px-6">
+        <ul
+          className="
+            flex items-center justify-center gap-6 py-3
+            text-[13px] md:text-sm font-semibold text-gray-900
+            whitespace-nowrap
+          "
+        >
+          {items.map((item) => (
             <li key={item.href}>
               <Link
                 href={`${item.href}?lang=${lang}`}
@@ -53,36 +51,29 @@ export default function NavBar() {
             </li>
           ))}
 
-          {/* Help dropdown at the end */}
+          {/* HELP & INFORMATION with dropdown */}
           <li className="relative">
             <button
               onClick={() => setOpen((s) => !s)}
               className="flex items-center gap-1"
+              aria-haspopup="menu"
+              aria-expanded={open}
             >
-              <span>{t.help || "Help"}</span>
+              <span>HELP &amp; INFORMATION</span>
               <ChevronDownIcon className="w-4 h-4" />
             </button>
             {open && (
               <div
-                className="absolute left-0 mt-2 w-44 rounded border bg-white shadow text-sm"
+                className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 rounded border bg-white shadow text-sm"
                 onMouseLeave={() => setOpen(false)}
               >
-                <Link
-                  href={`/help/shipping?lang=${lang}`}
-                  className="block px-3 py-2 hover:bg-gray-100"
-                >
+                <Link href={`/help/shipping?lang=${lang}`} className="block px-3 py-2 hover:bg-gray-100">
                   Shipping
                 </Link>
-                <Link
-                  href={`/help/returns?lang=${lang}`}
-                  className="block px-3 py-2 hover:bg-gray-100"
-                >
+                <Link href={`/help/returns?lang=${lang}`} className="block px-3 py-2 hover:bg-gray-100">
                   Returns
                 </Link>
-                <Link
-                  href={`/help/faq?lang=${lang}`}
-                  className="block px-3 py-2 hover:bg-gray-100"
-                >
+                <Link href={`/help/faq?lang=${lang}`} className="block px-3 py-2 hover:bg-gray-100">
                   FAQ
                 </Link>
               </div>

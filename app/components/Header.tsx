@@ -10,7 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
 import { useSearch } from "../context/SearchContext";
-import LanguageSwitcher from "../language-switcher"; // kept to avoid breaking existing usage
+import LanguageSwitcher from "../language-switcher";
 
 function getLang(): string {
   if (typeof window !== "undefined") {
@@ -35,15 +35,8 @@ export default function Header() {
   return (
     <header className="bg-white border-b sticky top-0 z-50">
       <div className="max-w-7xl mx-auto grid grid-cols-3 items-center gap-4 px-6 py-3">
-        {/* Left: Logo */}
-        <div className="flex items-center">
-          <Link href={`/?lang=${lang}`} className="flex items-center">
-            <Image src="/cigar-manor.png" alt="Cigar Manor" width={64} height={64} />
-          </Link>
-        </div>
-
-        {/* Center: Search */}
-        <div className="flex justify-center">
+        {/* Left: Search */}
+        <div className="flex justify-start">
           <div className="relative w-full max-w-md">
             <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
             <input
@@ -57,11 +50,17 @@ export default function Header() {
           </div>
         </div>
 
+        {/* Center: Logo */}
+        <div className="flex justify-center">
+          <Link href={`/?lang=${lang}`} className="flex items-center">
+            <Image src="/cigar-manor.png" alt="Cigar Manor" width={80} height={80} />
+          </Link>
+        </div>
+
         {/* Right: Language / Account / Cart */}
         <div className="flex justify-end items-center space-x-4">
-          {/* Keep your existing language switcher + Google element hook */}
+          {/* Single language control only */}
           <LanguageSwitcher />
-          <div id="google_translate_element" />
 
           <Link href={`/account?lang=${lang}`} className="flex items-center space-x-1">
             <UserIcon className="w-5 h-5" />
