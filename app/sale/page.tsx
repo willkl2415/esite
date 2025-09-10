@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { products } from "../../data/products";
+import { products } from "../data/products";  // ✅ fixed import
 import Link from "next/link";
 import Image from "next/image";
 
