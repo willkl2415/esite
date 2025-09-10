@@ -214,7 +214,6 @@ export const products: Product[] = [
 
   // === New World Cigars ===
   {
-  {
     id: "davidoff-1",
     name: "Davidoff Winston Churchill Toro",
     price: 45.0,
