@@ -27,12 +27,17 @@ export default function Header() {
     { label: t.accessories, href: "/accessories" },
     { label: t.gifts, href: "/gifts" },
     { label: t.promotions, href: "/promotions" },
+    { label: "Sale", href: "/sale" },          // ✅ New
+    { label: "Loyalty", href: "/loyalty" },    // ✅ New
+    { label: "Journal", href: "/journal" },    // ✅ New
+    { label: "My Locker", href: "/my-locker" },// ✅ New
     { label: t.blog, href: "/blog" },
   ];
 
   return (
     <header>
-      <nav className="flex items-center justify-between px-6 py-4 border-b">
+      {/* Top Nav */}
+      <nav className="flex items-center justify-between px-6 py-4 border-b bg-white">
         <div className="flex items-center space-x-4">
           <Link href="/" className="flex items-center space-x-2">
             <Image src="/logo.png" alt="Logo" width={60} height={60} />
@@ -45,6 +50,7 @@ export default function Header() {
             />
           </div>
         </div>
+
         <ul className="flex space-x-6">
           {navItems.map((item) => (
             <li key={item.href}>
@@ -52,12 +58,23 @@ export default function Header() {
             </li>
           ))}
         </ul>
+
         <div className="flex items-center space-x-4">
           <LanguageSwitcher />
           <UserIcon className="w-6 h-6" />
           <ShoppingCartIcon className="w-6 h-6" />
         </div>
       </nav>
+
+      {/* Help Bar */}
+      <div className="bg-gray-100 text-sm py-2 border-b">
+        <div className="max-w-7xl mx-auto px-6 flex space-x-4">
+          <span className="font-semibold">Help:</span>
+          <Link href={`/help/shipping?lang=${lang}`}>Shipping</Link>
+          <Link href={`/help/returns?lang=${lang}`}>Returns</Link>
+          <Link href={`/help/faq?lang=${lang}`}>FAQ</Link>
+        </div>
+      </div>
     </header>
   );
 }
