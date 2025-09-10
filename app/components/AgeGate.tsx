@@ -3,53 +3,56 @@
 import { useEffect, useState } from "react";
 
 export default function AgeGate() {
-  const [visible, setVisible] = useState(false);
+  const [isVerified, setIsVerified] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const accepted = localStorage.getItem("ageConfirmed");
-    if (!accepted) {
-      setVisible(true);
+    const stored = localStorage.getItem("ageVerified");
+    if (stored === "true") {
+      setIsVerified(true);
     }
   }, []);
 
-  const handleResponse = (isOfAge: boolean) => {
-    if (isOfAge) {
-      localStorage.setItem("ageConfirmed", "true");
-      setVisible(false);
-    } else {
-      window.location.href = "https://www.drinkaware.co.uk/"; // Redirect for underage
-    }
+  const handleYes = () => {
+    localStorage.setItem("ageVerified", "true");
+    setIsVerified(true);
   };
 
-  if (!visible) return null;
+  const handleNo = () => {
+    window.location.href = "https://www.google.com"; // boot them out
+  };
+
+  if (isVerified) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg p-8 text-center max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-4 text-gray-900">
-          Age Restricted Website
-        </h2>
-        <p className="mb-6 text-gray-700">
-          You must be 18 years or over to view this website.
+    <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+      <div className="bg-white border-4 border-red-600 text-center max-w-md mx-auto p-8 rounded-lg shadow-xl">
+        <h1 className="text-2xl font-bold text-red-700 mb-4">
+          🚫 Age Restricted Website
+        </h1>
+        <p className="mb-4 text-gray-800 font-medium">
+          You must be <span className="font-bold">18 years or over</span> to
+          enter this website.
         </p>
-        <div className="flex justify-center gap-6 mb-4">
+        <div className="flex justify-center gap-6 mt-6">
           <button
-            onClick={() => handleResponse(true)}
-            className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition"
+            onClick={handleYes}
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md"
           >
-            Yes
+            I am over 18
           </button>
           <button
-            onClick={() => handleResponse(false)}
-            className="bg-gray-300 text-black px-6 py-2 rounded hover:bg-gray-400 transition"
+            onClick={handleNo}
+            className="bg-gray-300 hover:bg-gray-400 text-black font-semibold px-6 py-2 rounded-lg"
           >
-            No
+            I am under 18
           </button>
         </div>
-        <label className="flex items-center justify-center gap-2 text-sm text-gray-600">
-          <input type="checkbox" defaultChecked disabled />
-          Remember me
-        </label>
+        <div className="mt-4">
+          <label className="flex items-center justify-center text-sm text-gray-600">
+            <input type="checkbox" className="mr-2" defaultChecked />
+            Remember me
+          </label>
+        </div>
       </div>
     </div>
   );
