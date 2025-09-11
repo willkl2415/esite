@@ -5,9 +5,14 @@ import Link from "next/link";
 export default function AccountPage() {
   return (
     <div className="p-10 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-10 text-[#ff9800]">
-        My Account Information
-      </h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-[#ff9800]">
+          My Account Information
+        </h1>
+        <Link href="/login" className="text-sm text-[#ff9800] hover:underline">
+          Existing customers login here
+        </Link>
+      </div>
 
       {/* === Registration Form === */}
       <form className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white shadow-lg rounded-xl p-8 border">
@@ -101,7 +106,7 @@ export default function AccountPage() {
           </div>
         </div>
 
-        {/* Column 3 – Password + Extras */}
+        {/* Column 3 – Password + Newsletter */}
         <div className="space-y-4">
           <h2 className="text-xl font-semibold mb-4">Your Password</h2>
           <div>
@@ -120,17 +125,11 @@ export default function AccountPage() {
               required
             />
           </div>
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" /> Cigar Newsletter
-            </label>
-            <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" /> Whisky Newsletter
-            </label>
-            <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" /> Pipe Tobacco Newsletter
-            </label>
-          </div>
+
+          {/* Single Newsletter Checkbox */}
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" /> Newsletter
+          </label>
 
           {/* reCAPTCHA Placeholder */}
           <div className="border rounded-lg p-4 text-center bg-gray-50">
