@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import GoogleTranslateMenu from "./GoogleTranslateMenu";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -31,6 +32,9 @@ export default function Header() {
 
         {/* Right section */}
         <div className="flex items-center gap-6 relative">
+          {/* Language Selector */}
+          <GoogleTranslateMenu />
+
           {/* Account Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
