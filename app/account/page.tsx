@@ -6,10 +6,13 @@ export default function AccountPage() {
   return (
     <div className="p-10 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-[#ff9800]">
+        <h1 className="text-3xl font-bold text-gray-800">
           My Account Information
         </h1>
-        <Link href="/login" className="text-sm text-[#ff9800] hover:underline">
+        <Link
+          href="/login"
+          className="text-sm font-bold text-black hover:underline"
+        >
           Existing customers login here
         </Link>
       </div>
@@ -23,7 +26,7 @@ export default function AccountPage() {
             <label className="block mb-1">First Name *</label>
             <input
               type="text"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -31,7 +34,7 @@ export default function AccountPage() {
             <label className="block mb-1">Last Name *</label>
             <input
               type="text"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -39,7 +42,7 @@ export default function AccountPage() {
             <label className="block mb-1">Email Address *</label>
             <input
               type="email"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -47,7 +50,7 @@ export default function AccountPage() {
             <label className="block mb-1">Telephone *</label>
             <input
               type="tel"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -55,7 +58,7 @@ export default function AccountPage() {
             <label className="block mb-1">Company</label>
             <input
               type="text"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
             />
           </div>
         </div>
@@ -67,7 +70,7 @@ export default function AccountPage() {
             <label className="block mb-1">Street Address *</label>
             <input
               type="text"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -75,7 +78,7 @@ export default function AccountPage() {
             <label className="block mb-1">City *</label>
             <input
               type="text"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -83,7 +86,7 @@ export default function AccountPage() {
             <label className="block mb-1">County / State *</label>
             <input
               type="text"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -91,13 +94,13 @@ export default function AccountPage() {
             <label className="block mb-1">Post Code *</label>
             <input
               type="text"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
           <div>
             <label className="block mb-1">Country *</label>
-            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]">
+            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black">
               <option value="">Select Country</option>
               <option value="UK">United Kingdom</option>
               <option value="US">United States</option>
@@ -113,7 +116,7 @@ export default function AccountPage() {
             <label className="block mb-1">Password *</label>
             <input
               type="password"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -121,7 +124,7 @@ export default function AccountPage() {
             <label className="block mb-1">Confirm Password *</label>
             <input
               type="password"
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#ff9800]"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -138,18 +141,18 @@ export default function AccountPage() {
 
           <div className="text-sm">
             By creating an account, you agree to our{" "}
-            <Link href="#" className="text-[#ff9800] hover:underline">
+            <Link href="#" className="text-black font-medium hover:underline">
               Terms and Conditions
             </Link>{" "}
             and{" "}
-            <Link href="#" className="text-[#ff9800] hover:underline">
+            <Link href="#" className="text-black font-medium hover:underline">
               Privacy Policy
             </Link>
             .
           </div>
           <button
             type="submit"
-            className="w-full bg-[#ff9800] text-black py-2 rounded-lg hover:bg-black hover:text-white transition"
+            className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition"
           >
             Continue
           </button>
