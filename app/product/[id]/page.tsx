@@ -73,7 +73,7 @@ export default function ProductPage() {
 
   const mainImage = activeImage || product.image;
 
-  // Reward points calculation (example: 10 points per £1, 1 point = £0.01)
+  // Reward points calculation (10 points per £1, 1 point = £0.01)
   const rewardPoints = Math.round(Number(product.price) * 10);
   const rewardValue = (rewardPoints / 100).toFixed(2);
 
@@ -200,7 +200,7 @@ export default function ProductPage() {
             </div>
           )}
 
-          {/* Action Buttons */}
+          {/* Action Buttons (simplified) */}
           <div className="flex flex-col gap-3 mb-6">
             <button
               onClick={handleAddToCart}
@@ -209,20 +209,9 @@ export default function ProductPage() {
             >
               Add to Cart
             </button>
-            <button className="w-full bg-gray-800 text-white py-3 rounded-lg font-medium">
-              Add to Subscription
-            </button>
             <button className="w-full bg-gray-600 text-white py-3 rounded-lg font-medium">
               Add to Wishlist
             </button>
-            <button className="w-full bg-yellow-600 text-white py-3 rounded-lg font-medium">
-              Write a Review
-            </button>
-          </div>
-
-          {/* Membership Promo */}
-          <div className="text-sm text-gray-700 border rounded p-3 mb-4 bg-gray-50">
-            <strong>Join Cigar Manor Club</strong> for perks, points & discounts
           </div>
 
           <Link href="/category" className="secondary">
