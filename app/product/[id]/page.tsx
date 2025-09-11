@@ -19,6 +19,7 @@ export default function ProductPage() {
 
   const [quantity, setQuantity] = useState(1);
   const [variant, setVariant] = useState<Variant | null>(null);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const { addToCart } = useCart();
   const { setQuery } = useSearch();
@@ -57,7 +58,6 @@ export default function ProductPage() {
     }
   };
 
-  // Stock message
   const renderStockStatus = () => {
     if (product.stock === 0) return <p className="text-red-600">Out of Stock</p>;
     if (product.stock === "preorder")
@@ -65,29 +65,61 @@ export default function ProductPage() {
     return <p className="text-green-600">In Stock</p>;
   };
 
-  // Pick 3 upsell products (exclude current)
   const upsell = products
     .filter((p) => p.id !== product.id)
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
+  const mainImage = activeImage || product.image;
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Product Image */}
-        <div className="flex justify-center items-start">
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={400}
-            height={600}
-            className="rounded-lg shadow-lg object-contain"
-          />
+        {/* Left: Image Gallery */}
+        <div>
+          <div className="flex justify-center mb-4">
+            <Image
+              src={mainImage}
+              alt={product.name}
+              width={500}
+              height={700}
+              className="rounded-lg shadow-lg object-contain"
+            />
+          </div>
+          <div className="flex gap-3 justify-center">
+            {[product.image, ...(product.gallery || [])].map((img, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveImage(img)}
+                className={`border rounded p-1 ${
+                  mainImage === img ? "border-black" : "border-gray-300"
+                }`}
+              >
+                <Image
+                  src={img}
+                  alt={`${product.name} thumbnail ${idx + 1}`}
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                />
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Product Info */}
-        <div className="flex flex-col justify-start">
-          <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
+        {/* Right: Product Info */}
+        <div className="flex flex-col">
+          <h1 className="text-4xl font-bold mb-2">{product.name}</h1>
+
+          {/* Rating + Reviews placeholder */}
+          {product.rating && (
+            <div className="flex items-center gap-2 mb-3 text-sm text-gray-600">
+              <span>⭐ {product.rating.toFixed(1)} / 5</span>
+              <Link href="#" className="underline">
+                Write a Review
+              </Link>
+            </div>
+          )}
 
           {/* Price */}
           {!isTobacco ? (
@@ -102,19 +134,15 @@ export default function ProductPage() {
             <p className="text-lg text-gray-600 mb-2">Select a weight option</p>
           )}
 
-          {/* Stock */}
-          <div className="mb-4">{renderStockStatus()}</div>
-
-          {/* Free Delivery */}
+          {/* Stock + Delivery */}
+          <div className="mb-1">{renderStockStatus()}</div>
           <p className="text-sm text-gray-500 mb-6">
             Free Delivery on orders over <strong>£xx</strong>
           </p>
 
-          <p className="text-gray-700 mb-8">{product.description}</p>
-
-          {/* Tobacco Variant Dropdown */}
+          {/* Variant or Quantity */}
           {isTobacco ? (
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-6">
               <label htmlFor="variant" className="font-medium">
                 Weight:
               </label>
@@ -138,8 +166,7 @@ export default function ProductPage() {
               </select>
             </div>
           ) : (
-            /* Cigar Quantity Dropdown */
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-6">
               <label htmlFor="quantity" className="font-medium">
                 Quantity:
               </label>
@@ -178,14 +205,35 @@ export default function ProductPage() {
             </button>
           </div>
 
-          {/* Back Link */}
           <Link href="/category" className="secondary">
             ← Back to A–Z
           </Link>
         </div>
       </div>
 
-      {/* Upsell Section */}
+      {/* Description & Tasting Notes */}
+      <div className="mt-12 space-y-8">
+        <div className="border rounded-lg p-6 shadow-sm bg-white">
+          <h2 className="text-xl font-bold mb-4">Description</h2>
+          <p className="text-gray-700 whitespace-pre-line">
+            {product.description || "No description available."}
+          </p>
+        </div>
+
+        <div className="border rounded-lg p-6 shadow-sm bg-white">
+          <h2 className="text-xl font-bold mb-4">Tasting Notes</h2>
+          {product.tastingScore && (
+            <p className="font-semibold mb-2">
+              Score: {product.tastingScore} / 100
+            </p>
+          )}
+          <p className="text-gray-700 whitespace-pre-line">
+            {product.tastingNotes || "No tasting notes available."}
+          </p>
+        </div>
+      </div>
+
+      {/* Related Products */}
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6">You may also like</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
