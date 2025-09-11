@@ -21,6 +21,7 @@ export interface Product {
   stock: StockStatus;
   gallery?: string[];
   tastingNotes?: string;
+  tastingScore?: number;
 }
 
 
@@ -43,7 +44,8 @@ export const products: Product[] = [
     rating: 4.7,
     stock: 23, // in stock
     gallery: ["/bolivar-1a.png", "/bolivar-1b.png"],
-    tastingNotes: "Earthy, cocoa, spice — bold and full-bodied."
+    tastingNotes: "Earthy, cocoa, spice — bold and full-bodied.",
+    tastingScore: 92
   },
   {
     id: "cohiba-robusto",
