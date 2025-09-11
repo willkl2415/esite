@@ -19,6 +19,8 @@ export interface Product {
   sales: number;
   rating: number;
   stock: StockStatus;
+  gallery?: string[];
+  tastingNotes?: string;
 }
 
 
@@ -40,6 +42,8 @@ export const products: Product[] = [
     sales: 1200,
     rating: 4.7,
     stock: 23, // in stock
+    gallery: ["/bolivar-1a.png", "/bolivar-1b.png"],
+    tastingNotes: "Earthy, cocoa, spice — bold and full-bodied."
   },
   {
     id: "cohiba-robusto",
@@ -57,6 +61,8 @@ export const products: Product[] = [
     sales: 2100,
     rating: 4.9,
     stock: 0, // out of stock
+    gallery: ["/cohiba-robusto-1.png", "/cohiba-robusto-2.png"],
+    tastingNotes: "Creamy, cedar, leather, spice — benchmark Cuban profile."
   },
   {
     id: "cuaba-salomon",
