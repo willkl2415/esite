@@ -109,21 +109,37 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Two Lifestyle Images */}
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-6 mt-8">
-          <div className="relative w-full md:w-2/5 h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-md">
+        {/* Four Lifestyle Images */}
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+          <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
             <Image
-              src="/cigar-15.png"
-              alt="Cigar close-up"
+              src="/new-2.png"
+              alt="New 2"
               fill
               className="object-cover"
               priority
             />
           </div>
-          <div className="relative w-full md:w-2/5 h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-md">
+          <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
+            <Image
+              src="/cigar-15.png"
+              alt="Cigar 15"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
+            <Image
+              src="/cigar-guide-4.png"
+              alt="Cigar Guide 4"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
             <Image
               src="/f-30.png"
-              alt="Cigar lifestyle"
+              alt="F 30"
               fill
               className="object-cover"
             />
