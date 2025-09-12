@@ -16,7 +16,8 @@ export default function GoogleTranslateMenu() {
         new (window as any).google.translate.TranslateElement(
           {
             pageLanguage: "en",
-            layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
+            layout: (window as any).google.translate.TranslateElement
+              .InlineLayout.SIMPLE,
           },
           "google_translate_element"
         );
@@ -33,15 +34,22 @@ export default function GoogleTranslateMenu() {
           .goog-te-menu2 {
             max-height: 400px !important;
             width: 220px !important;
-            overflow-y: scroll !important;
-            white-space: nowrap !important;
-            display: block !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            white-space: normal !important;
           }
-          .goog-te-menu2 * {
+          .goog-te-menu2 table,
+          .goog-te-menu2 tr,
+          .goog-te-menu2 td {
+            display: block !important;
+            width: 100% !important;
+          }
+          .goog-te-menu2 a {
             display: block !important;
             text-align: left !important;
             font-size: 14px !important;
             line-height: 1.5 !important;
+            padding: 4px 8px !important;
           }
         `;
         const doc = iframe.contentDocument;
