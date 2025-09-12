@@ -24,6 +24,38 @@ export default function GoogleTranslateMenu() {
       }
     };
     addScript();
+
+    // Fix inside iframe after widget loads
+    const interval = setInterval(() => {
+      const iframe: HTMLIFrameElement | null = document.querySelector(
+        ".goog-te-menu-frame.skiptranslate"
+      );
+      if (iframe && iframe.contentDocument) {
+        const styleTag = iframe.contentDocument.createElement("style");
+        styleTag.innerHTML = `
+          * {
+            font-family: Arial, sans-serif !important;
+          }
+          .goog-te-menu2 {
+            max-width: 220px !important;
+            width: 100% !important;
+          }
+          .goog-te-menu2-item div,
+          .goog-te-menu2-item:link div,
+          .goog-te-menu2-item:visited div,
+          .goog-te-menu2-item:active div {
+            white-space: nowrap !important;
+            display: block !important;
+          }
+        `;
+        if (!iframe.contentDocument.head.querySelector("style")) {
+          iframe.contentDocument.head.appendChild(styleTag);
+          clearInterval(interval);
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -40,32 +72,15 @@ export default function GoogleTranslateMenu() {
           font-size: 0 !important;
         }
 
-        /* Force dropdown into single column */
         .goog-te-combo {
-          display: inline-block !important;
-          margin: 0 !important;
-          padding: 6px 12px !important;
-          border: 1px solid #000 !important;
-          border-radius: 6px !important;
+          margin: 0;
+          padding: 6px 12px;
+          border: 1px solid #000;
+          border-radius: 6px;
           font-size: 14px !important;
           font-weight: 600 !important;
-          background: #fff !important;
-          cursor: pointer !important;
-          width: auto !important;
-          min-width: 160px !important;
-        }
-
-        /* Override multi-column list */
-        .goog-te-menu2 {
-          max-width: 220px !important;
-          width: auto !important;
-        }
-
-        .goog-te-menu2-item div,
-        .goog-te-menu2-item:link div,
-        .goog-te-menu2-item:visited div,
-        .goog-te-menu2-item:active div {
-          white-space: nowrap !important;
+          background: #fff;
+          cursor: pointer;
         }
       `}</style>
     </>
