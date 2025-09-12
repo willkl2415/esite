@@ -75,6 +75,11 @@ footer {
   line-height: 0 !important;
 }
 
+/* ✅ Hide stray "Translate" text */
+#google_translate_element .goog-te-gadget span {
+  display: none !important;
+}
+
 #google_translate_element .goog-te-gadget .goog-te-gadget-simple,
 #google_translate_element .goog-te-gadget .goog-te-combo {
   font-size: 14px !important;
