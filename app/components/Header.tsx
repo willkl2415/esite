@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import GoogleTranslateMenu from "./GoogleTranslateMenu";
 
@@ -25,13 +26,33 @@ export default function Header() {
   return (
     <header className="w-full bg-white border-b">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        {/* Logo */}
-        <Link href="/" className="text-xl font-bold">
-          Cigar Manor
-        </Link>
+        {/* Left side - Search bar */}
+        <div className="w-1/3 flex items-center">
+          <form action="/search" method="get" className="w-full">
+            <input
+              type="text"
+              name="q"
+              placeholder="Search cigars, brands, accessories..."
+              className="w-full border border-gray-400 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+            />
+          </form>
+        </div>
+
+        {/* Center logo */}
+        <div className="w-1/3 flex justify-center">
+          <Link href="/" aria-label="Cigar Manor Home">
+            <Image
+              src="/cigar-manor.png"
+              alt="Cigar Manor"
+              width={180}
+              height={60}
+              priority
+            />
+          </Link>
+        </div>
 
         {/* Right section */}
-        <div className="flex items-center gap-6 relative">
+        <div className="w-1/3 flex items-center justify-end gap-6 relative">
           {/* Language Selector */}
           <GoogleTranslateMenu />
 
