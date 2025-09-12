@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 type Lang = { code: string; label: string };
 
+// Full language set — expanded beyond 9
 const LANGS: Lang[] = [
   { code: "en", label: "English" },
   { code: "es", label: "Spanish" },
@@ -14,13 +15,47 @@ const LANGS: Lang[] = [
   { code: "zh-TW", label: "Chinese (Traditional)" },
   { code: "ja", label: "Japanese" },
   { code: "ko", label: "Korean" },
+  { code: "it", label: "Italian" },
+  { code: "pt", label: "Portuguese" },
+  { code: "ru", label: "Russian" },
+  { code: "hi", label: "Hindi" },
+  { code: "bn", label: "Bengali" },
+  { code: "ur", label: "Urdu" },
+  { code: "fa", label: "Persian" },
+  { code: "tr", label: "Turkish" },
+  { code: "nl", label: "Dutch" },
+  { code: "pl", label: "Polish" },
+  { code: "sv", label: "Swedish" },
+  { code: "fi", label: "Finnish" },
+  { code: "el", label: "Greek" },
+  { code: "he", label: "Hebrew" },
+  { code: "id", label: "Indonesian" },
+  { code: "ms", label: "Malay" },
+  { code: "th", label: "Thai" },
+  { code: "vi", label: "Vietnamese" },
+  { code: "uk", label: "Ukrainian" },
+  { code: "cs", label: "Czech" },
+  { code: "ro", label: "Romanian" },
+  { code: "hu", label: "Hungarian" },
+  { code: "sr", label: "Serbian" },
+  { code: "bg", label: "Bulgarian" },
+  { code: "hr", label: "Croatian" },
+  { code: "sl", label: "Slovenian" },
+  { code: "sk", label: "Slovak" },
+  { code: "et", label: "Estonian" },
+  { code: "lv", label: "Latvian" },
+  { code: "lt", label: "Lithuanian" },
+  { code: "af", label: "Afrikaans" },
+  { code: "sw", label: "Swahili" },
+  { code: "zu", label: "Zulu" },
+  // … you can extend this list further if needed
 ];
 
 export default function GoogleTranslateMenu() {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  // Load Google Translate once
+  // Load Google Translate script once
   useEffect(() => {
     if (document.getElementById("google-translate-script")) return;
 
@@ -35,15 +70,24 @@ export default function GoogleTranslateMenu() {
         {
           pageLanguage: "en",
           autoDisplay: false,
+          includedLanguages: LANGS.map((l) => l.code).join(","),
+          layout: (window as any).google.translate.TranslateElement
+            .InlineLayout.SIMPLE,
         },
         "google_translate_element"
       );
     };
   }, []);
 
-  // Always clear Google's persistent cookie so default is English
+  // Always reset cookies + banner to enforce English default
   useEffect(() => {
-    document.cookie = "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
+    const expire = "Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = `googtrans=;expires=${expire};path=/;`;
+    document.cookie = `googtrans=;expires=${expire};path=/;domain=.${location.hostname}`;
+    try {
+      localStorage.removeItem("googtrans");
+    } catch {}
+
     const iframe = document.querySelector<HTMLIFrameElement>(
       ".goog-te-banner-frame"
     );
@@ -70,6 +114,11 @@ export default function GoogleTranslateMenu() {
     setOpen(false);
   };
 
+  const resetToEnglish = () => {
+    switchLang("en");
+    location.reload();
+  };
+
   return (
     <div ref={rootRef} className="relative">
       <div id="google_translate_element" style={{ display: "none" }} />
@@ -93,6 +142,12 @@ export default function GoogleTranslateMenu() {
               {l.label}
             </button>
           ))}
+          <button
+            onClick={resetToEnglish}
+            className="w-full text-left px-4 py-2 font-semibold text-red-600 hover:bg-gray-100"
+          >
+            Reset to English
+          </button>
         </div>
       )}
 

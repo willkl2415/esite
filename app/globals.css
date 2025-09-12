@@ -65,7 +65,24 @@ footer {
   padding: 1.5rem;
 }
 
-/* Google Translate widget styling */
+/* ————————————————————————————————
+   ✅ Google Translate overrides
+   ———————————————————————————————— */
+
+/* Kill the intrusive top banner, tooltip balloons, and logo */
+.goog-te-banner-frame,
+.goog-te-balloon-frame,
+#goog-gt-tt {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+.goog-logo-link {
+  display: none !important;
+}
+
+/* Widget container styling */
 #google_translate_element {
   display: inline-block !important;
 }
@@ -75,7 +92,7 @@ footer {
   line-height: 0 !important;
 }
 
-/* ✅ Hide stray "Translate" text */
+/* ✅ Hide stray "Translate" label */
 #google_translate_element .goog-te-gadget span {
   display: none !important;
 }
@@ -127,9 +144,9 @@ footer {
   display: none !important;
 }
 
-#google_translate_element .goog-logo-link {
-  display: none !important;
-}
+/* ————————————————————————————————
+   ✅ Layout / Utility fixes
+   ———————————————————————————————— */
 
 /* Anchor scroll offset fix */
 html {
