@@ -4,53 +4,52 @@ import { useEffect } from "react";
 
 export default function GoogleTranslateMenu() {
   useEffect(() => {
-    const addScript = () => {
-      if (!document.getElementById("google-translate-script")) {
-        const script = document.createElement("script");
-        script.id = "google-translate-script";
-        script.src =
-          "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-        document.body.appendChild(script);
+    // Load Google Translate script if not already present
+    if (!document.getElementById("google-translate-script")) {
+      const script = document.createElement("script");
+      script.id = "google-translate-script";
+      script.src =
+        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      document.body.appendChild(script);
 
-        (window as any).googleTranslateElementInit = () => {
-          new (window as any).google.translate.TranslateElement(
-            {
-              pageLanguage: "en",
-              layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
-            },
-            "google_translate_element"
-          );
-        };
-      }
-    };
-    addScript();
+      (window as any).googleTranslateElementInit = () => {
+        new (window as any).google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
+          },
+          "google_translate_element"
+        );
+      };
+    }
 
-    // Fix inside iframe after widget loads
+    // Interval to continuously inject CSS into iframe
     const interval = setInterval(() => {
       const iframe: HTMLIFrameElement | null = document.querySelector(
         ".goog-te-menu-frame.skiptranslate"
       );
       if (iframe && iframe.contentDocument) {
-        const styleTag = iframe.contentDocument.createElement("style");
-        styleTag.innerHTML = `
-          * {
-            font-family: Arial, sans-serif !important;
-          }
+        const css = `
           .goog-te-menu2 {
-            max-width: 220px !important;
-            width: 100% !important;
-          }
-          .goog-te-menu2-item div,
-          .goog-te-menu2-item:link div,
-          .goog-te-menu2-item:visited div,
-          .goog-te-menu2-item:active div {
+            max-height: 400px !important;
+            width: 220px !important;
+            overflow-y: scroll !important;
             white-space: nowrap !important;
             display: block !important;
           }
+          .goog-te-menu2 * {
+            display: block !important;
+            text-align: left !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+          }
         `;
-        if (!iframe.contentDocument.head.querySelector("style")) {
-          iframe.contentDocument.head.appendChild(styleTag);
-          clearInterval(interval);
+        const doc = iframe.contentDocument;
+        if (!doc.getElementById("force-vertical-style")) {
+          const style = doc.createElement("style");
+          style.id = "force-vertical-style";
+          style.innerHTML = css;
+          doc.head.appendChild(style);
         }
       }
     }, 1000);
@@ -62,16 +61,15 @@ export default function GoogleTranslateMenu() {
     <>
       <div id="google_translate_element" className="notranslate"></div>
       <style jsx global>{`
-        /* Hide Google branding */
+        /* Remove branding */
         .goog-logo-link,
         .goog-te-gadget img {
           display: none !important;
         }
-
         .goog-te-gadget {
           font-size: 0 !important;
         }
-
+        /* Style dropdown button */
         .goog-te-combo {
           margin: 0;
           padding: 6px 12px;
