@@ -88,8 +88,10 @@ export default function Header() {
 
         {/* Right section */}
         <div className="w-1/3 flex items-center justify-end gap-6 relative">
-          {/* Language Selector */}
-          <GoogleTranslateMenu />
+          {/* Language Selector - ensure visible */}
+          <div className="min-w-[180px]">
+            <GoogleTranslateMenu />
+          </div>
 
           {/* Account Dropdown */}
           <div className="relative" ref={dropdownRef}>
