@@ -16,15 +16,16 @@ export default function GoogleTranslateMenu() {
         new (window as any).google.translate.TranslateElement(
           {
             pageLanguage: "en",
-            layout: (window as any).google.translate.TranslateElement
-              .InlineLayout.SIMPLE,
+            layout:
+              (window as any).google.translate.TranslateElement.InlineLayout
+                .SIMPLE,
           },
           "google_translate_element"
         );
       };
     }
 
-    // Interval to continuously inject CSS into iframe
+    // Interval to inject CSS into the iframe for vertical menu
     const interval = setInterval(() => {
       const iframe: HTMLIFrameElement | null = document.querySelector(
         ".goog-te-menu-frame.skiptranslate"
@@ -69,15 +70,18 @@ export default function GoogleTranslateMenu() {
     <>
       <div id="google_translate_element" className="notranslate"></div>
       <style jsx global>{`
-        /* Remove branding */
+        /* Hide branding */
         .goog-logo-link,
         .goog-te-gadget img {
           display: none !important;
         }
+
+        /* Keep dropdown compact */
         .goog-te-gadget {
           font-size: 0 !important;
         }
-        /* Style dropdown button */
+
+        /* Style select box */
         .goog-te-combo {
           margin: 0;
           padding: 6px 12px;
