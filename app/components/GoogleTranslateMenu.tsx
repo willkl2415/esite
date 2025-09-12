@@ -39,7 +39,9 @@ export default function GoogleTranslateMenu() {
             overflow-x: hidden !important;
             white-space: normal !important;
           }
-          .goog-te-menu2 table,
+          .goog-te-menu2 table {
+            width: 100% !important;
+          }
           .goog-te-menu2 tr,
           .goog-te-menu2 td {
             display: block !important;
