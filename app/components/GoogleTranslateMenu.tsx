@@ -34,7 +34,7 @@ export default function GoogleTranslateMenu() {
         const css = `
           .goog-te-menu2 {
             max-height: 400px !important;
-            width: 220px !important;
+            width: 240px !important;
             overflow-y: auto !important;
             overflow-x: hidden !important;
             white-space: normal !important;
@@ -50,7 +50,7 @@ export default function GoogleTranslateMenu() {
             text-align: left !important;
             font-size: 14px !important;
             line-height: 1.5 !important;
-            padding: 4px 8px !important;
+            padding: 6px 10px !important;
           }
         `;
         const doc = iframe.contentDocument;
