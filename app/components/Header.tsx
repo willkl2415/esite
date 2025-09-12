@@ -4,12 +4,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import GoogleTranslateMenu from "./GoogleTranslateMenu";
+import { products } from "@/app/data/products";
+
+type Product = {
+  id: string;
+  name: string;
+  category: string;
+};
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Product[]>([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // Close dropdown when clicking outside
+  // Close account dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -23,19 +32,45 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Live filter products
+  useEffect(() => {
+    if (query.trim().length < 2) {
+      setResults([]);
+      return;
+    }
+    const q = query.toLowerCase();
+    const filtered = products.filter((p) =>
+      p.name.toLowerCase().includes(q)
+    );
+    setResults(filtered.slice(0, 8)); // show top 8 matches
+  }, [query]);
+
   return (
     <header className="w-full bg-white border-b">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Left side - Search bar */}
-        <div className="w-1/3 flex items-center">
-          <form action="/search" method="get" className="w-full">
-            <input
-              type="text"
-              name="q"
-              placeholder="Search cigars, brands, accessories..."
-              className="w-full border border-gray-400 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-            />
-          </form>
+        <div className="w-1/3 relative">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search cigars, brands, accessories..."
+            className="w-full border border-gray-400 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+          />
+          {results.length > 0 && (
+            <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+              {results.map((p) => (
+                <Link
+                  key={p.id}
+                  href={`/products/${p.id}`}
+                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                  onClick={() => setQuery("")}
+                >
+                  {p.name}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Center logo */}
