@@ -30,26 +30,42 @@ export default function GoogleTranslateMenu() {
     <>
       <div id="google_translate_element" className="notranslate"></div>
       <style jsx global>{`
-        /* Hide Google branding ONLY */
+        /* Hide Google branding */
         .goog-logo-link,
         .goog-te-gadget img {
           display: none !important;
         }
 
-        /* Keep dropdown visible */
         .goog-te-gadget {
-          font-size: 0 !important; /* removes extra text */
+          font-size: 0 !important;
         }
 
+        /* Force dropdown into single column */
         .goog-te-combo {
-          margin: 0;
-          padding: 6px 10px;
-          border: 1px solid #000;
-          border-radius: 6px;
+          display: inline-block !important;
+          margin: 0 !important;
+          padding: 6px 12px !important;
+          border: 1px solid #000 !important;
+          border-radius: 6px !important;
           font-size: 14px !important;
-          font-weight: 600;
-          background: #fff;
-          cursor: pointer;
+          font-weight: 600 !important;
+          background: #fff !important;
+          cursor: pointer !important;
+          width: auto !important;
+          min-width: 160px !important;
+        }
+
+        /* Override multi-column list */
+        .goog-te-menu2 {
+          max-width: 220px !important;
+          width: auto !important;
+        }
+
+        .goog-te-menu2-item div,
+        .goog-te-menu2-item:link div,
+        .goog-te-menu2-item:visited div,
+        .goog-te-menu2-item:active div {
+          white-space: nowrap !important;
         }
       `}</style>
     </>
