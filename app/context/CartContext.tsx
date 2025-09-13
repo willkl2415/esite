@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { products } from "@/app/data/products";
 
 type CartItem = {
   id: string;
@@ -9,17 +8,12 @@ type CartItem = {
   price: number;
   image: string;
   quantity: number;
-  variant?: string; // ✅ New: for tobacco weights/sizes
+  variant?: string;
 };
 
 type CartContextType = {
   cart: CartItem[];
-  addToCart: (
-    id: string,
-    quantity: number,
-    variant?: string,
-    priceOverride?: number
-  ) => void;
+  addToCart: (item: CartItem) => void;
   removeFromCart: (id: string, variant?: string) => void;
   updateQuantity: (id: string, quantity: number, variant?: string) => void;
 };
@@ -29,52 +23,27 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  const addToCart = (
-    id: string,
-    quantity: number,
-    variant?: string,
-    priceOverride?: number
-  ) => {
-    const product = products.find((p) => p.id === id);
-    if (!product) return;
-
+  const addToCart = (item: CartItem) => {
     setCart((prev) => {
       const existing = prev.find(
-        (item) => item.id === id && item.variant === variant
+        (p) => p.id === item.id && p.variant === item.variant
       );
 
       if (existing) {
-        // ✅ If same product + same variant exists → increase quantity
-        return prev.map((item) =>
-          item.id === id && item.variant === variant
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+        return prev.map((p) =>
+          p.id === item.id && p.variant === item.variant
+            ? { ...p, quantity: p.quantity + item.quantity }
+            : p
         );
       }
 
-      // ✅ Otherwise add a new line item
-      return [
-        ...prev,
-        {
-          id: product.id,
-          name: product.name,
-          price:
-            typeof priceOverride === "number"
-              ? priceOverride
-              : (product.price as number),
-          image: product.image,
-          quantity,
-          variant,
-        },
-      ];
+      return [...prev, item];
     });
   };
 
   const removeFromCart = (id: string, variant?: string) => {
     setCart((prev) =>
-      prev.filter(
-        (item) => !(item.id === id && item.variant === variant)
-      )
+      prev.filter((item) => !(item.id === id && item.variant === variant))
     );
   };
 
