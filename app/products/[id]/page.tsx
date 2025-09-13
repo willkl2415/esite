@@ -14,6 +14,7 @@ const toNumber = (v: number | string): number =>
   typeof v === "number"
     ? v
     : parseFloat(String(v).replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
+
 const gbp = (n: number) => `£${n.toFixed(2)}`;
 
 export default function ProductPage() {
@@ -40,6 +41,7 @@ export default function ProductPage() {
   }
 
   const isTobacco = product.category === "hand-rolling";
+
   const tobaccoVariants: Variant[] = [
     { label: "30g", price: 21.0 },
     { label: "50g", price: 35.0 },
@@ -51,15 +53,14 @@ export default function ProductPage() {
   const basePrice = toNumber((product as any).price);
   const chosenPrice = isTobacco ? variant?.price || 0 : basePrice;
 
+  // ✅ FIX: align with CartContext signature (id, quantity, [variant, price])
   const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: chosenPrice || basePrice,
-      image: product.image,
-      quantity,
-      variant: variant?.label,
-    });
+    if (isTobacco) {
+      if (!variant) return;
+      addToCart(product.id, quantity, variant.label, variant.price);
+    } else {
+      addToCart(product.id, quantity);
+    }
   };
 
   const handleAddToWishlist = () => {
@@ -95,13 +96,29 @@ export default function ProductPage() {
         {/* Images */}
         <div>
           <div className="flex justify-center mb-4">
-            <Image src={mainImage} alt={product.name} width={500} height={700} className="rounded-lg shadow-lg object-contain bg-white" />
+            <Image
+              src={mainImage}
+              alt={product.name}
+              width={500}
+              height={700}
+              className="rounded-lg shadow-lg object-contain bg-white"
+            />
           </div>
           <div className="flex gap-3 justify-center">
             {gallery.map((img, idx) => (
-              <button key={idx} type="button" onClick={() => setActiveImage(img)}
-                className={`border rounded p-1 ${mainImage === img ? "border-black" : "border-gray-300"}`}>
-                <Image src={img} alt={`${product.name} thumbnail ${idx+1}`} width={80} height={80} className="object-contain" />
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setActiveImage(img)}
+                className={`border rounded p-1 ${mainImage === img ? "border-black" : "border-gray-300"}`}
+              >
+                <Image
+                  src={img}
+                  alt={`${product.name} thumbnail ${idx + 1}`}
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                />
               </button>
             ))}
           </div>
@@ -111,32 +128,55 @@ export default function ProductPage() {
         <div>
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
           <p className="text-2xl font-semibold mb-1">{gbp(chosenPrice || basePrice)}</p>
-          <p className="text-sm text-green-600 mb-4">Buy and earn {rewardPoints} points valued at £{rewardValue}</p>
+          <p className="text-sm text-green-600 mb-4">
+            Buy and earn {rewardPoints} points valued at £{rewardValue}
+          </p>
 
           {/* Quantity / Variants */}
           {isTobacco ? (
-            <select value={variant?.label || ""} onChange={(e) => {
-              const v = tobaccoVariants.find((t) => t.label === e.target.value) || null;
-              setVariant(v);
-            }} className="border rounded px-3 py-2 mb-4">
+            <select
+              value={variant?.label || ""}
+              onChange={(e) => {
+                const v = tobaccoVariants.find((t) => t.label === e.target.value) || null;
+                setVariant(v);
+              }}
+              className="border rounded px-3 py-2 mb-4"
+            >
               <option value="">Choose weight</option>
-              {tobaccoVariants.map((v) => <option key={v.label} value={v.label}>{v.label}</option>)}
+              {tobaccoVariants.map((v) => (
+                <option key={v.label} value={v.label}>
+                  {v.label}
+                </option>
+              ))}
             </select>
           ) : (
-            <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}
-              className="border rounded px-3 py-2 mb-4">
-              {[...Array(10).keys()].map((n) => <option key={n+1} value={n+1}>{n+1}</option>)}
+            <select
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="border rounded px-3 py-2 mb-4"
+            >
+              {[...Array(10).keys()].map((n) => (
+                <option key={n + 1} value={n + 1}>
+                  {n + 1}
+                </option>
+              ))}
             </select>
           )}
 
           {/* Buttons */}
-          <button type="button" onClick={handleAddToCart}
+          <button
+            type="button"
+            onClick={handleAddToCart}
             disabled={isTobacco && !variant}
-            className="w-full bg-blue-900 text-white py-3 rounded-lg mb-3 hover:bg-blue-700 disabled:opacity-50">
+            className="w-full bg-blue-900 text-white py-3 rounded-lg mb-3 hover:bg-blue-700 disabled:opacity-50"
+          >
             Add to Cart
           </button>
-          <button type="button" onClick={handleAddToWishlist}
-            className="w-full bg-gray-600 text-white py-3 rounded-lg">
+          <button
+            type="button"
+            onClick={handleAddToWishlist}
+            className="w-full bg-gray-600 text-white py-3 rounded-lg"
+          >
             Add to Wishlist
           </button>
         </div>
@@ -148,10 +188,18 @@ export default function ProductPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {upsell.map((u) => (
             <div key={u.id} className="border rounded-lg p-4 shadow">
-              <Image src={u.image} alt={u.name} width={250} height={350} className="mx-auto mb-4 object-contain" />
+              <Image
+                src={u.image}
+                alt={u.name}
+                width={250}
+                height={350}
+                className="mx-auto mb-4 object-contain"
+              />
               <h3 className="text-lg font-semibold">{u.name}</h3>
               <p className="text-sm text-gray-500">{gbp(toNumber(u.price))}</p>
-              <Link href={`/products/${u.id}`} className="mt-3 inline-block primary">View Product</Link>
+              <Link href={`/products/${u.id}`} className="mt-3 inline-block primary">
+                View Product
+              </Link>
             </div>
           ))}
         </div>
