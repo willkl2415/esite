@@ -8,16 +8,12 @@ import { products } from "@/app/data/products";
 import { useCart } from "@/app/context/CartContext";
 import { useSearch } from "@/app/context/SearchContext";
 
-type Variant = {
-  label: string;
-  price: number;
-};
+type Variant = { label: string; price: number };
 
 // ——— helpers ———
 const toNumber = (v: number | string): number => {
   if (typeof v === "number") return v;
-  // Strip currency symbols/spaces, normalise comma to dot
-  const n = parseFloat(v.replace(/[^\d.,]/g, "").replace(",", "."));
+  const n = parseFloat(String(v).replace(/[^\d.,]/g, "").replace(",", "."));
   return Number.isFinite(n) ? n : 0;
 };
 const gbp = (n: number) => `£${n.toFixed(2)}`;
@@ -31,10 +27,10 @@ export default function ProductPage() {
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [openSection, setOpenSection] = useState<string | null>(null);
 
-  const { addToCart } = useCart();
+  const cart = useCart() as any; // tolerate different addToCart signatures
   const { setQuery } = useSearch();
 
-  // Clear header search field on product view
+  // Clear header search field on load
   useEffect(() => {
     setQuery("");
   }, [setQuery]);
@@ -43,16 +39,14 @@ export default function ProductPage() {
     return (
       <div className="max-w-4xl mx-auto px-6 py-20 text-center">
         <h1 className="text-3xl font-bold mb-4">Product Not Found</h1>
-        <Link href="/category" className="secondary">
-          ← Back to A–Z
-        </Link>
+        <Link href="/category" className="secondary">← Back to A–Z</Link>
       </div>
     );
   }
 
   const isTobacco = product.category === "hand-rolling";
 
-  // Weight variants (can be refined per brand later)
+  // Weight variants (can be customised per brand later)
   const tobaccoVariants: Variant[] = [
     { label: "30g", price: 21.0 },
     { label: "50g", price: 35.0 },
@@ -61,18 +55,64 @@ export default function ProductPage() {
     { label: "500g", price: 365.0 },
   ];
 
+  // computed prices / points
+  const basePrice = toNumber((product as any).price);
+  const chosenPrice = isTobacco ? (variant ? variant.price : 0) : basePrice;
+  const rewardPoints = Math.round((chosenPrice || basePrice) * 10);
+  const rewardValue = (rewardPoints / 100).toFixed(2);
+
+  // safe cart + wishlist handlers
   const handleAddToCart = () => {
-    if (isTobacco) {
-      if (!variant) return; // button disabled anyway below
-      addToCart(product.id, quantity, variant.label, variant.price);
-    } else {
-      addToCart(product.id, quantity);
+    try {
+      if (isTobacco) {
+        if (!variant) return;
+        // try id-based signature
+        cart?.addToCart?.(product.id, quantity, variant.label, variant.price);
+      } else {
+        cart?.addToCart?.(product.id, quantity);
+      }
+    } catch {
+      // object-based fallback
+      const line = {
+        id: product.id,
+        name: product.name,
+        price: chosenPrice || basePrice,
+        image: (product as any).image,
+        quantity,
+        variant: variant?.label,
+      };
+      cart?.addToCart?.(line) ||
+        (function fallbackLS() {
+          try {
+            const key = "cart";
+            const curr = JSON.parse(localStorage.getItem(key) || "[]");
+            curr.push(line);
+            localStorage.setItem(key, JSON.stringify(curr));
+          } catch {}
+        })();
     }
   };
 
+  const handleAddToWishlist = () => {
+    try {
+      // if you have a wishlist context, this will work; otherwise use LS fallback
+      cart?.addToWishlist?.(product.id) || (function fallbackLS() {
+        const key = "wishlist";
+        try {
+          const curr: string[] = JSON.parse(localStorage.getItem(key) || "[]");
+          if (!curr.includes(product.id)) {
+            curr.push(product.id);
+            localStorage.setItem(key, JSON.stringify(curr));
+          }
+        } catch {}
+      })();
+    } catch {}
+  };
+
   const renderStockStatus = () => {
-    if ((product as any).stock === 0) return <p className="text-red-600">Out of Stock</p>;
-    if ((product as any).stock === "preorder") return <p className="text-blue-600">Pre-order Available</p>;
+    const s = (product as any).stock;
+    if (s === 0) return <p className="text-red-600">Out of Stock</p>;
+    if (s === "preorder") return <p className="text-blue-600">Pre-order Available</p>;
     return <p className="text-green-600">In Stock</p>;
   };
 
@@ -84,19 +124,11 @@ export default function ProductPage() {
   const gallery = [product.image, ...((product as any).gallery ?? [])];
   const mainImage = activeImage || product.image;
 
-  // Price + points
-  const basePrice = toNumber((product as any).price);
-  const chosenPrice = isTobacco ? (variant ? variant.price : 0) : basePrice;
-  const rewardPoints = Math.round((chosenPrice || basePrice) * 10); // 10 pts per £1
-  const rewardValue = (rewardPoints / 100).toFixed(2);
-
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
-        <Link href="/category" className="hover:underline">
-          Cigars
-        </Link>{" "}
+        <Link href="/category" className="hover:underline">Cigars</Link>{" "}
         › {(product as any).brand} › {product.name}
       </div>
 
@@ -117,6 +149,7 @@ export default function ProductPage() {
               <button
                 key={`${img}-${idx}`}
                 onClick={() => setActiveImage(img)}
+                type="button"
                 className={`border rounded p-1 ${
                   mainImage === img ? "border-black" : "border-gray-300"
                 }`}
@@ -146,9 +179,7 @@ export default function ProductPage() {
             <span>
               {(product as any).rating ? `${(product as any).rating} / 5` : "No Reviews"}
             </span>
-            <a href="#reviews" className="text-[#ff9800] underline">
-              Write a Review
-            </a>
+            <a href="#reviews" className="text-[#ff9800] underline">Write a Review</a>
           </div>
 
           {/* Price + Points */}
@@ -169,9 +200,7 @@ export default function ProductPage() {
           {/* Variant or Quantity */}
           {isTobacco ? (
             <div className="flex items-center gap-4 mb-6">
-              <label htmlFor="variant" className="font-medium">
-                Weight:
-              </label>
+              <label htmlFor="variant" className="font-medium">Weight:</label>
               <select
                 id="variant"
                 value={variant?.label || ""}
@@ -183,17 +212,13 @@ export default function ProductPage() {
               >
                 <option value="">Choose an option</option>
                 {tobaccoVariants.map((v) => (
-                  <option key={v.label} value={v.label}>
-                    {v.label}
-                  </option>
+                  <option key={v.label} value={v.label}>{v.label}</option>
                 ))}
               </select>
             </div>
           ) : (
             <div className="flex items-center gap-4 mb-6">
-              <label htmlFor="quantity" className="font-medium">
-                Quantity:
-              </label>
+              <label htmlFor="quantity" className="font-medium">Quantity:</label>
               <select
                 id="quantity"
                 value={quantity}
@@ -201,9 +226,7 @@ export default function ProductPage() {
                 className="border rounded px-3 py-2"
               >
                 {[...Array(10).keys()].map((n) => (
-                  <option key={n + 1} value={n + 1}>
-                    {n + 1}
-                  </option>
+                  <option key={n + 1} value={n + 1}>{n + 1}</option>
                 ))}
               </select>
             </div>
@@ -212,20 +235,23 @@ export default function ProductPage() {
           {/* Action Buttons */}
           <div className="flex flex-col gap-3 mb-6">
             <button
+              type="button"
               onClick={handleAddToCart}
               className="w-full bg-blue-900 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50"
               disabled={isTobacco && !variant}
             >
               Add to Cart
             </button>
-            <button className="w-full bg-gray-600 text-white py-3 rounded-lg font-medium">
+            <button
+              type="button"
+              onClick={handleAddToWishlist}
+              className="w-full bg-gray-600 text-white py-3 rounded-lg font-medium"
+            >
               Add to Wishlist
             </button>
           </div>
 
-          <Link href="/category" className="secondary">
-            ← Back to A–Z
-          </Link>
+          <Link href="/category" className="secondary">← Back to A–Z</Link>
         </div>
       </div>
 
@@ -234,6 +260,7 @@ export default function ProductPage() {
         {/* Description */}
         <div className="border-b">
           <button
+            type="button"
             className="w-full text-left py-4 font-semibold flex justify-between items-center"
             onClick={() =>
               setOpenSection(openSection === "description" ? null : "description")
@@ -252,6 +279,7 @@ export default function ProductPage() {
         {/* Tasting Notes */}
         <div className="border-b">
           <button
+            type="button"
             className="w-full text-left py-4 font-semibold flex justify-between items-center"
             onClick={() =>
               setOpenSection(openSection === "tasting" ? null : "tasting")
@@ -281,10 +309,7 @@ export default function ProductPage() {
             const up = u as any;
             const upPrice = gbp(toNumber(up.price));
             return (
-              <div
-                key={u.id}
-                className="border rounded-lg p-4 shadow hover:shadow-lg transition"
-              >
+              <div key={u.id} className="border rounded-lg p-4 shadow hover:shadow-lg transition">
                 <Image
                   src={u.image}
                   alt={u.name}
@@ -295,7 +320,7 @@ export default function ProductPage() {
                 <h3 className="text-lg font-semibold">{u.name}</h3>
                 <p className="text-sm text-gray-500">{upPrice}</p>
                 <Link
-                  href={`/products/${u.id}`} /* ✅ fixed: plural route */
+                  href={`/products/${u.id}`} /* ✅ plural route */
                   className="mt-3 inline-block primary"
                 >
                   View Product

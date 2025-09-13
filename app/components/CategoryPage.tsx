@@ -251,7 +251,7 @@ export default function CategoryPage({
 
                   <div className="bg-gray-50 p-4 rounded-md">
                     {/* ✅ Correct link */}
-                    <Link href={`/product/${product.id}`}>
+                    <Link href={`/products/${product.id}`}>
                       <Image
                         src={product.image}
                         alt={product.name}
