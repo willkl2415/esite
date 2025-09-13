@@ -10,12 +10,10 @@ import { useSearch } from "@/app/context/SearchContext";
 
 type Variant = { label: string; price: number };
 
-// ——— helpers ———
-const toNumber = (v: number | string): number => {
-  if (typeof v === "number") return v;
-  const n = parseFloat(String(v).replace(/[^\d.,]/g, "").replace(",", "."));
-  return Number.isFinite(n) ? n : 0;
-};
+const toNumber = (v: number | string): number =>
+  typeof v === "number"
+    ? v
+    : parseFloat(String(v).replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
 const gbp = (n: number) => `£${n.toFixed(2)}`;
 
 export default function ProductPage() {
@@ -27,13 +25,10 @@ export default function ProductPage() {
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [openSection, setOpenSection] = useState<string | null>(null);
 
-  const cart = useCart() as any; // tolerate different addToCart signatures
+  const { addToCart } = useCart();
   const { setQuery } = useSearch();
 
-  // Clear header search field on load
-  useEffect(() => {
-    setQuery("");
-  }, [setQuery]);
+  useEffect(() => setQuery(""), [setQuery]);
 
   if (!product) {
     return (
@@ -45,8 +40,6 @@ export default function ProductPage() {
   }
 
   const isTobacco = product.category === "hand-rolling";
-
-  // Weight variants (can be customised per brand later)
   const tobaccoVariants: Variant[] = [
     { label: "30g", price: 21.0 },
     { label: "50g", price: 35.0 },
@@ -55,279 +48,112 @@ export default function ProductPage() {
     { label: "500g", price: 365.0 },
   ];
 
-  // computed prices / points
   const basePrice = toNumber((product as any).price);
-  const chosenPrice = isTobacco ? (variant ? variant.price : 0) : basePrice;
-  const rewardPoints = Math.round((chosenPrice || basePrice) * 10);
-  const rewardValue = (rewardPoints / 100).toFixed(2);
+  const chosenPrice = isTobacco ? variant?.price || 0 : basePrice;
 
-  // safe cart + wishlist handlers
   const handleAddToCart = () => {
-    try {
-      if (isTobacco) {
-        if (!variant) return;
-        // try id-based signature
-        cart?.addToCart?.(product.id, quantity, variant.label, variant.price);
-      } else {
-        cart?.addToCart?.(product.id, quantity);
-      }
-    } catch {
-      // object-based fallback
-      const line = {
-        id: product.id,
-        name: product.name,
-        price: chosenPrice || basePrice,
-        image: (product as any).image,
-        quantity,
-        variant: variant?.label,
-      };
-      cart?.addToCart?.(line) ||
-        (function fallbackLS() {
-          try {
-            const key = "cart";
-            const curr = JSON.parse(localStorage.getItem(key) || "[]");
-            curr.push(line);
-            localStorage.setItem(key, JSON.stringify(curr));
-          } catch {}
-        })();
-    }
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: chosenPrice || basePrice,
+      image: product.image,
+      quantity,
+      variant: variant?.label,
+    });
   };
 
   const handleAddToWishlist = () => {
     try {
-      // if you have a wishlist context, this will work; otherwise use LS fallback
-      cart?.addToWishlist?.(product.id) || (function fallbackLS() {
-        const key = "wishlist";
-        try {
-          const curr: string[] = JSON.parse(localStorage.getItem(key) || "[]");
-          if (!curr.includes(product.id)) {
-            curr.push(product.id);
-            localStorage.setItem(key, JSON.stringify(curr));
-          }
-        } catch {}
-      })();
+      const key = "wishlist";
+      const curr: string[] = JSON.parse(localStorage.getItem(key) || "[]");
+      if (!curr.includes(product.id)) {
+        curr.push(product.id);
+        localStorage.setItem(key, JSON.stringify(curr));
+      }
     } catch {}
   };
 
-  const renderStockStatus = () => {
-    const s = (product as any).stock;
-    if (s === 0) return <p className="text-red-600">Out of Stock</p>;
-    if (s === "preorder") return <p className="text-blue-600">Pre-order Available</p>;
-    return <p className="text-green-600">In Stock</p>;
-  };
+  const rewardPoints = Math.round((chosenPrice || basePrice) * 10);
+  const rewardValue = (rewardPoints / 100).toFixed(2);
+
+  const gallery = [product.image, ...((product as any).gallery ?? [])];
+  const mainImage = activeImage || product.image;
 
   const upsell = products
     .filter((p) => p.id !== product.id)
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
-  const gallery = [product.image, ...((product as any).gallery ?? [])];
-  const mainImage = activeImage || product.image;
-
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
-        <Link href="/category" className="hover:underline">Cigars</Link>{" "}
-        › {(product as any).brand} › {product.name}
+        <Link href="/category" className="hover:underline">Cigars</Link> › {(product as any).brand} › {product.name}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Left: Image Gallery */}
+        {/* Images */}
         <div>
           <div className="flex justify-center mb-4">
-            <Image
-              src={mainImage}
-              alt={product.name}
-              width={500}
-              height={700}
-              className="rounded-lg shadow-lg object-contain bg-white"
-            />
+            <Image src={mainImage} alt={product.name} width={500} height={700} className="rounded-lg shadow-lg object-contain bg-white" />
           </div>
           <div className="flex gap-3 justify-center">
             {gallery.map((img, idx) => (
-              <button
-                key={`${img}-${idx}`}
-                onClick={() => setActiveImage(img)}
-                type="button"
-                className={`border rounded p-1 ${
-                  mainImage === img ? "border-black" : "border-gray-300"
-                }`}
-              >
-                <Image
-                  src={img}
-                  alt={`${product.name} thumbnail ${idx + 1}`}
-                  width={80}
-                  height={80}
-                  className="object-contain"
-                />
+              <button key={idx} type="button" onClick={() => setActiveImage(img)}
+                className={`border rounded p-1 ${mainImage === img ? "border-black" : "border-gray-300"}`}>
+                <Image src={img} alt={`${product.name} thumbnail ${idx+1}`} width={80} height={80} className="object-contain" />
               </button>
             ))}
           </div>
-          <p className="text-xs text-center text-gray-500 mt-2">
-            FREE DELIVERY on orders over £50
-          </p>
         </div>
 
-        {/* Right: Product Info */}
-        <div className="flex flex-col">
+        {/* Info */}
+        <div>
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+          <p className="text-2xl font-semibold mb-1">{gbp(chosenPrice || basePrice)}</p>
+          <p className="text-sm text-green-600 mb-4">Buy and earn {rewardPoints} points valued at £{rewardValue}</p>
 
-          {/* Reviews */}
-          <div className="flex items-center gap-3 mb-4 text-sm">
-            <span className="text-yellow-500">★★★★★</span>
-            <span>
-              {(product as any).rating ? `${(product as any).rating} / 5` : "No Reviews"}
-            </span>
-            <a href="#reviews" className="text-[#ff9800] underline">Write a Review</a>
-          </div>
-
-          {/* Price + Points */}
-          {!isTobacco ? (
-            <p className="text-2xl font-semibold mb-1">{gbp(basePrice)}</p>
-          ) : variant ? (
-            <p className="text-2xl font-semibold mb-1">{gbp(variant.price)}</p>
-          ) : (
-            <p className="text-lg text-gray-600 mb-1">Select a weight option</p>
-          )}
-          <p className="text-sm text-green-600 mb-4">
-            Buy and earn {rewardPoints} points valued at £{rewardValue}
-          </p>
-
-          {/* Stock */}
-          <div className="mb-3">{renderStockStatus()}</div>
-
-          {/* Variant or Quantity */}
+          {/* Quantity / Variants */}
           {isTobacco ? (
-            <div className="flex items-center gap-4 mb-6">
-              <label htmlFor="variant" className="font-medium">Weight:</label>
-              <select
-                id="variant"
-                value={variant?.label || ""}
-                onChange={(e) => {
-                  const v = tobaccoVariants.find((t) => t.label === e.target.value) || null;
-                  setVariant(v);
-                }}
-                className="border rounded px-3 py-2"
-              >
-                <option value="">Choose an option</option>
-                {tobaccoVariants.map((v) => (
-                  <option key={v.label} value={v.label}>{v.label}</option>
-                ))}
-              </select>
-            </div>
+            <select value={variant?.label || ""} onChange={(e) => {
+              const v = tobaccoVariants.find((t) => t.label === e.target.value) || null;
+              setVariant(v);
+            }} className="border rounded px-3 py-2 mb-4">
+              <option value="">Choose weight</option>
+              {tobaccoVariants.map((v) => <option key={v.label} value={v.label}>{v.label}</option>)}
+            </select>
           ) : (
-            <div className="flex items-center gap-4 mb-6">
-              <label htmlFor="quantity" className="font-medium">Quantity:</label>
-              <select
-                id="quantity"
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-                className="border rounded px-3 py-2"
-              >
-                {[...Array(10).keys()].map((n) => (
-                  <option key={n + 1} value={n + 1}>{n + 1}</option>
-                ))}
-              </select>
-            </div>
+            <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}
+              className="border rounded px-3 py-2 mb-4">
+              {[...Array(10).keys()].map((n) => <option key={n+1} value={n+1}>{n+1}</option>)}
+            </select>
           )}
 
-          {/* Action Buttons */}
-          <div className="flex flex-col gap-3 mb-6">
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              className="w-full bg-blue-900 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50"
-              disabled={isTobacco && !variant}
-            >
-              Add to Cart
-            </button>
-            <button
-              type="button"
-              onClick={handleAddToWishlist}
-              className="w-full bg-gray-600 text-white py-3 rounded-lg font-medium"
-            >
-              Add to Wishlist
-            </button>
-          </div>
-
-          <Link href="/category" className="secondary">← Back to A–Z</Link>
+          {/* Buttons */}
+          <button type="button" onClick={handleAddToCart}
+            disabled={isTobacco && !variant}
+            className="w-full bg-blue-900 text-white py-3 rounded-lg mb-3 hover:bg-blue-700 disabled:opacity-50">
+            Add to Cart
+          </button>
+          <button type="button" onClick={handleAddToWishlist}
+            className="w-full bg-gray-600 text-white py-3 rounded-lg">
+            Add to Wishlist
+          </button>
         </div>
       </div>
 
-      {/* Accordion Sections */}
-      <div className="mt-12">
-        {/* Description */}
-        <div className="border-b">
-          <button
-            type="button"
-            className="w-full text-left py-4 font-semibold flex justify-between items-center"
-            onClick={() =>
-              setOpenSection(openSection === "description" ? null : "description")
-            }
-          >
-            Description
-            <span>{openSection === "description" ? "−" : "+"}</span>
-          </button>
-          {openSection === "description" && (
-            <div className="pb-4 text-gray-700 whitespace-pre-line">
-              {(product as any).description || "No description available."}
-            </div>
-          )}
-        </div>
-
-        {/* Tasting Notes */}
-        <div className="border-b">
-          <button
-            type="button"
-            className="w-full text-left py-4 font-semibold flex justify-between items-center"
-            onClick={() =>
-              setOpenSection(openSection === "tasting" ? null : "tasting")
-            }
-          >
-            Tasting Notes
-            <span>{openSection === "tasting" ? "−" : "+"}</span>
-          </button>
-          {openSection === "tasting" && (
-            <div className="pb-4 text-gray-700 whitespace-pre-line">
-              {(product as any).tastingScore && (
-                <p className="font-semibold mb-2">
-                  Score: {(product as any).tastingScore} / 100
-                </p>
-              )}
-              {(product as any).tastingNotes || "No tasting notes available."}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Related Products */}
+      {/* Upsell */}
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6">You may also like</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {upsell.map((u) => {
-            const up = u as any;
-            const upPrice = gbp(toNumber(up.price));
-            return (
-              <div key={u.id} className="border rounded-lg p-4 shadow hover:shadow-lg transition">
-                <Image
-                  src={u.image}
-                  alt={u.name}
-                  width={250}
-                  height={350}
-                  className="mx-auto mb-4 object-contain bg-white"
-                />
-                <h3 className="text-lg font-semibold">{u.name}</h3>
-                <p className="text-sm text-gray-500">{upPrice}</p>
-                <Link
-                  href={`/products/${u.id}`} /* ✅ plural route */
-                  className="mt-3 inline-block primary"
-                >
-                  View Product
-                </Link>
-              </div>
-            );
-          })}
+          {upsell.map((u) => (
+            <div key={u.id} className="border rounded-lg p-4 shadow">
+              <Image src={u.image} alt={u.name} width={250} height={350} className="mx-auto mb-4 object-contain" />
+              <h3 className="text-lg font-semibold">{u.name}</h3>
+              <p className="text-sm text-gray-500">{gbp(toNumber(u.price))}</p>
+              <Link href={`/products/${u.id}`} className="mt-3 inline-block primary">View Product</Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>
