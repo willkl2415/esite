@@ -40,7 +40,9 @@ export default function ProductDetailPage() {
       {/* Product Info */}
       <div className="flex flex-col justify-start">
         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-        <p className="text-2xl font-semibold mb-6">£{Number(product.price).toFixed(2)}</p>
+        <p className="text-2xl font-semibold mb-6">
+          £{Number(product.price).toFixed(2)}
+        </p>
         <p className="text-gray-700 mb-8">{product.description}</p>
 
         {/* Quantity + Add to Basket */}
@@ -53,16 +55,33 @@ export default function ProductDetailPage() {
             className="border rounded px-3 py-2"
           >
             {[...Array(10).keys()].map((n) => (
-              <option key={n + 1} value={n + 1}>{n + 1}</option>
+              <option key={n + 1} value={n + 1}>
+                {n + 1}
+              </option>
             ))}
           </select>
-          <button onClick={() => addToCart(product.id, quantity)} className="primary">
+
+          {/* ✅ Updated to new addToCart signature */}
+          <button
+            onClick={() =>
+              addToCart({
+                id: product.id,
+                name: product.name,
+                price: Number(product.price),
+                image: product.image,
+                quantity,
+              })
+            }
+            className="primary"
+          >
             Add to Basket
           </button>
         </div>
 
         {/* Back Link */}
-        <Link href="/accessories" className="secondary">← Back to accessories</Link>
+        <Link href="/accessories" className="secondary">
+          ← Back to accessories
+        </Link>
       </div>
     </div>
   );
