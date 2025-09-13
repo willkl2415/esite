@@ -13,22 +13,17 @@ const normalize = (str: string) =>
     : "";
 
 export default function CategoryPage() {
-  // Sidebar accordion state
   const [openBrand, setOpenBrand] = useState<string | null>(null);
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
 
-  // ✅ Force this page to only handle cigars
   const allProducts = useMemo(() => products as Product[], []);
   const currentCategory = "cigars";
 
-  // Select cigar brand map
   const brandMap = cigarBrands;
 
-  // Apply brand + vitola filtering
   const filtered = useMemo(() => {
     let list = [...allProducts];
 
-    // Only show cigar categories
     list = list.filter((p) =>
       ["awarded-cigars", "cigars", "product", "new-world-cigars"].includes(
         p.category
@@ -48,7 +43,6 @@ export default function CategoryPage() {
     return list;
   }, [allProducts, openBrand, selectedSub]);
 
-  // Stock helpers
   const stockText = (p: Product) => {
     if (typeof p.stock === "number") {
       return p.stock > 0 ? "In Stock" : "Out of Stock";
@@ -66,7 +60,6 @@ export default function CategoryPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Page header */}
       <section className="max-w-7xl mx-auto px-6 pt-10 pb-4">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2">
           Explore Our Cigars
@@ -115,9 +108,7 @@ export default function CategoryPage() {
                               setSelectedSub((cur) => (cur === s ? null : s))
                             }
                             className={`hover:underline ${
-                              selectedSub === s
-                                ? "font-semibold text-black"
-                                : ""
+                              selectedSub === s ? "font-semibold text-black" : ""
                             }`}
                           >
                             {s}
@@ -148,7 +139,8 @@ export default function CategoryPage() {
                   )}
 
                   <div className="bg-white p-4 rounded-lg shadow-inner">
-                    <Link href={`/product/${p.id}`}>
+                    {/* ✅ FIX: plural route */}
+                    <Link href={`/products/${p.id}`}>
                       <Image
                         src={p.image}
                         alt={p.name}

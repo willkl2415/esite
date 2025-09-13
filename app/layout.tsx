@@ -10,7 +10,7 @@ import Link from "next/link";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-import AgeGate from "./components/AgeGate"; // ✅ Added AgeGate
+import AgeGate from "./components/AgeGate";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -23,19 +23,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="description" content={siteMetadata.description as string} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        {/* ✅ Providers wrap the entire app */}
         <CartProvider>
           <SearchProvider>
-            {/* 🔒 Age Restriction Overlay */}
+            {/* ✅ Age Gate always sits above all */}
             <AgeGate />
 
-            {/* Main Layout */}
             <Header />
             <NavBar />
 
             <main>{children}</main>
 
             <div className="flex justify-center my-6">
-              <Link href="/" className="primary">Back Home</Link>
+              <Link href="/" className="primary">
+                Back Home
+              </Link>
             </div>
 
             <Footer />
