@@ -13,8 +13,17 @@ type Variant = {
   price: number;
 };
 
+// ——— helpers ———
+const toNumber = (v: number | string): number => {
+  if (typeof v === "number") return v;
+  // Strip currency symbols/spaces, normalise comma to dot
+  const n = parseFloat(v.replace(/[^\d.,]/g, "").replace(",", "."));
+  return Number.isFinite(n) ? n : 0;
+};
+const gbp = (n: number) => `£${n.toFixed(2)}`;
+
 export default function ProductPage() {
-  const { id } = useParams();
+  const { id } = useParams() as { id: string };
   const product = products.find((p) => p.id === id);
 
   const [quantity, setQuantity] = useState(1);
@@ -25,6 +34,7 @@ export default function ProductPage() {
   const { addToCart } = useCart();
   const { setQuery } = useSearch();
 
+  // Clear header search field on product view
   useEffect(() => {
     setQuery("");
   }, [setQuery]);
@@ -42,6 +52,7 @@ export default function ProductPage() {
 
   const isTobacco = product.category === "hand-rolling";
 
+  // Weight variants (can be refined per brand later)
   const tobaccoVariants: Variant[] = [
     { label: "30g", price: 21.0 },
     { label: "50g", price: 35.0 },
@@ -52,7 +63,7 @@ export default function ProductPage() {
 
   const handleAddToCart = () => {
     if (isTobacco) {
-      if (!variant) return;
+      if (!variant) return; // button disabled anyway below
       addToCart(product.id, quantity, variant.label, variant.price);
     } else {
       addToCart(product.id, quantity);
@@ -60,9 +71,8 @@ export default function ProductPage() {
   };
 
   const renderStockStatus = () => {
-    if (product.stock === 0) return <p className="text-red-600">Out of Stock</p>;
-    if (product.stock === "preorder")
-      return <p className="text-blue-600">Pre-order Available</p>;
+    if ((product as any).stock === 0) return <p className="text-red-600">Out of Stock</p>;
+    if ((product as any).stock === "preorder") return <p className="text-blue-600">Pre-order Available</p>;
     return <p className="text-green-600">In Stock</p>;
   };
 
@@ -71,10 +81,13 @@ export default function ProductPage() {
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
+  const gallery = [product.image, ...((product as any).gallery ?? [])];
   const mainImage = activeImage || product.image;
 
-  // Reward points calculation (10 points per £1, 1 point = £0.01)
-  const rewardPoints = Math.round(Number(product.price) * 10);
+  // Price + points
+  const basePrice = toNumber((product as any).price);
+  const chosenPrice = isTobacco ? (variant ? variant.price : 0) : basePrice;
+  const rewardPoints = Math.round((chosenPrice || basePrice) * 10); // 10 pts per £1
   const rewardValue = (rewardPoints / 100).toFixed(2);
 
   return (
@@ -84,7 +97,7 @@ export default function ProductPage() {
         <Link href="/category" className="hover:underline">
           Cigars
         </Link>{" "}
-        › {product.brand} › {product.name}
+        › {(product as any).brand} › {product.name}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -96,13 +109,13 @@ export default function ProductPage() {
               alt={product.name}
               width={500}
               height={700}
-              className="rounded-lg shadow-lg object-contain"
+              className="rounded-lg shadow-lg object-contain bg-white"
             />
           </div>
           <div className="flex gap-3 justify-center">
-            {[product.image, ...(product.gallery || [])].map((img, idx) => (
+            {gallery.map((img, idx) => (
               <button
-                key={idx}
+                key={`${img}-${idx}`}
                 onClick={() => setActiveImage(img)}
                 className={`border rounded p-1 ${
                   mainImage === img ? "border-black" : "border-gray-300"
@@ -130,21 +143,19 @@ export default function ProductPage() {
           {/* Reviews */}
           <div className="flex items-center gap-3 mb-4 text-sm">
             <span className="text-yellow-500">★★★★★</span>
-            <span>{product.rating ? `${product.rating} / 5` : "No Reviews"}</span>
-            <Link href="#" className="text-[#ff9800] underline">
+            <span>
+              {(product as any).rating ? `${(product as any).rating} / 5` : "No Reviews"}
+            </span>
+            <a href="#reviews" className="text-[#ff9800] underline">
               Write a Review
-            </Link>
+            </a>
           </div>
 
           {/* Price + Points */}
           {!isTobacco ? (
-            <p className="text-2xl font-semibold mb-1">
-              £{Number(product.price).toFixed(2)}
-            </p>
+            <p className="text-2xl font-semibold mb-1">{gbp(basePrice)}</p>
           ) : variant ? (
-            <p className="text-2xl font-semibold mb-1">
-              £{variant.price.toFixed(2)}
-            </p>
+            <p className="text-2xl font-semibold mb-1">{gbp(variant.price)}</p>
           ) : (
             <p className="text-lg text-gray-600 mb-1">Select a weight option</p>
           )}
@@ -165,9 +176,7 @@ export default function ProductPage() {
                 id="variant"
                 value={variant?.label || ""}
                 onChange={(e) => {
-                  const v =
-                    tobaccoVariants.find((t) => t.label === e.target.value) ||
-                    null;
+                  const v = tobaccoVariants.find((t) => t.label === e.target.value) || null;
                   setVariant(v);
                 }}
                 className="border rounded px-3 py-2"
@@ -200,11 +209,11 @@ export default function ProductPage() {
             </div>
           )}
 
-          {/* Action Buttons (simplified) */}
+          {/* Action Buttons */}
           <div className="flex flex-col gap-3 mb-6">
             <button
               onClick={handleAddToCart}
-              className="w-full bg-blue-900 text-white py-3 rounded-lg font-medium hover:bg-blue-700"
+              className="w-full bg-blue-900 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50"
               disabled={isTobacco && !variant}
             >
               Add to Cart
@@ -235,7 +244,7 @@ export default function ProductPage() {
           </button>
           {openSection === "description" && (
             <div className="pb-4 text-gray-700 whitespace-pre-line">
-              {product.description || "No description available."}
+              {(product as any).description || "No description available."}
             </div>
           )}
         </div>
@@ -253,12 +262,12 @@ export default function ProductPage() {
           </button>
           {openSection === "tasting" && (
             <div className="pb-4 text-gray-700 whitespace-pre-line">
-              {product.tastingScore && (
+              {(product as any).tastingScore && (
                 <p className="font-semibold mb-2">
-                  Score: {product.tastingScore} / 100
+                  Score: {(product as any).tastingScore} / 100
                 </p>
               )}
-              {product.tastingNotes || "No tasting notes available."}
+              {(product as any).tastingNotes || "No tasting notes available."}
             </div>
           )}
         </div>
@@ -268,28 +277,32 @@ export default function ProductPage() {
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6">You may also like</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {upsell.map((u) => (
-            <div
-              key={u.id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition"
-            >
-              <Image
-                src={u.image}
-                alt={u.name}
-                width={250}
-                height={350}
-                className="mx-auto mb-4 object-contain"
-              />
-              <h3 className="text-lg font-semibold">{u.name}</h3>
-              <p className="text-sm text-gray-500">£{u.price.toFixed(2)}</p>
-              <Link
-                href={`/product/${u.id}`}
-                className="mt-3 inline-block primary"
+          {upsell.map((u) => {
+            const up = u as any;
+            const upPrice = gbp(toNumber(up.price));
+            return (
+              <div
+                key={u.id}
+                className="border rounded-lg p-4 shadow hover:shadow-lg transition"
               >
-                View Product
-              </Link>
-            </div>
-          ))}
+                <Image
+                  src={u.image}
+                  alt={u.name}
+                  width={250}
+                  height={350}
+                  className="mx-auto mb-4 object-contain bg-white"
+                />
+                <h3 className="text-lg font-semibold">{u.name}</h3>
+                <p className="text-sm text-gray-500">{upPrice}</p>
+                <Link
+                  href={`/products/${u.id}`} /* ✅ fixed: plural route */
+                  className="mt-3 inline-block primary"
+                >
+                  View Product
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
