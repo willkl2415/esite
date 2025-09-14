@@ -8,17 +8,13 @@ import { products } from "@/app/data/products";
 import { useCart } from "@/app/context/CartContext";
 import { useSearch } from "@/app/context/SearchContext";
 
-type Variant = { label: string; price: number };
-
-const toNumber = (v: number | string): number =>
-  typeof v === "number"
-    ? v
-    : parseFloat(String(v).replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
-
-const gbp = (n: number) => `£${n.toFixed(2)}`;
+type Variant = {
+  label: string;
+  price: number;
+};
 
 export default function ProductPage() {
-  const { id } = useParams() as { id: string };
+  const { id } = useParams();
   const product = products.find((p) => p.id === id);
 
   const [quantity, setQuantity] = useState(1);
@@ -29,13 +25,17 @@ export default function ProductPage() {
   const { addToCart } = useCart();
   const { setQuery } = useSearch();
 
-  useEffect(() => setQuery(""), [setQuery]);
+  useEffect(() => {
+    setQuery("");
+  }, [setQuery]);
 
   if (!product) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-20 text-center">
         <h1 className="text-3xl font-bold mb-4">Product Not Found</h1>
-        <Link href="/category" className="secondary">← Back to A–Z</Link>
+        <Link href="/category" className="secondary">
+          ← Back to A–Z
+        </Link>
       </div>
     );
   }
@@ -50,50 +50,59 @@ export default function ProductPage() {
     { label: "500g", price: 365.0 },
   ];
 
-  const basePrice = toNumber((product as any).price);
-  const chosenPrice = isTobacco ? variant?.price || 0 : basePrice;
-
-  // ✅ FIX: align with CartContext signature (id, quantity, [variant, price])
+  // ✅ Unified addToCart
   const handleAddToCart = () => {
     if (isTobacco) {
       if (!variant) return;
-      addToCart(product.id, quantity, variant.label, variant.price);
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: variant.price,
+        image: product.image,
+        quantity,
+        variant: variant.label,
+      });
     } else {
-      addToCart(product.id, quantity);
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: Number(product.price),
+        image: product.image,
+        quantity,
+      });
     }
   };
 
-  const handleAddToWishlist = () => {
-    try {
-      const key = "wishlist";
-      const curr: string[] = JSON.parse(localStorage.getItem(key) || "[]");
-      if (!curr.includes(product.id)) {
-        curr.push(product.id);
-        localStorage.setItem(key, JSON.stringify(curr));
-      }
-    } catch {}
+  const renderStockStatus = () => {
+    if (product.stock === 0) return <p className="text-red-600">Out of Stock</p>;
+    if (product.stock === "preorder")
+      return <p className="text-blue-600">Pre-order Available</p>;
+    return <p className="text-green-600">In Stock</p>;
   };
-
-  const rewardPoints = Math.round((chosenPrice || basePrice) * 10);
-  const rewardValue = (rewardPoints / 100).toFixed(2);
-
-  const gallery = [product.image, ...((product as any).gallery ?? [])];
-  const mainImage = activeImage || product.image;
 
   const upsell = products
     .filter((p) => p.id !== product.id)
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
+  const mainImage = activeImage || product.image;
+
+  // Reward points calculation
+  const rewardPoints = Math.round(Number(product.price) * 10);
+  const rewardValue = (rewardPoints / 100).toFixed(2);
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
-        <Link href="/category" className="hover:underline">Cigars</Link> › {(product as any).brand} › {product.name}
+        <Link href="/category" className="hover:underline">
+          Cigars
+        </Link>{" "}
+        › {product.brand} › {product.name}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Images */}
+        {/* Left: Image Gallery */}
         <div>
           <div className="flex justify-center mb-4">
             <Image
@@ -101,16 +110,17 @@ export default function ProductPage() {
               alt={product.name}
               width={500}
               height={700}
-              className="rounded-lg shadow-lg object-contain bg-white"
+              className="rounded-lg shadow-lg object-contain"
             />
           </div>
           <div className="flex gap-3 justify-center">
-            {gallery.map((img, idx) => (
+            {[product.image, ...(product.gallery || [])].map((img, idx) => (
               <button
                 key={idx}
-                type="button"
                 onClick={() => setActiveImage(img)}
-                className={`border rounded p-1 ${mainImage === img ? "border-black" : "border-gray-300"}`}
+                className={`border rounded p-1 ${
+                  mainImage === img ? "border-black" : "border-gray-300"
+                }`}
               >
                 <Image
                   src={img}
@@ -122,86 +132,96 @@ export default function ProductPage() {
               </button>
             ))}
           </div>
+          <p className="text-xs text-center text-gray-500 mt-2">
+            FREE DELIVERY on orders over £50
+          </p>
         </div>
 
-        {/* Info */}
-        <div>
+        {/* Right: Product Info */}
+        <div className="flex flex-col">
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-          <p className="text-2xl font-semibold mb-1">{gbp(chosenPrice || basePrice)}</p>
+
+          {/* Price + Points */}
+          {!isTobacco ? (
+            <p className="text-2xl font-semibold mb-1">
+              £{Number(product.price).toFixed(2)}
+            </p>
+          ) : variant ? (
+            <p className="text-2xl font-semibold mb-1">
+              £{variant.price.toFixed(2)}
+            </p>
+          ) : (
+            <p className="text-lg text-gray-600 mb-1">Select a weight option</p>
+          )}
           <p className="text-sm text-green-600 mb-4">
             Buy and earn {rewardPoints} points valued at £{rewardValue}
           </p>
 
-          {/* Quantity / Variants */}
+          {/* Stock */}
+          <div className="mb-3">{renderStockStatus()}</div>
+
+          {/* Variant or Quantity */}
           {isTobacco ? (
-            <select
-              value={variant?.label || ""}
-              onChange={(e) => {
-                const v = tobaccoVariants.find((t) => t.label === e.target.value) || null;
-                setVariant(v);
-              }}
-              className="border rounded px-3 py-2 mb-4"
-            >
-              <option value="">Choose weight</option>
-              {tobaccoVariants.map((v) => (
-                <option key={v.label} value={v.label}>
-                  {v.label}
-                </option>
-              ))}
-            </select>
+            <div className="flex items-center gap-4 mb-6">
+              <label htmlFor="variant" className="font-medium">
+                Weight:
+              </label>
+              <select
+                id="variant"
+                value={variant?.label || ""}
+                onChange={(e) => {
+                  const v =
+                    tobaccoVariants.find((t) => t.label === e.target.value) ||
+                    null;
+                  setVariant(v);
+                }}
+                className="border rounded px-3 py-2"
+              >
+                <option value="">Choose an option</option>
+                {tobaccoVariants.map((v) => (
+                  <option key={v.label} value={v.label}>
+                    {v.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           ) : (
-            <select
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              className="border rounded px-3 py-2 mb-4"
-            >
-              {[...Array(10).keys()].map((n) => (
-                <option key={n + 1} value={n + 1}>
-                  {n + 1}
-                </option>
-              ))}
-            </select>
+            <div className="flex items-center gap-4 mb-6">
+              <label htmlFor="quantity" className="font-medium">
+                Quantity:
+              </label>
+              <select
+                id="quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+                className="border rounded px-3 py-2"
+              >
+                {[...Array(10).keys()].map((n) => (
+                  <option key={n + 1} value={n + 1}>
+                    {n + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
 
           {/* Buttons */}
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            disabled={isTobacco && !variant}
-            className="w-full bg-blue-900 text-white py-3 rounded-lg mb-3 hover:bg-blue-700 disabled:opacity-50"
-          >
-            Add to Cart
-          </button>
-          <button
-            type="button"
-            onClick={handleAddToWishlist}
-            className="w-full bg-gray-600 text-white py-3 rounded-lg"
-          >
-            Add to Wishlist
-          </button>
-        </div>
-      </div>
+          <div className="flex flex-col gap-3 mb-6">
+            <button
+              onClick={handleAddToCart}
+              className="w-full bg-blue-900 text-white py-3 rounded-lg font-medium hover:bg-blue-700"
+              disabled={isTobacco && !variant}
+            >
+              Add to Cart
+            </button>
+            <button className="w-full bg-gray-600 text-white py-3 rounded-lg font-medium">
+              Add to Wishlist
+            </button>
+          </div>
 
-      {/* Upsell */}
-      <div className="mt-16">
-        <h2 className="text-2xl font-bold mb-6">You may also like</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {upsell.map((u) => (
-            <div key={u.id} className="border rounded-lg p-4 shadow">
-              <Image
-                src={u.image}
-                alt={u.name}
-                width={250}
-                height={350}
-                className="mx-auto mb-4 object-contain"
-              />
-              <h3 className="text-lg font-semibold">{u.name}</h3>
-              <p className="text-sm text-gray-500">{gbp(toNumber(u.price))}</p>
-              <Link href={`/products/${u.id}`} className="mt-3 inline-block primary">
-                View Product
-              </Link>
-            </div>
-          ))}
+          <Link href="/category" className="secondary">
+            ← Back to A–Z
+          </Link>
         </div>
       </div>
     </div>
