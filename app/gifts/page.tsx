@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/app/data/products";
+import { products } from "@/app/data/products";  // ✅ use alias instead of relative
 import { useCart } from "@/app/context/CartContext";
 
 export default function GiftDetailPage() {
@@ -47,9 +47,7 @@ export default function GiftDetailPage() {
 
         {/* Quantity + Add to Basket */}
         <div className="flex items-center gap-4 mb-8">
-          <label htmlFor="quantity" className="font-medium">
-            Quantity:
-          </label>
+          <label htmlFor="quantity" className="font-medium">Quantity:</label>
           <select
             id="quantity"
             value={quantity}
@@ -63,7 +61,7 @@ export default function GiftDetailPage() {
             ))}
           </select>
 
-          {/* ✅ Corrected call */}
+          {/* ✅ Fixed addToCart call */}
           <button
             onClick={() =>
               addToCart({
