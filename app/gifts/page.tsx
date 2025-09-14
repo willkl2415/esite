@@ -47,7 +47,9 @@ export default function GiftDetailPage() {
 
         {/* Quantity + Add to Basket */}
         <div className="flex items-center gap-4 mb-8">
-          <label htmlFor="quantity" className="font-medium">Quantity:</label>
+          <label htmlFor="quantity" className="font-medium">
+            Quantity:
+          </label>
           <select
             id="quantity"
             value={quantity}
@@ -61,7 +63,7 @@ export default function GiftDetailPage() {
             ))}
           </select>
 
-          {/* ✅ Updated addToCart call */}
+          {/* ✅ Corrected call */}
           <button
             onClick={() =>
               addToCart({
