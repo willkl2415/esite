@@ -7,8 +7,8 @@ import Image from "next/image";
 import { products } from "@/app/data/products";
 import { useCart } from "@/app/context/CartContext";
 
-export default function PromotionsDetailPage() {
-  const { id } = useParams<{ id: string }>();
+export default function PromoDetailPage() {
+  const { id } = useParams();
   const product = products.find((p: any) => p.id === id);
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -16,17 +16,45 @@ export default function PromotionsDetailPage() {
   if (!product) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-20 text-center">
-        <h1 className="text-3xl font-bold mb-4">Promotion Not Found</h1>
+        <h1 className="text-3xl font-bold mb-4">Product Not Found</h1>
         <Link href="/promotions" className="secondary">← Back to promotions</Link>
       </div>
     );
   }
 
+  const handleAdd = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      image: product.image,
+      quantity,
+    });
+  };
+
+  const handleWishlist = () => {
+    try {
+      const key = "wishlist";
+      const curr: string[] = JSON.parse(localStorage.getItem(key) || "[]");
+      if (!curr.includes(product.id)) {
+        curr.push(product.id);
+        localStorage.setItem(key, JSON.stringify(curr));
+      }
+    } catch {}
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
       <div className="flex justify-center items-start">
-        <Image src={product.image} alt={product.name} width={400} height={600} className="rounded-lg shadow-lg object-contain" />
+        <Image
+          src={product.image}
+          alt={product.name}
+          width={400}
+          height={600}
+          className="rounded-lg shadow-lg object-contain"
+        />
       </div>
+
       <div className="flex flex-col justify-start">
         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
         <p className="text-2xl font-semibold mb-6">£{Number(product.price).toFixed(2)}</p>
@@ -34,23 +62,19 @@ export default function PromotionsDetailPage() {
 
         <div className="flex items-center gap-4 mb-8">
           <label htmlFor="quantity" className="font-medium">Quantity:</label>
-          <select id="quantity" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} className="border rounded px-3 py-2">
-            {[...Array(10).keys()].map((n) => <option key={n+1} value={n+1}>{n+1}</option>)}
+          <select
+            id="quantity"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="border rounded px-3 py-2"
+          >
+            {[...Array(10).keys()].map((n) => (
+              <option key={n + 1} value={n + 1}>{n + 1}</option>
+            ))}
           </select>
 
-          {/* ✅ object signature */}
-          <button
-            onClick={() => addToCart({
-              id: product.id,
-              name: product.name,
-              price: Number(product.price),
-              image: product.image,
-              quantity,
-            })}
-            className="primary"
-          >
-            Add to Basket
-          </button>
+          <button onClick={handleAdd} className="primary">Add to Basket</button>
+          <button onClick={handleWishlist} className="secondary">Add to Wishlist</button>
         </div>
 
         <Link href="/promotions" className="secondary">← Back to promotions</Link>
