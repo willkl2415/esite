@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import GoogleTranslateMenu from "./GoogleTranslateMenu";
 import { products } from "@/app/data/products";
+import { useCart } from "@/app/context/CartContext";
 
 type Product = {
   id: string;
@@ -17,6 +18,11 @@ export default function Header() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Product[]>([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const { cart } = useCart();
+
+  // ✅ Calculate cart total
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   // Close account dropdown when clicking outside
   useEffect(() => {
@@ -88,7 +94,7 @@ export default function Header() {
 
         {/* Right section */}
         <div className="w-1/3 flex items-center justify-end gap-6 relative">
-          {/* Language Selector - ensure visible */}
+          {/* Language Selector */}
           <div className="min-w-[180px]">
             <GoogleTranslateMenu />
           </div>
@@ -147,9 +153,9 @@ export default function Header() {
             )}
           </div>
 
-          {/* Cart */}
+          {/* Cart with dynamic total */}
           <Link href="/cart" className="text-sm font-medium hover:underline">
-            Cart £0.00
+            Cart £{total.toFixed(2)}
           </Link>
         </div>
       </div>
