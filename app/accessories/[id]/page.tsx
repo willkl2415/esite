@@ -7,9 +7,7 @@ import Image from "next/image";
 import { products } from "@/app/data/products";
 import { useCart } from "@/app/context/CartContext";
 
-const gbp = (n: number) => `£${n.toFixed(2)}`;
-
-export default function AccessoriesDetailPage() {
+export default function AccessoryDetailPage() {
   const { id } = useParams();
   const product = products.find((p: any) => p.id === id);
   const { addToCart } = useCart();
@@ -24,17 +22,14 @@ export default function AccessoriesDetailPage() {
     );
   }
 
-  const price = Number(product.price) || 0;
-
-  const handleAdd = () => {
+  const handleAddToCart = () => {
     addToCart({
       id: product.id,
       name: product.name,
-      price,
+      price: Number(product.price),
       image: product.image,
       quantity,
     });
-    alert("Added to cart");
   };
 
   return (
@@ -42,24 +37,17 @@ export default function AccessoriesDetailPage() {
       <div className="flex justify-center items-start">
         <Image src={product.image} alt={product.name} width={400} height={600} className="rounded-lg shadow-lg object-contain" />
       </div>
-
       <div className="flex flex-col justify-start">
         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-        <p className="text-2xl font-semibold mb-6">{gbp(price)}</p>
+        <p className="text-2xl font-semibold mb-6">£{Number(product.price).toFixed(2)}</p>
         <p className="text-gray-700 mb-8">{product.description}</p>
 
         <div className="flex items-center gap-4 mb-8">
           <label htmlFor="quantity" className="font-medium">Quantity:</label>
-          <select
-            id="quantity"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            className="border rounded px-3 py-2"
-          >
-            {[...Array(10).keys()].map(n => <option key={n+1} value={n+1}>{n+1}</option>)}
+          <select id="quantity" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} className="border rounded px-3 py-2">
+            {[...Array(10).keys()].map((n) => (<option key={n+1} value={n+1}>{n+1}</option>))}
           </select>
-
-          <button onClick={handleAdd} className="primary">Add to Basket</button>
+          <button onClick={handleAddToCart} className="primary">Add to Basket</button>
         </div>
 
         <Link href="/accessories" className="secondary">← Back to accessories</Link>
