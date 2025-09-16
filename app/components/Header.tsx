@@ -19,9 +19,9 @@ export default function Header() {
   const [results, setResults] = useState<Product[]>([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
+  // ✅ cart context
   const { cart } = useCart();
-
-  // ✅ Calculate cart total
+  const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   // Close account dropdown when clicking outside
@@ -153,9 +153,17 @@ export default function Header() {
             )}
           </div>
 
-          {/* Cart with dynamic total */}
-          <Link href="/cart" className="text-sm font-medium hover:underline">
-            Cart £{total.toFixed(2)}
+          {/* ✅ Cart with item count + total */}
+          <Link
+            href="/cart"
+            className="relative text-sm font-medium hover:underline flex items-center gap-2"
+          >
+            <span>Cart £{total.toFixed(2)}</span>
+            {itemCount > 0 && (
+              <span className="bg-black text-white text-xs rounded-full px-2 py-0.5">
+                {itemCount}
+              </span>
+            )}
           </Link>
         </div>
       </div>
