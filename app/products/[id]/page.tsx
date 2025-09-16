@@ -13,6 +13,7 @@ export default function ProductDetailPage() {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [wishlistAdded, setWishlistAdded] = useState(false);
 
   // ✅ Load wishlist from localStorage
   useEffect(() => {
@@ -24,11 +25,16 @@ export default function ProductDetailPage() {
 
   const handleAddToWishlist = () => {
     if (!product) return;
+    if (wishlist.includes(product.id)) {
+      return; // already in wishlist
+    }
     const updated = [...wishlist, product.id];
     setWishlist(updated);
     if (typeof window !== "undefined") {
       localStorage.setItem("wishlist", JSON.stringify(updated));
     }
+    setWishlistAdded(true);
+    setTimeout(() => setWishlistAdded(false), 1500); // brief feedback
   };
 
   if (!product) {
@@ -74,6 +80,10 @@ export default function ProductDetailPage() {
               <option key={n + 1} value={n + 1}>{n + 1}</option>
             ))}
           </select>
+        </div>
+
+        {/* Buttons Row */}
+        <div className="flex gap-4 mb-8">
           <button
             onClick={() =>
               addToCart({
@@ -84,12 +94,15 @@ export default function ProductDetailPage() {
                 quantity,
               })
             }
-            className="primary"
+            className="bg-black text-white font-semibold px-6 py-3 rounded-full hover:bg-gray-800 transition"
           >
             Add to Basket
           </button>
-          <button onClick={handleAddToWishlist} className="secondary">
-            Add to Wishlist
+          <button
+            onClick={handleAddToWishlist}
+            className="bg-white border border-black text-black font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
+          >
+            {wishlistAdded ? "✓ Added" : "Add to Wishlist"}
           </button>
         </div>
 
